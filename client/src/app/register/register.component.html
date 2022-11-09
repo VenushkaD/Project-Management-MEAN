@@ -1,0 +1,15 @@
+<div class="container">
+  <img src="assets/images/auth-cover.svg" alt="Register" />
+  <form [formGroup]="registerForm" (submit)="onSubmit()">
+    <h3>Project Management</h3>
+    <div class="inputs">
+      <input type="text" placeholder="Name" formControlName="name" />
+      <input type="text" placeholder="Email" formControlName="email" />
+      <input type="text" placeholder="Password" formControlName="password" />
+      <div class="register">
+        <button type="submit" class="btn">Register</button>
+        <p>Already a member? <a routerLink="/login">login</a></p>
+      </div>
+    </div>
+  </form>
+</div>

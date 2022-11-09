@@ -1,4 +1,11 @@
 <div class="main">
+  <h4>
+    Created by Venushka Dhambarage <br /><a
+      target="_blank"
+      href="https://github.com/VenushkaD"
+      >github.com/VenushkaD</a
+    >
+  </h4>
   <div class="container">
     <div class="text">
       <h1 class="title">Project Management Application</h1>
@@ -9,14 +16,14 @@
         scrambled it to make a type specimen book.
       </p>
       <div class="btns">
-        <button class="btn" type="button">Login</button>
-        <button class="btn" type="button">Signup</button>
+        <button class="btn" type="button" routerLink="/login">Login</button>
+        <button class="btn" type="button" routerLink="/register">Signup</button>
       </div>
     </div>
     <img src="assets/images/time_cover_landing.svg" alt="Project Management" />
   </div>
-  <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <input type="text" placeholder="name" formControlName="name" />
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <input type="text" placeholder="name" formControlName="name1sadasd" />
     <button type="submit">Submit</button>
-  </form> -->
+  </form>
 </div>

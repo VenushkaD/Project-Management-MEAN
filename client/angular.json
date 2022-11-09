@@ -76,9 +76,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 4200,
-            "host":"http://192.168.1.46",
-            "publicHost": "http://192.168.1.46"
+            "port": 4200
           }
         },
         "extract-i18n": {
