@@ -6,7 +6,7 @@
     align-content: center;
     width: 1200px;
     margin: auto;
-    gap:100px
+    gap:100px;
 }
 
 .container > img {
@@ -27,7 +27,6 @@ form > h3 {
     padding: 20px 10px;
     text-align: center;
     color: white;
-    margin-bottom: 100px;
     font-size: 25px;
 } 
 
@@ -37,7 +36,10 @@ form > h3 {
     background-color: transparent;
     border: none;
     width: 80%;
-    margin: 15px auto;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
     
 }
 
@@ -59,7 +61,6 @@ input{
     background-color: #D9D9D9;
     padding: 8px 10px;
     border-radius: 20px;
-    margin-top: 10px;
     font-size: 17px;
     width: 100px;
     margin: auto;
@@ -76,5 +77,38 @@ a{
     color: white;
 }
 
+.error-msg{
+    display: none;
+    color: rgb(212, 97, 97);
+    font-size: 15px;
+    margin: 30px 30px 0 30px;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: rgb(243, 201, 201);
+}
+
+.error-msg-show{
+    display: block;
+}
+
+@media screen and (max-width: 1200px){
+    .container{
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    form{
+        /* width: 80%; */
+        margin: auto;
+    }
+    .container > img {
+        display: none;
+    }
+
+    input{
+        font-size: 15px;
+    }
+}
+    
 
 

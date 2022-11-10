@@ -1,1 +1,36 @@
-<p>login works!</p>
+<div class="container">
+  <img src="assets/images/auth-cover.svg" alt="Register" />
+  <form [formGroup]="loginForm" (submit)="onSubmit()">
+    <h3>Project Management</h3>
+    <div class="error-msg" [ngClass]="[formError ? 'error-msg-show' : '']">
+      {{ formErrorMessage }}
+    </div>
+    <div class="inputs">
+      <input
+        type="text"
+        placeholder="Email"
+        formControlName="email"
+        [ngClass]="[
+          loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+            ? 'invalid-input'
+            : ''
+        ]"
+      />
+      <input
+        type="text"
+        placeholder="Password"
+        formControlName="password"
+        [ngClass]="[
+          loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched
+            ? 'invalid-input'
+            : ''
+        ]"
+      />
+      <div class="register">
+        <button type="submit" class="btn">Login</button>
+        <p>Not a member? <a routerLink="/register">register</a></p>
+      </div>
+    </div>
+  </form>
+</div>
