@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 const app = express();
@@ -42,6 +44,6 @@ app.get('*', function (request, response) {
   );
 });
 
-app.listen(3000, '192.168.1.46', () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log('Server started on port 3000');
 });
