@@ -18,7 +18,7 @@ h4 > a {
 }
 
 .container{
-    height: 100vh;
+    height: calc(100vh - 7rem);
     display:grid;
     grid-template-columns: 1fr 1fr;
     gap: 100px;

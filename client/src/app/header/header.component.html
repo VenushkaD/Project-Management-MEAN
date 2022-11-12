@@ -1,1 +1,22 @@
-<header>header works!</header>
+<header>
+  <button><fa-icon [icon]="faPlus"></fa-icon> Add Projects</button>
+  <h2 class="pm">PM</h2>
+  <h2 class="pm-large">Project Management</h2>
+  <div class="profile">
+    <img
+      class="profile"
+      src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+      alt="Profile Icon"
+      (click)="toggleProfile($event)"
+    />
+    <div class="popup" [ngClass]="[showPopup ? 'popup-show' : '']">
+      <h4>John Doe</h4>
+      <hr />
+      <ul>
+        <li>Logout</li>
+        <li>My Profile</li>
+        <li>Friends</li>
+      </ul>
+    </div>
+  </div>
+</header>

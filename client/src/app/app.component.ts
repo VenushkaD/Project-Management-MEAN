@@ -14,7 +14,19 @@ export class AppComponent {
     private title: Title,
     private meta: Meta
   ) {
-    this.title.setTitle('Angular Universal Demo');
+    this.title.setTitle('Project Management Application');
+    this.meta.addTags([
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+      },
+      { name: 'keywords', content: 'Angular, Node, Express, MongoDB' },
+      {
+        name: 'description',
+        content: 'This is a project management application',
+      },
+    ]);
     this.http
       .get(API_URL + '/api')
       .subscribe((response) => console.log(response));

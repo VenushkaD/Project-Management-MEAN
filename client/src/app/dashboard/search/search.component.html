@@ -1,0 +1,9 @@
+<form class="search" action="" [formGroup]="searchForm" (submit)="onSubmit()">
+  <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+  <input
+    type="search"
+    autocomplete="off"
+    placeholder="Search"
+    formControlName="search"
+  />
+</form>

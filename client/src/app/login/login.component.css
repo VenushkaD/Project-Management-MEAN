@@ -1,5 +1,5 @@
 .container{
-    height: 100vh;
+    height: calc(100vh - 7rem);
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-content: center;
@@ -106,7 +106,31 @@ a{
     }
 
     input{
+        font-size: 12px;
+    }
+
+    
+}
+
+@media screen and (max-width: 400px){
+
+    form > h3{
+        font-size: 18px;
+    }
+
+    .btn,p,a,input{
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 280px){
+
+    form > h3{
         font-size: 15px;
+    }
+
+    .btn,p,a,input{
+        font-size: 11px;
     }
 }
     

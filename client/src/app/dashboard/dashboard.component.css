@@ -1,0 +1,63 @@
+.main{
+    max-width: 800px;
+    width: 85%;
+    margin: 20px auto;
+    display: grid;
+    /* height: calc(100vh - 11rem); */
+}
+
+.projects{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+.icons{ 
+    font-size: 50px;
+    color: white;
+    z-index: 1;
+}
+
+.icons > .right-icon{
+    position: fixed;
+    top: 50%;
+    right: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+
+}
+
+.icons > .left-icon{
+    position: fixed;
+    top: 50%;
+    left: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.icons > .right-icon:hover, .icons > .left-icon:hover{
+    transform: scale(1.1);
+}
+
+.main > p{
+    font-size: 12px;
+    text-align: center;
+    margin: 10px 0;
+    color: white;
+}
+
+@media screen and (max-width: 800px){
+    .projects{
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .icons > .right-icon{
+        right: 10px;
+    
+    }
+    
+    .icons > .left-icon{
+        left: 10px;
+    }
+}
