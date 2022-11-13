@@ -44,6 +44,6 @@ app.get('*', function (request, response) {
   );
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, '192.168.1.2', () => {
   console.log('Server started on port 3000');
 });

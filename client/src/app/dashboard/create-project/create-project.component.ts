@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogAssignMembersComponent } from './dialog-assign-members/dialog-assign-members.component';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -15,13 +16,23 @@ export class CreateProjectComponent implements OnInit {
     image: new FormControl('', [Validators.required]),
     assignMembers: new FormControl('', [Validators.required]),
     dueDate: new FormControl('', [Validators.required]),
+    subTasks: new FormArray<any>([
+      // new FormGroup({
+      //   name: new FormControl('', Validators.required),
+      // }),
+      // new FormGroup({
+      //   name: new FormControl('', Validators.required),
+      // }),
+    ]),
   });
+  faXmark = faXmark;
 
   imagePicked = '';
+  date!: Date;
   constructor(private router: Router, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.openDialog();
+    this.date = new Date();
   }
 
   goBack() {
@@ -46,6 +57,10 @@ export class CreateProjectComponent implements OnInit {
     this.dialog.closeAll();
   }
 
+  get subTaskControls() {
+    return (this.createForm.get('subTasks') as FormArray).controls;
+  }
+
   handleFileInput(event: any) {
     let fileUrl: any = '';
     if (event.target.files && event.target.files.length) {
@@ -59,17 +74,16 @@ export class CreateProjectComponent implements OnInit {
     this.imagePicked = fileUrl;
     this.imagePicked = this.createForm.value.image!;
   }
+
+  addTasks() {
+    (this.createForm.get('subTasks') as FormArray).push(
+      new FormGroup({
+        name: new FormControl('', Validators.required),
+      })
+    );
+  }
+
+  removeTasks(index: number) {
+    (this.createForm.get('subTasks') as FormArray).removeAt(index);
+  }
 }
-
-// @Component({
-//   selector: 'dialog-assigned-members',
-//   templateUrl: '/dialog-assign-members/dialog-assign-members.component.html',
-//   styleUrls: ['/dialog-assign-members/dialog-assign-members.component.css'],
-// })
-// export class DialogContentExampleDialog {
-//   constructor() {}
-
-//   ngOnInit(): void {
-//     console.log('dialog');
-//   }
-// }

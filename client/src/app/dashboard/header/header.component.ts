@@ -1,24 +1,32 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   faPlus = faPlus;
   showPopup = false;
   showAddProject = true;
+  routerSub!: Subscription;
   constructor(private eRef: ElementRef, private router: Router) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
+    this.router.url === '/create-project'
+      ? (this.showAddProject = false)
+      : (this.showAddProject = true);
+    this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart && event.url === '/create-project') {
-        // console.clear();
         this.showAddProject = false;
-        // * NavigationStart: Navigation starts.
-        console.log('NavigationStart --- ', event.url);
       } else if (event instanceof NavigationStart && event.url === '/') {
         this.showAddProject = true;
       }
@@ -41,5 +49,9 @@ export class HeaderComponent implements OnInit {
     } else {
       this.showPopup = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.routerSub.unsubscribe();
   }
 }

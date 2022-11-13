@@ -45,18 +45,26 @@ textarea{
     background-color: white;
 }
 
-input{
+input,textbox-n{
     padding: 10px 15px;
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
 }
 
+textbox-n{
+    padding: 0;
+    background-color: white;
+    border-radius: 0;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+}
+
 .btns{   
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     background-color: transparent;
     gap:10px;
+    
 }
 
 .btn{
@@ -142,6 +150,35 @@ a{
     object-fit:scale-down;
 }
 
+
+.subtasks{
+    display: grid;
+    gap: 10px;
+}
+
+.subtask > input{
+    width: 100%;
+}
+
+.subtask{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.subtasks > .btn{
+    width: 100px;
+    font-size: 15px;
+    background-color: #949393;
+}
+
+.subtask > .btn{
+    width: 50px;
+    font-size: 15px;
+    color: #922121;
+    background-color: #EDC9C9;
+}
+
 @media screen and (max-width: 1200px){
     .container{
         /* grid-template-columns: 1fr; */
@@ -160,6 +197,14 @@ a{
         font-size: 12px;
     }
 
+    
+
+}
+
+@media screen and (max-width: 700px){
+    .btns{
+        margin: auto;
+    }
 }
 
 @media screen and (max-width: 400px){
@@ -172,8 +217,8 @@ a{
         font-size: 13px;
     }
     .btns{
-        display: grid;
         justify-content: center;
+        margin: auto;
     }
 
     .pick-image > p{

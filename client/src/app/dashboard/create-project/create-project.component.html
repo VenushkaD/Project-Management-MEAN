@@ -1,8 +1,14 @@
 <div class="container">
   <form [formGroup]="createForm" (submit)="onSubmit()">
     <h3>Create Project</h3>
+
     <div class="error-msg"></div>
+
     <div class="inputs">
+      <div class="btns">
+        <button type="button" class="btn" (click)="goBack()">Go Back</button>
+        <button type="submit" class="btn">Create</button>
+      </div>
       <input
         type="text"
         placeholder="Title"
@@ -36,17 +42,35 @@
         Assign Members
       </button>
       <input type="text" hidden formControlName="assignMembers" hidden />
+
       <input
-        placeholder="Date"
-        class="textbox-n"
-        type="text"
-        onfocus="(this.type='date')"
-        id="date"
-        formControlName="dueDate"
+        class="date-picker"
+        readonly
+        (click)="picker.open()"
+        [min]="date"
+        [matDatepicker]="picker"
+        placeholder="Due Date"
       />
-      <div class="btns">
-        <button type="button" class="btn" (click)="goBack()">Go Back</button>
-        <button type="submit" class="btn">Create</button>
+      <mat-datepicker hidden #picker></mat-datepicker>
+      <div class="subtasks" formArrayName="subTasks">
+        <div
+          class="subtask"
+          *ngFor="let subTask of subTaskControls; let i = index"
+          [formGroupName]="i"
+        >
+          <input
+            type="text"
+            class="form-control"
+            id="imageUrl"
+            name="imageUrl"
+            formControlName="name"
+            placeholder="{{ 'Task ' + (i + 1) + ' Name' }}"
+          />
+          <button type="button" class="btn" (click)="removeTasks(i)">
+            <fa-icon [icon]="faXmark"></fa-icon>
+          </button>
+        </div>
+        <button type="button" class="btn" (click)="addTasks()">+ Tasks</button>
       </div>
     </div>
   </form>

@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogAssignMembersComponent } from './create-project/dialog-assign-members/dialog-assign-members.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -39,6 +40,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     MatDialogModule,
     MatIconModule,
     NgScrollbarModule,
+    MatInputModule,
   ],
 })
 export class DashboardModule {}
