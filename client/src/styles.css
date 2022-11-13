@@ -11,8 +11,9 @@ html,body{
     font-family: 'Inter', sans-serif;
 }
 
-input{
+input,textarea{
     text-decoration: none;
+    background-color: transparent;
     border: none;
     outline: 0;
     
@@ -55,4 +56,10 @@ a:hover{
 
 ul,li{
     list-style: none;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.my-dialog{
+    padding: 0;
 }

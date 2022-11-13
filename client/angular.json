@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -77,8 +78,8 @@
           "defaultConfiguration": "development",
           "options": {
             "port": 4200,
-            "host": "192.168.1.46",
-            "publicHost": "http://192.168.1.46"
+            "host": "192.168.1.2",
+            "publicHost": "http://192.168.1.2"
           }
         },
         "extract-i18n": {
@@ -99,6 +100,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
             ],
             "scripts": []

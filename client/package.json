@@ -12,12 +12,14 @@
   "dependencies": {
     "@angular-devkit/build-angular": "^14.0.0",
     "@angular/animations": "^14.0.0",
+    "@angular/cdk": "^14.2.7",
     "@angular/cli": "~14.0.0",
     "@angular/common": "^14.0.0",
     "@angular/compiler": "^14.0.0",
     "@angular/compiler-cli": "^14.0.0",
     "@angular/core": "^14.0.0",
     "@angular/forms": "^14.0.0",
+    "@angular/material": "^14.2.7",
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
@@ -27,6 +29,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@ngrx/store": "^14.3.2",
+    "ngx-scrollbar": "^10.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -1,0 +1,145 @@
+.container{
+    display: grid;
+    /* justify-content: center;
+    align-content: center; */
+    width: 50vw;
+    max-width: 600px;
+
+}
+
+.header > .search{
+    display: flex;
+    align-self: center;
+    gap: 10px;
+    
+}
+
+.header > .search > input{
+    color: white;
+    font-size: 17px;
+}
+
+.header > fa-icon{
+    align-self: center;
+    font-size: 27px;
+    color: #BDBDBD;
+    cursor: pointer;
+}
+
+
+.header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.content{
+    display: grid;
+    gap: 10px;
+    /* padding: 10px 30px; */
+}
+
+.content-show{
+    display: grid;
+}
+
+ng-scrollbar{
+    height: 200px;
+    width: 100%;
+    margin: auto;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.type-to-search{
+    margin: auto;
+    margin-bottom: 10px;
+    justify-self: center;
+    text-align: center;
+    font-size: 12px;
+
+}
+
+button{
+    background-color: #6E7B84;
+    color: white;
+    width: fit-content;
+    width: 100px;
+    height: 32px;
+    margin: auto;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.normal{
+    cursor: pointer;
+    color: #dbdbdb;
+}
+
+.bold {
+    font-weight: 700;
+    color: white;
+}
+
+ul li:hover{
+    opacity: 0.8;
+}
+
+@media screen and (max-width:750px){
+    .container{
+        width: 70vw;
+        max-width: 400px;
+    }
+    ng-scrollbar{
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width:400px){
+    .content{
+        font-size: 12px;
+    }
+    .container{
+        width: 100%
+    }
+    .header{
+        width: 70vw;
+        gap: 0;
+        margin: 0;
+    }
+    ng-scrollbar{
+        width: 100%;
+        margin: 0;
+    }
+    .header > .search > input{
+        color: white;
+        font-size: 12px;
+    }
+    
+}
+
+@media screen and (max-width:290px){
+    .content{
+        font-size: 10px;
+    }
+    .container{
+        width: 70vw;
+    }
+    .header{
+        width: 50vw;
+        gap: 0;
+        margin: 0;
+    }
+    ng-scrollbar{
+        width: 70vw;
+        margin-bottom: 10px;
+    }
+    .header > .search > input{
+        color: white;
+        font-size: 10px;
+    }
+    
+}

@@ -9,7 +9,8 @@ import { StoreModule } from '@ngrx/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { AppRoutingModule } from './auth-routing.module';
+import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { AppRoutingModule } from './auth-routing.module';
     ReactiveFormsModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

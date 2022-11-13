@@ -7,12 +7,12 @@ import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
   //lazy loading
-  { path: '', redirectTo: '/landing', pathMatch: 'full' },
+  // { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'landing', component: LandingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
-    path: 'dashboard',
+    path: '',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },

@@ -1,0 +1,53 @@
+<div class="container">
+  <form [formGroup]="createForm" (submit)="onSubmit()">
+    <h3>Create Project</h3>
+    <div class="error-msg"></div>
+    <div class="inputs">
+      <input
+        type="text"
+        placeholder="Title"
+        [ngClass]="[]"
+        formControlName="title"
+      />
+      <textarea
+        type="text"
+        placeholder="Description"
+        [ngClass]="[]"
+        formControlName="description"
+      ></textarea>
+      <label for="upload" #pickImage class="pick-image">
+        <p *ngIf="!imagePicked">Pick Image</p>
+        <img [src]="imagePicked" alt="Project Image" *ngIf="imagePicked" />
+        <input
+          type="file"
+          id="upload"
+          formControlName="image"
+          style="display: none"
+          (change)="handleFileInput($event)"
+        />
+      </label>
+      <button
+        type="button"
+        class="assign-members"
+        placeholder="Assign Members"
+        [ngClass]="[]"
+        (click)="openDialog()"
+      >
+        Assign Members
+      </button>
+      <input type="text" hidden formControlName="assignMembers" hidden />
+      <input
+        placeholder="Date"
+        class="textbox-n"
+        type="text"
+        onfocus="(this.type='date')"
+        id="date"
+        formControlName="dueDate"
+      />
+      <div class="btns">
+        <button type="button" class="btn" (click)="goBack()">Go Back</button>
+        <button type="submit" class="btn">Create</button>
+      </div>
+    </div>
+  </form>
+</div>
