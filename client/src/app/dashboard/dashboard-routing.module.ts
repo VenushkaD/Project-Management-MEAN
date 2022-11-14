@@ -10,7 +10,11 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'create-project', component: CreateProjectComponent },
+      { path: 'new', component: CreateProjectComponent },
+      {
+        path: 'edit/:id',
+        component: CreateProjectComponent,
+      },
     ],
   },
 ];

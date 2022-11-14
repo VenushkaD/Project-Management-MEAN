@@ -173,10 +173,11 @@ a{
 }
 
 .subtask > .btn{
-    width: 50px;
-    font-size: 15px;
+    width: fit-content;
     color: #922121;
-    background-color: #EDC9C9;
+    background-color: transparent;
+    box-shadow: none;
+    font-size: 20px;
 }
 
 @media screen and (max-width: 1200px){

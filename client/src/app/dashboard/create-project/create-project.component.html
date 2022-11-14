@@ -1,13 +1,15 @@
 <div class="container">
   <form [formGroup]="createForm" (submit)="onSubmit()">
-    <h3>Create Project</h3>
+    <h3>{{ editMode ? "Edit project" : "Create Project" }}</h3>
 
     <div class="error-msg"></div>
 
     <div class="inputs">
       <div class="btns">
         <button type="button" class="btn" (click)="goBack()">Go Back</button>
-        <button type="submit" class="btn">Create</button>
+        <button type="submit" class="btn">
+          {{ editMode ? "Update" : "Create" }}
+        </button>
       </div>
       <input
         type="text"
@@ -28,6 +30,7 @@
           type="file"
           id="upload"
           formControlName="image"
+          accept="image/png, image/gif, image/jpeg"
           style="display: none"
           (change)="handleFileInput($event)"
         />
@@ -50,6 +53,7 @@
         [min]="date"
         [matDatepicker]="picker"
         placeholder="Due Date"
+        formControlName="dueDate"
       />
       <mat-datepicker hidden #picker></mat-datepicker>
       <div class="subtasks" formArrayName="subTasks">

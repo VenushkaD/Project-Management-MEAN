@@ -25,7 +25,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       ? (this.showAddProject = false)
       : (this.showAddProject = true);
     this.routerSub = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart && event.url === '/create-project') {
+      if (
+        event instanceof NavigationStart &&
+        (event.url === '/new' || event.url === '/edit')
+      ) {
         this.showAddProject = false;
       } else if (event instanceof NavigationStart && event.url === '/') {
         this.showAddProject = true;
@@ -34,7 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   addProject() {
-    this.router.navigate(['/create-project']);
+    this.router.navigate(['/new']);
   }
 
   toggleProfile(event: Event) {

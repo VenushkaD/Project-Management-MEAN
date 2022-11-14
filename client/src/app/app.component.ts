@@ -9,6 +9,7 @@ import { Meta, Title } from '@angular/platform-browser';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  title1 = 'Project Management Application';
   constructor(
     private http: HttpClient,
     private title: Title,
