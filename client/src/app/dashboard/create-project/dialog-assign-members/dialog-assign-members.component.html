@@ -2,7 +2,7 @@
   <div class="header">
     <form class="search" action="">
       <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
-      <input type="search" placeholder="Search" />
+      <input type="search" placeholder="Search" (keypress)="onSearch($event)" />
     </form>
     <fa-icon [icon]="faXmark" (click)="closeDialog()"></fa-icon>
   </div>
@@ -19,5 +19,5 @@
       </li>
     </ul>
   </ng-scrollbar>
-  <button type="submit">Submit</button>
+  <button type="button" (click)="submitDialog()">Submit</button>
 </div>

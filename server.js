@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
+import authRoutes from './routes/authRoutes.js';
+import connect from './db/connect.js';
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(
@@ -38,12 +40,47 @@ app.get('/api', (req, res) => {
   res.json({ msg: 'api' });
 });
 
+app.get('/api/users', (req, res) => {
+  console.log(req.query.search);
+
+  const users = [
+    { id: '1001', email: 'john@gmail.com' },
+    { id: '1003', email: 'nimal@gmail.com' },
+    { id: '1004', email: 'kamal@gmail.com' },
+    { id: '1005', email: 'sunimal@gmail.com' },
+    { id: '1006', email: 'gayan@gmail.com' },
+    { id: '1007', email: 'oliver@gmail.com' },
+    { id: '1002', email: 'vdhambarage@gmail.com' },
+    { id: '1008', email: 'barry@gmail.com' },
+    { id: '1009', email: 'queen@gmail.com' },
+  ];
+  const filteredUsers = users.filter((user) => {
+    if (user.email.includes(req.query.search)) {
+      return user;
+    }
+  });
+  res.json({ msg: 'success', data: { users: filteredUsers } });
+});
+
+app.use('/api/auth', authRoutes);
+
 app.get('*', function (request, response) {
   response.sendFile(
     path.resolve(__dirname, './client/dist/project-management', 'index.html')
   );
 });
 
-app.listen(process.env.PORT || 3000, '192.168.1.2', () => {
-  console.log('Server started on port 3000');
-});
+const init = async () => {
+  try {
+    await connect(process.env.MONGO_URL);
+    app.listen(process.env.PORT || 3000, async () => {
+      console.log('Server started on port 3000');
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+init();
+
+export default app;

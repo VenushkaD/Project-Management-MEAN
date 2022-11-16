@@ -1,6 +1,6 @@
 <div class="container">
   <img src="assets/images/auth-cover.svg" alt="Register" />
-  <form [formGroup]="loginForm" (submit)="onSubmit()">
+  <form [formGroup]="registerForm" (submit)="onSubmit()">
     <h3>Project Management</h3>
     <div class="error-msg" [ngClass]="[formError ? 'error-msg-show' : '']">
       {{ formErrorMessage }}
@@ -8,10 +8,20 @@
     <div class="inputs">
       <input
         type="text"
+        placeholder="Name"
+        formControlName="name"
+        [ngClass]="[
+          registerForm.get('name').invalid && registerForm.get('name').touched
+            ? 'invalid-input'
+            : ''
+        ]"
+      />
+      <input
+        type="text"
         placeholder="Email"
         formControlName="email"
         [ngClass]="[
-          loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          registerForm.get('email').invalid && registerForm.get('email').touched
             ? 'invalid-input'
             : ''
         ]"
@@ -21,15 +31,15 @@
         placeholder="Password"
         formControlName="password"
         [ngClass]="[
-          loginForm.get('password')?.invalid &&
-          loginForm.get('password')?.touched
+          registerForm.get('password').invalid &&
+          registerForm.get('password').touched
             ? 'invalid-input'
             : ''
         ]"
       />
       <div class="register">
-        <button type="submit" class="btn">Login</button>
-        <p>Not a member? <a routerLink="/register">register</a></p>
+        <button type="submit" class="btn">Register</button>
+        <p>Already a member? <a routerLink="/auth/login">login</a></p>
       </div>
     </div>
   </form>

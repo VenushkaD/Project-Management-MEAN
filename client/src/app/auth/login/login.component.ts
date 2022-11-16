@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { User } from '../user.model';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +19,19 @@ export class LoginComponent implements OnInit {
       Validators.minLength(6),
     ]),
   });
-  constructor() {}
+  constructor(private auth: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth.getErrorMessageListener().subscribe((msg) => {
+      this.formError = true;
+      this.formErrorMessage = msg;
+      console.log(msg);
+      setTimeout(() => {
+        this.formError = false;
+        this.formErrorMessage = 'Please fill all the fields';
+      }, 3000);
+    });
+  }
 
   onSubmit() {
     if (this.loginForm.invalid) {
@@ -30,5 +42,14 @@ export class LoginComponent implements OnInit {
       }, 3000);
       return;
     }
+    const user: User = {
+      id: null,
+      name: null,
+      email: this.loginForm.value.email!,
+      password: this.loginForm.value.password!,
+      imageUrl: '',
+    };
+
+    this.auth.login(user);
   }
 }

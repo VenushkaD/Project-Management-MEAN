@@ -108,7 +108,9 @@ export class CreateProjectComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
-      this.members = result.data.members;
+      if (result) {
+        this.members = result.data.members;
+      }
     });
   }
 

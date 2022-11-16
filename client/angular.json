@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
-          "strict": true
+          "strict": false
         }
       },
       "root": "",
@@ -15,8 +15,10 @@
       "prefix": "app",
       "architect": {
         "build": {
+          
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies":["ngx-scrollbar","bezier-easing"],
             "outputPath": "dist/project-management",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -77,9 +79,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 4200,
-            "host": "192.168.1.2",
-            "publicHost": "http://192.168.1.2"
+            "port": 4200
           }
         },
         "extract-i18n": {
