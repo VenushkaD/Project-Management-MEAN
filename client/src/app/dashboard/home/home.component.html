@@ -2,12 +2,10 @@
   <app-search></app-search>
   <p class="page-no">Page 1 of 10</p>
   <div class="projects">
-    <app-project></app-project>
-    <app-project></app-project>
-    <app-project></app-project>
-    <app-project></app-project>
-    <app-project></app-project>
-    <app-project></app-project>
+    <app-project
+      *ngFor="let project of projects"
+      [project]="project"
+    ></app-project>
   </div>
 </div>
 <div class="icons">
