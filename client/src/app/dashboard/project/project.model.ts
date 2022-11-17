@@ -4,9 +4,10 @@ import { Task } from './task.model';
 export class Project {
   constructor(
     public id: number,
-    public name: string,
+    public title: string,
     public description: string,
-    public image: string,
+    public imageUrl: string,
+    public dueDate: Date,
     public members: {
       id: string;
       name: string;

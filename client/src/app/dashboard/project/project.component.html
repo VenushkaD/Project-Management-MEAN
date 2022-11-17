@@ -1,7 +1,12 @@
 <div class="container">
-  <h3>Project Name</h3>
+  <h3>{{ project.title[0].toUpperCase() + project.title.substring(1) }}</h3>
   <div class="content">
-    <img class="demo-bg" [src]="project.image" alt="" />
+    <img
+      *ngIf="project.imageUrl"
+      class="demo-bg"
+      [src]="project.imageUrl"
+      alt=""
+    />
     <div>
       <ul *ngIf="project.tasks.length > 0">
         <li *ngFor="let task of tasksArray(); let i = index">
@@ -13,14 +18,15 @@
         <li *ngIf="project.tasks.length > 3">....More</li>
       </ul>
       <div class="project-details">
-        <div class="due">Due: 25th Dec</div>
+        <div class="due">{{ "Due: " + slicedDate }}</div>
         <div class="members">
-          <img
-            *ngFor="let member of membersArray()"
-            [src]="member.imageUrl"
-            alt=""
-          />
-          <p *ngIf="project.members.length < 1">No members</p>
+          <div *ngFor="let member of membersArray()">
+            <img *ngIf="member.imageUrl" [src]="member.imageUrl" alt="" />
+            <div *ngIf="!member.imageUrl">
+              {{ member.name[0].toUpperCase() }}
+            </div>
+            <p *ngIf="project.members.length < 1">No members</p>
+          </div>
           <!-- <img
           src="https://cdn3.iconfinder.com/data/icons/avatars-round-flat/33/avat-01-512.png"
           alt=""

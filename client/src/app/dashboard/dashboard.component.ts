@@ -13,7 +13,5 @@ export class DashboardComponent implements OnInit {
   faChevronLeft = faChevronLeft;
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('Hello');
-  }
+  ngOnInit(): void {}
 }

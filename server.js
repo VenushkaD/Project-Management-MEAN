@@ -5,12 +5,18 @@ dotenv.config();
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import authRoutes from './routes/authRoutes.js';
+import projectRoutes from './routes/projectRoutes.js';
 import connect from './db/connect.js';
+import morgan from 'morgan';
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(
   express.static(path.resolve(__dirname, './client/dist/project-management'))
 );
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -63,6 +69,7 @@ app.get('/api/users', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/project', projectRoutes);
 
 app.get('*', function (request, response) {
   response.sendFile(

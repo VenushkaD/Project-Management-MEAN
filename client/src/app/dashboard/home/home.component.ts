@@ -3,6 +3,7 @@ import {
   faChevronRight,
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import { DashboardService } from '../dashboard.service';
 import { Project } from '../project/project.model';
 @Component({
   selector: 'app-home',
@@ -12,142 +13,52 @@ import { Project } from '../project/project.model';
 export class HomeComponent implements OnInit {
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
-  projects: Project[] = [
-    {
-      id: 1,
-      name: 'Project 1',
-      description: 'This is a description of project 1',
-      image: 'https://picsum.photos/200/300',
-      members: [
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-      ],
-      tasks: [
-        {
-          id: '1',
-          name: 'Task 1',
-          progress: 50,
-        },
-        {
-          id: '1',
-          name: 'Task 2',
-          progress: 50,
-        },
-        {
-          id: '1',
-          name: 'Task 3',
-          progress: 50,
-        },
-        {
-          id: '1',
-          name: 'Task 4',
-          progress: 50,
-        },
-      ],
-    },
-    {
-      id: 1,
-      name: 'Project 1',
-      description: 'This is a description of project 1',
-      image: 'https://picsum.photos/200/300',
-      members: [
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-      ],
-      tasks: [
-        {
-          id: '1',
-          name: 'Task 1',
-          progress: 50,
-        },
-        {
-          id: '1',
-          name: 'Task 2',
-          progress: 50,
-        },
-      ],
-    },
-    {
-      id: 1,
-      name: 'Project 1',
-      description: 'This is a description of project 1',
-      image: 'https://picsum.photos/200/300',
-      members: [
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-      ],
-      tasks: [],
-    },
-    {
-      id: 1,
-      name: 'Project 1',
-      description: 'This is a description of project 1',
-      image: 'https://picsum.photos/200/300',
-      members: [],
-      tasks: [],
-    },
-    {
-      id: 1,
-      name: 'Project 1',
-      description: 'This is a description of project 1',
-      image: 'https://picsum.photos/200/300',
-      members: [
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-      ],
-      tasks: [],
-    },
-    {
-      id: 1,
-      name: 'Project 1',
-      description: 'This is a description of project 1',
-      image: 'https://picsum.photos/200/300',
-      members: [
-        {
-          id: '1',
-          name: 'John Doe',
-          email: 'john@gmail.com',
-          imageUrl: 'https://picsum.photos/200/300',
-        },
-      ],
-      tasks: [],
-    },
-  ];
-  constructor() {}
+  currentPage = 1;
+  noOfPages: Number = 1;
+  isLoading = false;
+  projects: Project[] = [];
+  constructor(private dashboardService: DashboardService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLoading = true;
+    this.dashboardService.getProjects(1).subscribe((data) => {
+      this.isLoading = false;
+      this.noOfPages = data.numOfPages;
+      this.projects = data.projects;
+    });
+    this.dashboardService.pageChangeListener().subscribe((data) => {
+      this.isLoading = true;
+      this.dashboardService.getProjects(data).subscribe((data) => {
+        this.noOfPages = data.numOfPages;
+        this.projects = data.projects;
+        this.isLoading = false;
+      });
+    });
+    this.dashboardService.searchResultListener().subscribe((data) => {
+      this.isLoading = true;
+      this.currentPage = 1;
+      this.dashboardService.searchProjects(data).subscribe((data) => {
+        console.log(data);
+        this.noOfPages = data.numOfPages;
+        this.projects = data.projects;
+        this.isLoading = false;
+      });
+    });
+  }
+
+  nextPageClick() {
+    if (this.currentPage >= this.noOfPages) {
+      return;
+    }
+    this.currentPage++;
+    this.dashboardService.pageNoChange.next(this.currentPage);
+  }
+
+  prevPageClick() {
+    if (this.currentPage == 1) {
+      return;
+    }
+    this.currentPage--;
+    this.dashboardService.pageNoChange.next(this.currentPage);
+  }
 }

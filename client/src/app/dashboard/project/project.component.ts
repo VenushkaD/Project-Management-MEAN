@@ -9,6 +9,7 @@ import { Project } from './project.model';
 export class ProjectComponent implements OnInit {
   faPlus = faPlus;
   @Input() project: Project;
+  slicedDate = '';
   constructor() {}
 
   tasksArray() {
@@ -21,6 +22,7 @@ export class ProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.project.tasks.slice(0, 3));
+    const date = new Date(this.project.dueDate);
+    this.slicedDate = date.toDateString().split(' ').slice(1).join(' ');
   }
 }

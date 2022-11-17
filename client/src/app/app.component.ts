@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
         content: 'This is a project management application',
       },
     ]);
-    this.http.get(API_URL).subscribe((response) => console.log(response));
   }
   ngOnInit(): void {
     this.store.select('auth').subscribe((authState) => {

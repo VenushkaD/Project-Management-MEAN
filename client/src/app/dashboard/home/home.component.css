@@ -3,7 +3,18 @@
     width: 85%;
     margin: 20px auto;
     display: grid;
+    padding-bottom: 20px;
     /* height: calc(100vh - 11rem); */
+}
+
+h2{
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+}
+
+mat-spinner{
+    margin: 40px auto;
 }
 
 .projects{

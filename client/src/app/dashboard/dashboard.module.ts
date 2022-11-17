@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DialogAssignMembersComponent } from './create-project/dialog-assign-members/dialog-assign-members.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -41,6 +42,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     NgScrollbarModule,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class DashboardModule {}

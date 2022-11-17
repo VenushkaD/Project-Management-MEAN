@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { DashboardService } from '../dashboard.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -11,11 +12,12 @@ export class SearchComponent implements OnInit {
     search: new FormControl(''),
   });
   faMagnifyingGlass = faMagnifyingGlass;
-  constructor() {}
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
     console.log(this.searchForm.value);
+    this.dashboardService.searchResultChange.next(this.searchForm.value.search);
   }
 }

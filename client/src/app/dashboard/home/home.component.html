@@ -1,7 +1,11 @@
 <div class="main">
   <app-search></app-search>
-  <p class="page-no">Page 1 of 10</p>
-  <div class="projects">
+  <p *ngIf="!isLoading && projects.length > 0" class="page-no">
+    Page {{ currentPage }} of {{ noOfPages }}
+  </p>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <h2 *ngIf="!isLoading && projects.length < 1">No projects found</h2>
+  <div class="projects" *ngIf="!isLoading">
     <app-project
       *ngFor="let project of projects"
       [project]="project"
@@ -9,6 +13,16 @@
   </div>
 </div>
 <div class="icons">
-  <fa-icon [icon]="faChevronRight" class="right-icon"></fa-icon>
-  <fa-icon [icon]="faChevronLeft" class="left-icon"></fa-icon>
+  <fa-icon
+    *ngIf="!isLoading && noOfPages > currentPage"
+    [icon]="faChevronRight"
+    class="right-icon"
+    (click)="nextPageClick()"
+  ></fa-icon>
+  <fa-icon
+    *ngIf="!isLoading && currentPage > 1"
+    [icon]="faChevronLeft"
+    class="left-icon"
+    (click)="prevPageClick()"
+  ></fa-icon>
 </div>
