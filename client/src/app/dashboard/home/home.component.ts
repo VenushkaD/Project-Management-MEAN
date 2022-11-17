@@ -28,7 +28,9 @@ export class HomeComponent implements OnInit {
     });
     this.dashboardService.pageChangeListener().subscribe((data) => {
       this.isLoading = true;
+
       this.dashboardService.getProjects(data).subscribe((data) => {
+        console.log(data);
         this.noOfPages = data.numOfPages;
         this.projects = data.projects;
         this.isLoading = false;

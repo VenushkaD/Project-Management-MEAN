@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkProject_Management=self.webpackChunkProject_Management||[]).push([[592],{9325:(t,n,e)=>{e.d(n,{T:()=>s});const s=e(2340).N.apiUrl}}]);

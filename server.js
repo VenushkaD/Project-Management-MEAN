@@ -14,6 +14,8 @@ app.use(
   express.static(path.resolve(__dirname, './client/dist/project-management'))
 );
 
+app.use('/uploads', express.static(path.resolve(__dirname, './uploads')));
+
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }

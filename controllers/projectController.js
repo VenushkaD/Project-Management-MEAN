@@ -1,9 +1,15 @@
 import Project from '../model/Project.js';
 
 const createProject = async (req, res) => {
-  const { title, description, imageUrl, members, dueDate, tasks } = req.body;
+  const { title, description, members, dueDate, tasks } = req.body;
+  if (!req.file) {
+    return res.status(400).json({ error: 'Please upload an image' });
+  }
   try {
-    const project = await Project.create(req.body);
+    const project = await Project.create({
+      ...req.body,
+      imageUrl: `http://localhost:${process.env.PORT}/` + req.file.path,
+    });
     res.status(201).json({ msg: 'success', project: project });
   } catch (error) {
     let errorMsg = 'Some error';
