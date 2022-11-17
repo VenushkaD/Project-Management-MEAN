@@ -10,6 +10,7 @@ import {
   faThumbsDown,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import { DashboardService } from '../../dashboard.service';
 
 @Component({
   selector: 'dialog-assigned-members',
@@ -19,23 +20,14 @@ import {
 export class DialogAssignMembersComponent {
   faMagnifyingGlass = faMagnifyingGlass;
   faXmark = faXmark;
-  members: { id: string; email: string }[] = [];
-  result: any = [
-    { id: '1001', email: 'john@gmail.com' },
-    { id: '1003', email: 'nimal@gmail.com' },
-    { id: '1004', email: 'kamal@gmail.com' },
-    { id: '1005', email: 'sunimal@gmail.com' },
-    { id: '1006', email: 'gayan@gmail.com' },
-    { id: '1007', email: 'oliver@gmail.com' },
-    { id: '1002', email: 'vdhambarage@gmail.com' },
-    { id: '1008', email: 'barry@gmail.com' },
-    { id: '1009', email: 'queen@gmail.com' },
-  ];
+  members: any = [];
+  result: any = [];
   constructor(
     public dialogRef: MatDialogRef<DialogAssignMembersComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { members: [{ id: string; email: string }] },
-    private http: HttpClient
+    private http: HttpClient,
+    private dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +35,7 @@ export class DialogAssignMembersComponent {
   }
 
   checkIsMember(id: string): boolean {
-    return this.members.some((member) => member.id === id);
+    return this.members.some((member) => member._id === id);
   }
 
   closeDialog() {
@@ -56,6 +48,9 @@ export class DialogAssignMembersComponent {
 
   onSearch(event: any) {
     let searchValue = event.target.value;
+    this.dashboardService.searchUsers(searchValue).subscribe((res) => {
+      this.result = res.users;
+    });
     // this.result = this.result.filter((member) => {
     //   if (member.email.search(searchValue) !== -1) {
     //     return member;
@@ -63,22 +58,15 @@ export class DialogAssignMembersComponent {
     //   return;
     // });
     console.log(searchValue);
-    this.http
-      .get<{ data: { users: { id: string; email: string } }; msg: string }>(
-        `http://192.168.1.2:3000/api/users?search=${searchValue}`
-      )
-      .subscribe((res) => {
-        console.log(res.data.users);
-        console.log(this.result);
-        this.result = res.data.users;
-      });
   }
 
-  toggleMember(member: { id: string; email: string }) {
-    if (!this.members.includes(member)) {
+  toggleMember(member: { _id: string; email: string }) {
+    if (!this.members.some((m) => m._id === member._id)) {
       this.members.push(member);
     } else {
-      this.members = this.members.filter((m) => m !== member);
+      this.members = this.members.filter((m) => m._id !== member._id);
     }
+    console.log(member);
+    console.log(this.members);
   }
 }

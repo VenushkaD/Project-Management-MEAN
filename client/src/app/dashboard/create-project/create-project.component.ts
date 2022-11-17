@@ -18,7 +18,7 @@ export class CreateProjectComponent implements OnInit {
   imagePicked = '';
   imageFile: File | null = null;
   date!: Date;
-  members: any = [];
+  members: { _id: string; email: string }[] = [];
   editMode = false;
   editData: any;
 
@@ -77,7 +77,10 @@ export class CreateProjectComponent implements OnInit {
           subTasks.push(
             new FormGroup({
               name: new FormControl(subTask.name, Validators.required),
-              progress: new FormControl(subTask.progress),
+              progress: new FormControl(subTask.progress, [
+                Validators.min(0),
+                Validators.max(100),
+              ]),
             })
           );
         }
@@ -99,7 +102,9 @@ export class CreateProjectComponent implements OnInit {
   }
 
   onSubmit() {
-    this.createForm.patchValue({ assignMembers: [...this.members] });
+    this.createForm.patchValue({
+      assignMembers: [...this.members],
+    });
     console.log({ ...this.createForm.value, image: this.imageFile });
     this.dashboardService
       .createProject(this.createForm.value, this.imageFile)
@@ -113,7 +118,6 @@ export class CreateProjectComponent implements OnInit {
       panelClass: 'my-dialog',
       data: {
         members: [...this.members],
-        result: [],
       },
     });
 
@@ -155,7 +159,7 @@ export class CreateProjectComponent implements OnInit {
     (this.createForm.get('subTasks') as FormArray).push(
       new FormGroup({
         name: new FormControl('', Validators.required),
-        progress: new FormControl(''),
+        progress: new FormControl(0, [Validators.min(0), Validators.max(100)]),
       })
     );
   }

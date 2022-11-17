@@ -12,10 +12,10 @@
       <li
         class="normal"
         *ngFor="let member of result; let i = index"
-        [ngClass]="checkIsMember(member.id) ? 'bold' : ''"
+        [ngClass]="checkIsMember(member._id) ? 'bold' : ''"
         (click)="toggleMember(member)"
       >
-        {{ member.email }} <span *ngIf="checkIsMember(member.id)">✓</span>
+        {{ member.email }} <span *ngIf="checkIsMember(member._id)">✓</span>
       </li>
     </ul>
   </ng-scrollbar>

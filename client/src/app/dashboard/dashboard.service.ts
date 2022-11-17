@@ -59,8 +59,8 @@ export class DashboardService {
     formData.append('description', project.description);
     formData.append('dueDate', project.dueDate.toString());
     formData.append('projectImage', image);
-    if (project.assignedMembers?.length > 0) {
-      formData.append('members', JSON.stringify(project.assignedMembers));
+    if (project.assignMembers?.length > 0) {
+      formData.append('members', JSON.stringify(project.assignMembers));
     }
     if (project.subTasks?.length > 0) {
       formData.append('tasks', JSON.stringify(project.subTasks));
@@ -69,6 +69,12 @@ export class DashboardService {
     return this.http.post<{ msg: string; project: Project }>(
       `${API_URL}/project`,
       formData
+    );
+  }
+
+  searchUsers(search: string) {
+    return this.http.get<{ msg: string; users: any[] }>(
+      `${API_URL}/users?search=${search}`
     );
   }
 }

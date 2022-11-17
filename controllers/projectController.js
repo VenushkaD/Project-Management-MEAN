@@ -1,8 +1,10 @@
 import Project from '../model/Project.js';
 
 const createProject = async (req, res) => {
-  console.log(req.body);
   const { title, description, members, dueDate, tasks } = req.body;
+  if (!title || !description || !dueDate) {
+    return res.status(400).json({ error: 'Please fill all the fields' });
+  }
   let tasksParsed = [];
   let membersParsed = [];
   if (tasks) {
@@ -11,7 +13,6 @@ const createProject = async (req, res) => {
   if (members) {
     membersParsed = JSON.parse(members);
   }
-  console.log(tasksParsed);
   let imageUrl = '';
   if (req.file) {
     imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
