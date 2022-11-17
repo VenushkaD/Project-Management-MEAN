@@ -70,6 +70,14 @@
             formControlName="name"
             placeholder="{{ 'Task ' + (i + 1) + ' Name' }}"
           />
+          <input
+            type="text"
+            class="form-control"
+            id="imageUrl"
+            name="imageUrl"
+            formControlName="progress"
+            placeholder="Progress %"
+          />
           <button type="button" class="btn" (click)="removeTasks(i)">
             <fa-icon [icon]="faXmark"></fa-icon>
           </button>

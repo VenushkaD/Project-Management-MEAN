@@ -1,14 +1,27 @@
 import Project from '../model/Project.js';
 
 const createProject = async (req, res) => {
+  console.log(req.body);
   const { title, description, members, dueDate, tasks } = req.body;
-  if (!req.file) {
-    return res.status(400).json({ error: 'Please upload an image' });
+  let tasksParsed = [];
+  let membersParsed = [];
+  if (tasks) {
+    tasksParsed = JSON.parse(tasks);
+  }
+  if (members) {
+    membersParsed = JSON.parse(members);
+  }
+  console.log(tasksParsed);
+  let imageUrl = '';
+  if (req.file) {
+    imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
   }
   try {
     const project = await Project.create({
       ...req.body,
-      imageUrl: `http://localhost:${process.env.PORT}/` + req.file.path,
+      tasks: tasksParsed,
+      members: membersParsed,
+      imageUrl,
     });
     res.status(201).json({ msg: 'success', project: project });
   } catch (error) {

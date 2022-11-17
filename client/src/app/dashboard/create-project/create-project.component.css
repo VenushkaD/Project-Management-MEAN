@@ -162,7 +162,8 @@ a{
 
 .subtask{
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 60% auto auto;
     gap: 10px;
 }
 

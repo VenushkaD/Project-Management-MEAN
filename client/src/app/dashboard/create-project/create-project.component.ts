@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogAssignMembersComponent } from './dialog-assign-members/dialog-assign-members.component';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Project } from '../Project';
+import { DashboardService } from '../dashboard.service';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -19,12 +20,13 @@ export class CreateProjectComponent implements OnInit {
   date!: Date;
   members: any = [];
   editMode = false;
-  editData!: Project;
+  editData: any;
 
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +47,10 @@ export class CreateProjectComponent implements OnInit {
             { id: '1001', email: 'john@gmail.com' },
             { id: '1002', email: 'vdhambarage@gmail.com' },
           ],
-          subTasks: [{ name: 'subtask' }, { name: 'subtask1' }],
+          subTasks: [
+            { name: 'subtask', progress: 20 },
+            { name: 'subtask1', progress: 20 },
+          ],
         };
         this.members = this.editData.members;
       }
@@ -72,6 +77,7 @@ export class CreateProjectComponent implements OnInit {
           subTasks.push(
             new FormGroup({
               name: new FormControl(subTask.name, Validators.required),
+              progress: new FormControl(subTask.progress),
             })
           );
         }
@@ -95,6 +101,11 @@ export class CreateProjectComponent implements OnInit {
   onSubmit() {
     this.createForm.patchValue({ assignMembers: [...this.members] });
     console.log({ ...this.createForm.value, image: this.imageFile });
+    this.dashboardService
+      .createProject(this.createForm.value, this.imageFile)
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 
   openDialog() {
@@ -144,6 +155,7 @@ export class CreateProjectComponent implements OnInit {
     (this.createForm.get('subTasks') as FormArray).push(
       new FormGroup({
         name: new FormControl('', Validators.required),
+        progress: new FormControl(''),
       })
     );
   }

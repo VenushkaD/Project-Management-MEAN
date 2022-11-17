@@ -43,4 +43,32 @@ export class DashboardService {
       totalProjects: Number;
     }>(`${API_URL}/project?search=${search}`);
   }
+
+  createProject(project: any, image: File) {
+    if (typeof image === 'string') {
+      return this.http.post<{ msg: string; project: Project }>(
+        `${API_URL}/project`,
+        project
+      );
+    }
+
+    const formData = new FormData();
+    console.log('project', project);
+
+    formData.append('title', project.title);
+    formData.append('description', project.description);
+    formData.append('dueDate', project.dueDate.toString());
+    formData.append('projectImage', image);
+    if (project.assignedMembers?.length > 0) {
+      formData.append('members', JSON.stringify(project.assignedMembers));
+    }
+    if (project.subTasks?.length > 0) {
+      formData.append('tasks', JSON.stringify(project.subTasks));
+    }
+    formData.append('createdBy', '6375f98509577277d6d1c60f');
+    return this.http.post<{ msg: string; project: Project }>(
+      `${API_URL}/project`,
+      formData
+    );
+  }
 }
