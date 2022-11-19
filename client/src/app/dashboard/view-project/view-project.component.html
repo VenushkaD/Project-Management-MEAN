@@ -1,0 +1,76 @@
+<div class="main">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <div class="container" *ngIf="!isLoading">
+    <div class="col-1" [ngClass]="showMenu ? 'col-1-show' : ''">
+      <div class="content">
+        <fa-icon
+          class="menu-icon"
+          [icon]="faClose"
+          (click)="toggleMenu()"
+        ></fa-icon>
+        <img
+          src="https://www.elegantthemes.com/blog/wp-content/uploads/2018/12/top11.png"
+          alt=""
+        />
+        <h2>{{ title }}</h2>
+        <hr />
+        <h4><fa-icon [icon]="faPeopleGroup"></fa-icon> Members</h4>
+        <p *ngIf="members.length < 1">No members added...</p>
+        <ng-scrollbar>
+          <ul>
+            <li *ngFor="let member of members">
+              <p>{{ member.name }}</p>
+              <p>{{ member.email }}</p>
+            </li>
+          </ul>
+        </ng-scrollbar>
+      </div>
+    </div>
+    <div class="col-2" [ngClass]="showMenu ? 'col-2-hide' : ''">
+      <div class="content">
+        <div class="row">
+          <fa-icon
+            class="menu-icon"
+            [icon]="faBars"
+            (click)="toggleMenu()"
+          ></fa-icon>
+          <h2>{{ title }}</h2>
+        </div>
+        <div class="row">
+          <fa-icon [icon]="faClock"></fa-icon>
+          <p>{{ dueDate }}</p>
+        </div>
+        <div class="row">
+          <div>
+            <fa-icon [icon]="faFileLines"></fa-icon>
+          </div>
+          <p>
+            {{ description }}
+          </p>
+        </div>
+        <div class="list">
+          <fa-icon [icon]="faListCheck"></fa-icon>
+          <p *ngIf="tasks.length < 1">No tasks added...</p>
+          <ul class="tasks">
+            <li class="task" *ngFor="let task of tasks">
+              <p>{{ task.name }}</p>
+              <mat-progress-bar
+                color="accent"
+                mode="determinate"
+                [value]="task.progress"
+              ></mat-progress-bar>
+              <p>{{ task.progress }}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="edit-icon">
+        <fa-icon [icon]="faPenSquare"></fa-icon>
+      </div>
+      <div class="completed" *ngIf="completed">
+        <fa-icon [icon]="faCircleCheck"></fa-icon>
+        Completed
+      </div>
+    </div>
+  </div>
+</div>

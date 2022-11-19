@@ -20,6 +20,9 @@ import { DialogAssignMembersComponent } from './create-project/dialog-assign-mem
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ViewProjectComponent } from './view-project/view-project.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -29,6 +32,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CreateProjectComponent,
     HomeComponent,
     DialogAssignMembersComponent,
+    ViewProjectComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +47,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgScrollbarModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatSlideToggleModule,
   ],
 })
 export class DashboardModule {}

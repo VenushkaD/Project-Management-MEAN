@@ -29,6 +29,7 @@ const upload = multer({
 
 import {
   createProject,
+  getProject,
   getProjects,
 } from '../controllers/projectController.js';
 
@@ -38,5 +39,7 @@ router
   .route('/')
   .get(getProjects)
   .post(upload.single('projectImage'), createProject);
+
+router.route('/:id').get(getProject);
 
 export default router;

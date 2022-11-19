@@ -2,7 +2,7 @@
   <button (click)="addProject()" *ngIf="showAddProject">
     <fa-icon [icon]="faPlus"></fa-icon> Add Project
   </button>
-  <h2 class="pm">PM</h2>
+  <h2 class="pm" [routerLink]="['/']">PM</h2>
   <h2 class="pm-large">Project Management</h2>
   <div class="profile">
     <img

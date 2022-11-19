@@ -45,6 +45,11 @@ const ProjectSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    completed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   { timestamps: true }
 );

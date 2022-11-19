@@ -31,6 +31,7 @@ header > h2{
     font-size: 25px;
     color: white;
     align-self: center;
+    cursor: pointer;
 }
 
 header > button{

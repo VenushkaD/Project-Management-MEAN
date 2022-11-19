@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   faChevronRight,
   faChevronLeft,
@@ -17,7 +18,10 @@ export class HomeComponent implements OnInit {
   noOfPages: Number = 1;
   isLoading = false;
   projects: Project[] = [];
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -62,5 +66,9 @@ export class HomeComponent implements OnInit {
     }
     this.currentPage--;
     this.dashboardService.pageNoChange.next(this.currentPage);
+  }
+
+  onProjectClick(project: any) {
+    this.router.navigate([`/view/${project._id}`]);
   }
 }

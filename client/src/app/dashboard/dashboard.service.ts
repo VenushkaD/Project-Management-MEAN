@@ -32,6 +32,13 @@ export class DashboardService {
     }>(`${API_URL}/project?page=${pageNo}&search=${this.searchKey}`);
   }
 
+  getProject(id: string) {
+    return this.http.get<{
+      msg: string;
+      project: Project;
+    }>(`${API_URL}/project/${id}`);
+  }
+
   searchProjects(search: string) {
     this.searchKey = search;
     console.log('search key', search);

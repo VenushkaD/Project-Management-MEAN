@@ -14,6 +14,7 @@ export class Project {
       email: string;
       imageUrl: string;
     }[],
-    public tasks: Task[]
+    public tasks: Task[],
+    public completed: boolean = false
   ) {}
 }

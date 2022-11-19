@@ -1,0 +1,210 @@
+.main{
+    padding: 30px 0;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.container {
+  background-color: #D9D9D9;
+  /* height:calc(100vh - 7rem); */
+  width: 95%;
+  max-width: 1200px;
+  margin: auto;
+  display:  grid;
+  grid-template-columns: auto 1fr;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.col-1{
+    background-color: #CBCBCB;
+    padding: 20px;
+    display: grid;
+    /* justify-content: center; */
+}
+
+.col-1 .content{
+    margin: 0 auto;
+}
+
+
+
+.col-1 h2{
+    margin: 10px 0;
+    padding: 0;
+    font-size: 23px;
+    text-align: center;
+    color: #000;
+}
+
+
+.col-1 img{
+    width:100px;
+    height:100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 50px;
+}
+
+.col-1 h4{
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.col-1 hr{
+    display: block;
+    height: 1px;
+    border: 0;
+    width: 100%;
+    border-top: 3px solid rgb(0, 0, 0,0.15);
+    padding: 0;
+}
+
+.col-1 ul{
+    display: grid;
+    font-size: 13px;
+    gap: 10px;
+    color: #545252;
+}
+
+ng-scrollbar{
+    height: calc(100vh - 400px);
+    width: 100%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.col-2 .content{
+    padding: 40px;
+    display: grid;
+    gap: 40px;
+    font-size: 15px;
+}
+
+.col-2, .col-1{
+    position: relative;
+}
+
+.row{
+    display: flex;
+    gap: 10px;
+}
+
+.tasks{
+    display: grid;
+    gap: 10px;
+}
+
+.task{
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+.list{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+}
+
+.edit-icon{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.completed{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    cursor: pointer;
+    color: #000;
+    font-weight: 700;
+}
+
+.edit-icon:hover{
+    opacity: 0.8;
+}
+
+.menu-icon{
+    display: none;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px){
+    .container{
+        grid-template-columns: 1fr;
+    }
+
+    .col-1{
+        display: none;
+    }
+    .col-1-show{
+        display: block;
+    }
+
+    .col-2-hide{
+        display: none;
+    }
+    /* ng-scrollbar{
+        height: 150px;
+        width: 100%;
+        margin: auto;
+        margin-bottom: 20px;
+    } */
+    .col-1 h2{
+        margin: 10px 0;
+        padding: 0;
+        font-size: 20px;
+        text-align: center;
+        color: #000;
+    }
+
+    .col-1 img{
+        width:80px;
+        height:80px;
+        margin: auto;
+        display: grid;
+        justify-self: center;
+    }
+
+    .edit-icon{
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    .col-2{
+        height: 750px;
+    }
+    
+    .toggle{
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        cursor: pointer;
+        color: #000;
+        font-weight: 700;
+    }
+    .col-2 h2{
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .menu-icon{
+        display: block;
+    }
+}
+

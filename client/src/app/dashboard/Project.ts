@@ -6,4 +6,5 @@ export interface Project {
   dueDate: Date;
   members: { id: string; email: string }[];
   subTasks: { name: string }[];
+  completed: boolean;
 }

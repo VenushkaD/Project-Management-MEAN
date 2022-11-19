@@ -7,6 +7,7 @@
   <h2 *ngIf="!isLoading && projects.length < 1">No projects found</h2>
   <div class="projects" *ngIf="!isLoading">
     <app-project
+      (click)="onProjectClick(project)"
       *ngFor="let project of projects"
       [project]="project"
     ></app-project>

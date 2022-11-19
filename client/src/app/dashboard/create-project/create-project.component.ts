@@ -51,6 +51,7 @@ export class CreateProjectComponent implements OnInit {
             { name: 'subtask', progress: 20 },
             { name: 'subtask1', progress: 20 },
           ],
+          completed: Boolean,
         };
         this.members = this.editData.members;
       }
@@ -64,6 +65,7 @@ export class CreateProjectComponent implements OnInit {
     let image: File = null!;
     let dueDate = '';
     let assignMembers: { id: string; email: string }[] = [];
+    let completed: Boolean = false;
     let subTasks = new FormArray<any>([]);
 
     if (this.editMode) {
@@ -72,6 +74,7 @@ export class CreateProjectComponent implements OnInit {
       image = this.editData.image;
       dueDate = this.editData.dueDate.toISOString();
       assignMembers = this.editData.members;
+      completed = this.editData.completed;
       if (this.editData.subTasks.length > 0) {
         for (let subTask of this.editData.subTasks) {
           subTasks.push(
@@ -93,6 +96,7 @@ export class CreateProjectComponent implements OnInit {
       image: new FormControl<File>(image, [Validators.required]),
       assignMembers: new FormControl(assignMembers, [Validators.required]),
       dueDate: new FormControl(dueDate, [Validators.required]),
+      completed: new FormControl(completed, [Validators.required]),
       subTasks: subTasks,
     });
   }

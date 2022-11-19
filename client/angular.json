@@ -18,7 +18,7 @@
           
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies":["ngx-scrollbar","bezier-easing"],
+            "allowedCommonJsDependencies":["ngx-scrollbar","bezier-easing","moment"],
             "outputPath": "dist/project-management",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -79,6 +79,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
+            "host":"192.168.1.2",
             "port": 4200
           }
         },
@@ -102,6 +103,7 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css"
+              
             ],
             "scripts": []
           }

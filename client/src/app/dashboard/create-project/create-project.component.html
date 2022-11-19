@@ -84,6 +84,12 @@
         </div>
         <button type="button" class="btn" (click)="addTasks()">+ Tasks</button>
       </div>
+      <mat-slide-toggle
+        color="primary"
+        formControlName="completed"
+        [checked]="createForm.value.completed"
+        >Completed</mat-slide-toggle
+      >
     </div>
   </form>
 </div>
