@@ -15,14 +15,14 @@ export const authReducer = createReducer(
   on(Login, (state, { user, token }) => {
     return {
       ...state,
-      user,
-      token,
+      user: { ...user, token },
     };
   }),
   on(Logout, (state) => {
     return {
       ...state,
       user: null,
+      token: null,
     };
   })
 );

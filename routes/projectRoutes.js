@@ -31,7 +31,9 @@ import {
   createProject,
   getProject,
   getProjects,
+  updateProject,
 } from '../controllers/projectController.js';
+import authMiddleware from '../middleware.js/auth.js';
 
 const router = express.Router();
 
@@ -40,6 +42,9 @@ router
   .get(getProjects)
   .post(upload.single('projectImage'), createProject);
 
-router.route('/:id').get(getProject);
+router
+  .route('/:id')
+  .get(getProject)
+  .patch(upload.single('projectImage'), updateProject);
 
 export default router;

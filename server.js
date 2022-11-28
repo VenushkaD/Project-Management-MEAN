@@ -9,6 +9,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import connect from './db/connect.js';
 import morgan from 'morgan';
 import userRoutes from './routes/userRoutes.js';
+import authMiddleware from './middleware.js/auth.js';
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(
@@ -49,10 +50,10 @@ app.get('/api', (req, res) => {
   res.json({ msg: 'api' });
 });
 
-app.use('/api/users', userRoutes);
+app.use('/api/users', authMiddleware, userRoutes);
 
 app.use('/api/auth', authRoutes);
-app.use('/api/project', projectRoutes);
+app.use('/api/project', authMiddleware, projectRoutes);
 
 app.get('*', function (request, response) {
   response.sendFile(

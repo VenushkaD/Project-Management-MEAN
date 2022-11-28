@@ -8,6 +8,8 @@ header{
 }
 
 .profile{
+    border-radius: 50%;
+    object-fit: cover;
     align-items: center;
     align-content: center;
     justify-content: center;

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { API_URL } from '../const';
 import { AppState } from '../store/app.reducer';
 import { User } from './user.model';
-import { Login } from './store/auth.actions';
+import { Login, Logout } from './store/auth.actions';
 import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 
 @Injectable({
@@ -127,5 +127,13 @@ export class AuthService {
     }
     const userParsed = JSON.parse(localStorage.getItem('user')!);
     const tokenParsed = JSON.parse(localStorage.getItem('token')!);
+    this.store.dispatch(Login({ user: userParsed, token: tokenParsed }));
+  }
+
+  logout() {
+    this.store.dispatch(Logout());
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    this.route.navigate(['/auth/login']);
   }
 }

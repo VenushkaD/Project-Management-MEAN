@@ -4,6 +4,7 @@ export class User {
     public name: string | null,
     public email: string,
     public password: string | null,
-    public imageUrl: string | ''
+    public imageUrl: string | '',
+    public token: string | null
   ) {}
 }

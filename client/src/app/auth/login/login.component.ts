@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.value.email!,
       password: this.loginForm.value.password!,
       imageUrl: '',
+      token: null,
     };
 
     this.auth.login(user);

@@ -3,21 +3,20 @@
     <fa-icon [icon]="faPlus"></fa-icon> Add Project
   </button>
   <h2 class="pm" [routerLink]="['/']">PM</h2>
-  <h2 class="pm-large">Project Management</h2>
+  <h2 class="pm-large" [routerLink]="['/']">Project Management</h2>
   <div class="profile">
     <img
       class="profile"
-      src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+      [src]="profileImage"
       alt="Profile Icon"
       (click)="toggleProfile($event)"
     />
     <div class="popup" [ngClass]="[showPopup ? 'popup-show' : '']">
-      <h4>John Doe</h4>
+      <h4>{{ user.name }}</h4>
       <hr />
       <ul>
-        <li>Logout</li>
+        <li (click)="onLogout()">Logout</li>
         <li>My Profile</li>
-        <li>Friends</li>
       </ul>
     </div>
   </div>

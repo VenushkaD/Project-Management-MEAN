@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   faPeopleGroup,
   faClock,
@@ -30,18 +30,20 @@ export class ViewProjectComponent implements OnInit {
   faCircleCheck = faCircleCheck;
   showMenu = false;
 
+  id: string;
   title = '';
   description = '';
   tasks = [];
   members = [];
   completed = false;
   dueDate: string;
-
+  imageUrl: string;
   isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,12 +52,14 @@ export class ViewProjectComponent implements OnInit {
     const { id } = this.route.snapshot.params;
     this.dashboardService.getProject(id).subscribe((data) => {
       console.log(data);
+      this.id = id;
       this.title = data.project.title;
       this.description = data.project.description;
       this.tasks = data.project.tasks;
       this.members = data.project.members;
       this.completed = data.project.completed;
       this.dueDate = moment(data.project.dueDate).format('LL');
+      this.imageUrl = data.project.imageUrl;
       this.isLoading = false;
     });
   }
@@ -66,5 +70,9 @@ export class ViewProjectComponent implements OnInit {
 
   toggleCompleted() {
     this.completed = !this.completed;
+  }
+
+  onEditClick() {
+    this.router.navigate([`/edit/${this.id}`]);
   }
 }

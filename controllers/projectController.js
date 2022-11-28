@@ -1,7 +1,11 @@
 import Project from '../model/Project.js';
+import sharp from 'sharp';
+import fs from 'fs';
+import path from 'path';
 
 const createProject = async (req, res) => {
   const { title, description, members, dueDate, tasks } = req.body;
+  const { id: user_id } = req.user;
   if (!title || !description || !dueDate) {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
@@ -15,7 +19,22 @@ const createProject = async (req, res) => {
   }
   let imageUrl = '';
   if (req.file) {
-    imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
+    console.log(req.file);
+    await sharp(req.file.path)
+      .resize(400)
+      .jpeg({ quality: 100 })
+      .toFile(
+        path.resolve(
+          req.file.destination,
+          req.file.filename + req.file.originalname
+        )
+      );
+    fs.unlinkSync(req.file.path);
+    imageUrl =
+      `http://localhost:${process.env.PORT}/` +
+      'uploads/' +
+      req.file.filename +
+      req.file.originalname;
   }
   try {
     const project = await Project.create({
@@ -23,6 +42,7 @@ const createProject = async (req, res) => {
       tasks: tasksParsed,
       members: membersParsed,
       imageUrl,
+      createdBy: user_id,
     });
     res.status(201).json({ msg: 'success', project: project });
   } catch (error) {
@@ -37,10 +57,13 @@ const createProject = async (req, res) => {
 };
 
 const getProjects = async (req, res) => {
+  console.log(req.user);
+  const { id: user_id } = req.user;
   try {
-    let query = {};
+    let query = { $or: [{ createdBy: user_id }, { members: user_id }] };
     if (req.query.search) {
       query.title = { $regex: req.query.search, $options: 'i' };
+      query.createdBy = user_id;
     }
 
     let result = Project.find(query)
@@ -48,14 +71,16 @@ const getProjects = async (req, res) => {
         path: 'members',
         select: 'id name email imageUrl',
       })
-      .select('-description -createdAt -updatedAt -__v -createdBy');
+      .select('-description -createdAt -updatedAt -__v');
     result = result.sort('createdAt');
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 6;
     const skip = (page - 1) * limit;
     result = result.skip(skip).limit(limit);
     const projects = await result;
-    const totalProjects = await Project.countDocuments(query);
+    const totalProjects = await Project.countDocuments(query)
+      .where('members')
+      .in(user_id);
     const numOfPages = Math.ceil(totalProjects / limit);
     res
       .status(200)
@@ -107,6 +132,7 @@ const updateProject = async (req, res) => {
     return res.status(400).json({ error: 'Please provide valid project id' });
   }
   const { title, description, members, dueDate, tasks, completed } = req.body;
+  console.log(req.body);
   if (!title || !description || !dueDate) {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
@@ -115,6 +141,23 @@ const updateProject = async (req, res) => {
     if (!result) {
       return res.status(404).json({ error: 'Project not found' });
     }
+    if (req.file) {
+      await sharp(req.file.path)
+        .resize(200, 200)
+        .jpeg({ quality: 90 })
+        .toFile(path.resolve(req.file.destination, 'resized', image));
+      fs.unlinkSync(req.file.path);
+      query.imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
+      if (tasks) {
+        const tasksParsed = JSON.parse(tasks);
+        query.tasks = tasksParsed;
+      }
+      if (members) {
+        const membersParsed = JSON.parse(members);
+        query.members = membersParsed;
+      }
+    }
+
     let query = {
       title,
       description,
@@ -123,13 +166,12 @@ const updateProject = async (req, res) => {
       members,
       tasks,
     };
-    if (req.file) {
-      query.imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
-    }
-    const project = await Project.findByIdAndUpdate(id, {
-      ...req.body,
-      imageUrl,
-    });
+    const project = await Project.findByIdAndUpdate(
+      id,
+      { ...query },
+      { new: true }
+    );
+    res.status(200).json({ msg: 'success', project: project });
   } catch (error) {
     console.log(error);
     let errorMsg = 'Some error';
@@ -142,4 +184,4 @@ const updateProject = async (req, res) => {
   }
 };
 
-export { createProject, getProjects, getProject };
+export { createProject, getProjects, getProject, updateProject };

@@ -49,6 +49,7 @@ export class RegisterComponent implements OnInit {
       email: this.registerForm.value.email!,
       password: this.registerForm.value.password!,
       imageUrl: '',
+      token: null,
     };
     this.auth.register(user);
   }

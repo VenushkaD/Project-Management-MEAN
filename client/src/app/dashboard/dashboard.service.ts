@@ -84,4 +84,44 @@ export class DashboardService {
       `${API_URL}/users?search=${search}`
     );
   }
+
+  updateProject(id: string, project: any, image: File | string) {
+    console.log('project', project);
+    console.log('image', image);
+    console.log('id', id);
+
+    const projectUpdate = {
+      title: project.title,
+      description: project.description,
+      dueDate: project.dueDate,
+      members: project.assignMembers,
+      tasks: project.subTasks,
+      completed: project.completed,
+      projectImage: project.imageUrl,
+    };
+
+    if (typeof image === 'string') {
+      return this.http.patch<{ msg: string; project: Project }>(
+        `${API_URL}/project/${id}`,
+        { ...projectUpdate }
+      );
+    }
+
+    const formData = new FormData();
+    formData.append('title', project.title);
+    formData.append('description', project.description);
+    formData.append('dueDate', project.dueDate.toString());
+    formData.append('projectImage', image);
+    if (project.assignMembers?.length > 0) {
+      formData.append('members', JSON.stringify(project.assignMembers));
+    }
+    if (project.subTasks?.length > 0) {
+      formData.append('tasks', JSON.stringify(project.subTasks));
+    }
+    formData.append('createdBy', '6375f98509577277d6d1c60f');
+    return this.http.patch<{ msg: string; project: Project }>(
+      `${API_URL}/project/${id}`,
+      formData
+    );
+  }
 }

@@ -4,6 +4,7 @@ import { API_URL } from './const';
 import { Meta, Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { AppState } from './store/app.reducer';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit {
     private http: HttpClient,
     private title: Title,
     private meta: Meta,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private authService: AuthService
   ) {
     this.title.setTitle('Project Management Application');
     this.meta.addTags([
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit {
     ]);
   }
   ngOnInit(): void {
+    this.authService.autoLogin();
     this.store.select('auth').subscribe((authState) => {
       console.log('authState', authState);
     });

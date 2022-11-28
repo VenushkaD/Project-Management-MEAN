@@ -8,10 +8,7 @@
           [icon]="faClose"
           (click)="toggleMenu()"
         ></fa-icon>
-        <img
-          src="https://www.elegantthemes.com/blog/wp-content/uploads/2018/12/top11.png"
-          alt=""
-        />
+        <img [src]="imageUrl" alt="" />
         <h2>{{ title }}</h2>
         <hr />
         <h4><fa-icon [icon]="faPeopleGroup"></fa-icon> Members</h4>
@@ -59,12 +56,12 @@
                 mode="determinate"
                 [value]="task.progress"
               ></mat-progress-bar>
-              <p>{{ task.progress }}</p>
+              <p>{{ task.progress }}%</p>
             </li>
           </ul>
         </div>
       </div>
-      <div class="edit-icon">
+      <div class="edit-icon" (click)="onEditClick()">
         <fa-icon [icon]="faPenSquare"></fa-icon>
       </div>
       <div class="completed" *ngIf="completed">

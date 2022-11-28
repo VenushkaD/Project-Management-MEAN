@@ -7,7 +7,11 @@ import {
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
+import { User } from 'src/app/auth/user.model';
+import { AppState } from 'src/app/store/app.reducer';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,9 +22,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showPopup = false;
   showAddProject = true;
   routerSub!: Subscription;
-  constructor(private eRef: ElementRef, private router: Router) {}
+  user: User;
+  profileImage = 'assets/images/avatar-300x300.jpg';
+  constructor(
+    private eRef: ElementRef,
+    private router: Router,
+    private store: Store<AppState>,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.store.select('auth').subscribe((authState) => {
+      this.user = authState.user;
+      if (this.user.imageUrl) {
+        this.profileImage = this.user.imageUrl;
+      }
+    });
     this.router.url === '/create-project'
       ? (this.showAddProject = false)
       : (this.showAddProject = true);
@@ -52,6 +69,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.showPopup = false;
     }
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 
   ngOnDestroy(): void {

@@ -4,7 +4,7 @@
     Page {{ currentPage }} of {{ noOfPages }}
   </p>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <h2 *ngIf="!isLoading && projects.length < 1">No projects found</h2>
+  <h2 *ngIf="!isLoading && projects.length < 1">No projects found...</h2>
   <div class="projects" *ngIf="!isLoading">
     <app-project
       (click)="onProjectClick(project)"

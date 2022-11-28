@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appReducer } from './store/app.reducer';
+import { AuthClientModule } from './dashboard/auth-client.module';
 
 @NgModule({
   declarations: [AppComponent, LandingComponent],
@@ -19,6 +20,7 @@ import { appReducer } from './store/app.reducer';
     AppRoutingModule,
     StoreModule.forRoot(appReducer),
     BrowserAnimationsModule,
+    AuthClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -5,7 +5,9 @@ const getUsers = async (req, res) => {
   if (req.query.search) {
     query.email = { $regex: req.query.search, $options: 'i' };
   }
-  const users = await User.find(query).select('_id email');
+  let users = (await User.find(query).select('_id email')).filter(
+    (user) => user._id.toString() !== req.user.id
+  );
   res.status(200).json({ msg: 'success', users: users });
 };
 

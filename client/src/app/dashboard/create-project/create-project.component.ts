@@ -21,6 +21,7 @@ export class CreateProjectComponent implements OnInit {
   members: { _id: string; email: string }[] = [];
   editMode = false;
   editData: any;
+  isLoading = false;
 
   constructor(
     private router: Router,
@@ -30,32 +31,34 @@ export class CreateProjectComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.date = new Date();
     this.route.params.subscribe((params) => {
       console.log(params['id']);
-      if (params['id'] !== undefined) {
+      const id = params['id'];
+      if (id !== undefined) {
         console.log('edit mode');
-
-        this.editMode = true;
-        this.editData = {
-          id: '1',
-          title: 'test',
-          description: 'description',
-          image: null!,
-          dueDate: new Date(),
-          members: [
-            { id: '1001', email: 'john@gmail.com' },
-            { id: '1002', email: 'vdhambarage@gmail.com' },
-          ],
-          subTasks: [
-            { name: 'subtask', progress: 20 },
-            { name: 'subtask1', progress: 20 },
-          ],
-          completed: Boolean,
-        };
-        this.members = this.editData.members;
+        this.dashboardService.getProject(id).subscribe((res) => {
+          this.editMode = true;
+          this.editData = {
+            id: id,
+            title: res.project.title,
+            description: res.project.description,
+            image: null,
+            dueDate: new Date(res.project.dueDate),
+            members: res.project.members,
+            subTasks: res.project.tasks,
+            completed: res.project.completed,
+          };
+          this.imagePicked = res.project.imageUrl;
+          this.members = this.editData.members;
+          this.initForm();
+          this.isLoading = false;
+        });
+      } else {
+        this.initForm();
+        this.isLoading = false;
       }
-      this.initForm();
     });
   }
 
@@ -106,14 +109,31 @@ export class CreateProjectComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     this.createForm.patchValue({
       assignMembers: [...this.members],
     });
     console.log({ ...this.createForm.value, image: this.imageFile });
+    if (this.editMode) {
+      this.dashboardService
+        .updateProject(
+          this.editData.id,
+          { ...this.createForm.value },
+          this.imageFile || this.imagePicked
+        )
+        .subscribe((res) => {
+          console.log(res);
+          this.router.navigate([`/view/${this.editData.id}`]);
+          this.isLoading = false;
+        });
+      return;
+    }
     this.dashboardService
       .createProject(this.createForm.value, this.imageFile)
       .subscribe((res) => {
         console.log(res);
+        this.router.navigate(['/']);
+        this.isLoading = false;
       });
   }
 

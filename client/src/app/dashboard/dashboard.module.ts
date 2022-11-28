@@ -23,6 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ViewProjectComponent } from './view-project/view-project.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AuthClientModule } from './auth-client.module';
 @NgModule({
   declarations: [
     DashboardComponent,
