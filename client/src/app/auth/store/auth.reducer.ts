@@ -22,13 +22,12 @@ export const authReducer = createReducer(
     return {
       ...state,
       user: null,
-      token: null,
     };
   }),
   on(Update, (state, { user }) => {
     return {
       ...state,
-      user,
+      user: { ...state.user, ...user },
     };
   })
 );

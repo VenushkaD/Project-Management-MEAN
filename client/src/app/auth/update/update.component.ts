@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducer';
 import { AuthService } from '../auth.service';
@@ -26,7 +27,8 @@ export class UpdateComponent implements OnInit {
   });
   constructor(
     private store: Store<AppState>,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +80,7 @@ export class UpdateComponent implements OnInit {
           console.log(res);
           this.store.dispatch(Update({ user: res.user }));
           this.authService.updateLocalStorage(res.user);
+          this.router.navigate(['/']);
         });
       return;
     }
@@ -89,6 +92,7 @@ export class UpdateComponent implements OnInit {
           console.log(res);
           this.store.dispatch(Update({ user: res.user }));
           this.authService.updateLocalStorage(res.user);
+          this.router.navigate(['/']);
         });
       return;
     }
