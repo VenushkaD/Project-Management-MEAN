@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { Login, Logout } from './auth.actions';
+import { Login, Logout, Update } from './auth.actions';
 import { User } from '../user.model';
 
 export interface State {
@@ -23,6 +23,12 @@ export const authReducer = createReducer(
       ...state,
       user: null,
       token: null,
+    };
+  }),
+  on(Update, (state, { user }) => {
+    return {
+      ...state,
+      user,
     };
   })
 );

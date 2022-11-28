@@ -2,6 +2,7 @@ import Project from '../model/Project.js';
 import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
+import { resize } from '../image-upload/resize.js';
 
 const createProject = async (req, res) => {
   const { title, description, members, dueDate, tasks } = req.body;
@@ -20,21 +21,22 @@ const createProject = async (req, res) => {
   let imageUrl = '';
   if (req.file) {
     console.log(req.file);
-    await sharp(req.file.path)
-      .resize(400)
-      .jpeg({ quality: 100 })
-      .toFile(
-        path.resolve(
-          req.file.destination,
-          req.file.filename + req.file.originalname
-        )
-      );
-    fs.unlinkSync(req.file.path);
-    imageUrl =
-      `http://localhost:${process.env.PORT}/` +
-      'uploads/' +
-      req.file.filename +
-      req.file.originalname;
+    imageUrl = await resize(req.file, 'projects');
+    // await sharp(req.file.path)
+    //   .resize(400)
+    //   .jpeg({ quality: 100 })
+    //   .toFile(
+    //     path.resolve(
+    //       req.file.destination,
+    //       req.file.filename + req.file.originalname
+    //     )
+    //   );
+    // fs.unlinkSync(req.file.path);
+    // imageUrl =
+    //   `http://localhost:${process.env.PORT}/` +
+    //   'uploads/' +
+    //   req.file.filename +
+    //   req.file.originalname;
   }
   try {
     const project = await Project.create({
@@ -78,9 +80,9 @@ const getProjects = async (req, res) => {
     const skip = (page - 1) * limit;
     result = result.skip(skip).limit(limit);
     const projects = await result;
-    const totalProjects = await Project.countDocuments(query)
-      .where('members')
-      .in(user_id);
+    const totalProjects = await Project.countDocuments(query);
+    // .where('members')
+    // .in(user_id);
     const numOfPages = Math.ceil(totalProjects / limit);
     res
       .status(200)
@@ -109,7 +111,11 @@ const getProject = async (req, res) => {
         path: 'members',
         select: 'id name email',
       })
-      .select('-createdAt -updatedAt -__v -createdBy');
+      .populate({
+        path: 'createdBy',
+        select: 'id name email',
+      })
+      .select('-createdAt -updatedAt -__v');
     if (!result) {
       return res.status(404).json({ error: 'Project not found' });
     }
@@ -141,13 +147,27 @@ const updateProject = async (req, res) => {
     if (!result) {
       return res.status(404).json({ error: 'Project not found' });
     }
+
+    let query = {
+      title,
+      description,
+      dueDate,
+      completed,
+      members,
+      tasks,
+    };
+
     if (req.file) {
-      await sharp(req.file.path)
-        .resize(200, 200)
-        .jpeg({ quality: 90 })
-        .toFile(path.resolve(req.file.destination, 'resized', image));
-      fs.unlinkSync(req.file.path);
-      query.imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
+      let imagePath = result.imageUrl.split('/').pop();
+      imagePath = 'uploads\\\\projects\\\\' + imagePath;
+      fs.unlinkSync(imagePath);
+      query.imageUrl = await resize(req.file, 'projects');
+      // await sharp(req.file.path)
+      //   .resize(200, 200)
+      //   .jpeg({ quality: 90 })
+      //   .toFile(path.resolve(req.file.destination, 'resized', image));
+      // fs.unlinkSync(req.file.path);
+      // query.imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
       if (tasks) {
         const tasksParsed = JSON.parse(tasks);
         query.tasks = tasksParsed;
@@ -158,14 +178,6 @@ const updateProject = async (req, res) => {
       }
     }
 
-    let query = {
-      title,
-      description,
-      dueDate,
-      completed,
-      members,
-      tasks,
-    };
     const project = await Project.findByIdAndUpdate(
       id,
       { ...query },

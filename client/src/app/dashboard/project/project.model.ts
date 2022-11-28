@@ -15,6 +15,7 @@ export class Project {
       imageUrl: string;
     }[],
     public tasks: Task[],
-    public completed: boolean = false
+    public completed: boolean = false,
+    public createdBy: User
   ) {}
 }

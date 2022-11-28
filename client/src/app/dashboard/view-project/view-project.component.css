@@ -62,7 +62,7 @@
     padding: 0;
 }
 
-.col-1 ul{
+ .col-1 p{
     display: grid;
     font-size: 13px;
     gap: 10px;

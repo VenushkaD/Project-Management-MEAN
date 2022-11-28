@@ -50,7 +50,7 @@ app.get('/api', (req, res) => {
   res.json({ msg: 'api' });
 });
 
-app.use('/api/users', authMiddleware, userRoutes);
+app.use('/api/user', authMiddleware, userRoutes);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/project', authMiddleware, projectRoutes);

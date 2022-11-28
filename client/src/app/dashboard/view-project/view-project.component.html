@@ -11,6 +11,9 @@
         <img [src]="imageUrl" alt="" />
         <h2>{{ title }}</h2>
         <hr />
+        <h4><fa-icon [icon]="faUserShield"></fa-icon> Admin</h4>
+        <p>{{ createdBy.name }}</p>
+        <p>{{ createdBy.email }}</p>
         <h4><fa-icon [icon]="faPeopleGroup"></fa-icon> Members</h4>
         <p *ngIf="members.length < 1">No members added...</p>
         <ng-scrollbar>

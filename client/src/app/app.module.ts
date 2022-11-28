@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appReducer } from './store/app.reducer';
 import { AuthClientModule } from './dashboard/auth-client.module';
+import { HeaderComponent } from './dashboard/header/header.component';
 
 @NgModule({
   declarations: [AppComponent, LandingComponent],

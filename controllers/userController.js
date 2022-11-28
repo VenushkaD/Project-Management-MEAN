@@ -1,4 +1,6 @@
+import { resize } from '../image-upload/resize.js';
 import User from '../model/User.js';
+import fs from 'fs';
 
 const getUsers = async (req, res) => {
   let query = {};
@@ -11,4 +13,30 @@ const getUsers = async (req, res) => {
   res.status(200).json({ msg: 'success', users: users });
 };
 
-export { getUsers };
+const updateUser = async (req, res) => {
+  const { name, email } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ msg: 'Please enter all fields' });
+  }
+  const query = {
+    name,
+    email,
+  };
+
+  const { id: userId } = req.user;
+  let imageUrl = '';
+  if (req.file) {
+    let result = await User.findById(req.user.id);
+    let imagePath = result.imageUrl.split('/').pop();
+    imagePath = 'uploads\\\\users\\\\' + imagePath;
+    fs.unlinkSync(imagePath);
+    console.log(req.file);
+    imageUrl = await resize(req.file, 'users');
+    query.imageUrl = imageUrl;
+  }
+  let user = await User.findByIdAndUpdate(userId, { ...query }, { new: true });
+
+  res.status(200).json({ msg: 'success', user });
+};
+
+export { getUsers, updateUser };

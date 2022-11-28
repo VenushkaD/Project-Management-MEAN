@@ -9,9 +9,11 @@ import {
   faBars,
   faClose,
   faCircleCheck,
+  faUserShield,
 } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import { catchError, take, tap } from 'rxjs';
+import { User } from 'src/app/auth/user.model';
 import { DashboardService } from '../dashboard.service';
 
 @Component({
@@ -28,6 +30,7 @@ export class ViewProjectComponent implements OnInit {
   faBars = faBars;
   faClose = faClose;
   faCircleCheck = faCircleCheck;
+  faUserShield = faUserShield;
   showMenu = false;
 
   id: string;
@@ -39,6 +42,7 @@ export class ViewProjectComponent implements OnInit {
   dueDate: string;
   imageUrl: string;
   isLoading = false;
+  createdBy: User;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,6 +65,7 @@ export class ViewProjectComponent implements OnInit {
       this.dueDate = moment(data.project.dueDate).format('LL');
       this.imageUrl = data.project.imageUrl;
       this.isLoading = false;
+      this.createdBy = data.project.createdBy;
     });
   }
 

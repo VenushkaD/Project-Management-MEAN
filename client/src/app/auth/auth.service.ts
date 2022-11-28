@@ -12,7 +12,7 @@ import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  isAuthenticated = true;
+  isAuthenticated = false;
   errorMessage = new Subject<string>();
   constructor(
     private http: HttpClient,
@@ -47,6 +47,7 @@ export class AuthService {
         console.log(res);
         this.store.dispatch(Login({ user: res.user, token: res.token }));
         this.addToLocalStorage(res.user, res.token);
+        this.isAuthenticated = true;
         this.route.navigate(['/']);
       });
 
@@ -87,6 +88,7 @@ export class AuthService {
         console.log(res);
         this.store.dispatch(Login({ user: res.user, token: res.token }));
         this.addToLocalStorage(res.user, res.token);
+        this.isAuthenticated = true;
         this.route.navigate(['/']);
       });
 
@@ -114,9 +116,31 @@ export class AuthService {
     //   });
   }
 
+  updateUser(name: string, email: string, image: File | string) {
+    if (typeof image === 'string') {
+      return this.http.patch<{ msg: string; user: User }>(`${API_URL}/user`, {
+        name,
+        email,
+      });
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('userImage', image);
+    return this.http.patch<{ msg: string; user: User }>(
+      `${API_URL}/user`,
+      formData
+    );
+  }
+
   addToLocalStorage(user: User, token: string) {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', JSON.stringify(token));
+  }
+
+  updateLocalStorage(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   autoLogin() {
@@ -128,12 +152,14 @@ export class AuthService {
     const userParsed = JSON.parse(localStorage.getItem('user')!);
     const tokenParsed = JSON.parse(localStorage.getItem('token')!);
     this.store.dispatch(Login({ user: userParsed, token: tokenParsed }));
+    this.isAuthenticated = true;
   }
 
   logout() {
     this.store.dispatch(Logout());
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    this.isAuthenticated = false;
     this.route.navigate(['/auth/login']);
   }
 }

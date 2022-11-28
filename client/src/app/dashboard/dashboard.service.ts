@@ -81,7 +81,7 @@ export class DashboardService {
 
   searchUsers(search: string) {
     return this.http.get<{ msg: string; users: any[] }>(
-      `${API_URL}/users?search=${search}`
+      `${API_URL}/user?search=${search}`
     );
   }
 

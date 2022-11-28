@@ -25,8 +25,22 @@ export class AuthGuard implements CanActivate {
     | UrlTree {
     console.log('inside auth guard');
     console.log(this.auth.getAuthenticationStatus());
-    if (!this.auth.getAuthenticationStatus()) {
-      return this.router.createUrlTree(['/login']);
+
+    if (
+      !this.auth.getAuthenticationStatus() &&
+      !(
+        state.url === '/landing' ||
+        state.url === '/auth/register' ||
+        state.url === '/auth/login'
+      )
+    ) {
+      return this.router.createUrlTree(['/auth/login']);
+    }
+    if (
+      this.auth.getAuthenticationStatus() &&
+      (state.url === '/auth/register' || state.url === '/auth/login')
+    ) {
+      return this.router.createUrlTree(['/']);
     }
     return true;
   }

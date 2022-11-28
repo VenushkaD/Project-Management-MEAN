@@ -27,13 +27,13 @@ import { AuthClientModule } from './auth-client.module';
 @NgModule({
   declarations: [
     DashboardComponent,
-    HeaderComponent,
     SearchComponent,
     ProjectComponent,
     CreateProjectComponent,
     HomeComponent,
     DialogAssignMembersComponent,
     ViewProjectComponent,
+    HeaderComponent,
   ],
   imports: [
     CommonModule,

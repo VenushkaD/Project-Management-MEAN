@@ -1,0 +1,44 @@
+<div class="container">
+  <form [formGroup]="updateForm" (submit)="onSubmit()">
+    <h3>My Profile</h3>
+    <div class="inputs">
+      <div class="input">
+        <label for="">Name</label>
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Name"
+          value="John"
+        />
+      </div>
+      <div class="input">
+        <label for="">Email</label>
+        <input
+          type="text"
+          formControlName="email"
+          placeholder="Email"
+          value="John"
+        />
+      </div>
+      <div class="input">
+        <label for="">Image</label>
+        <label for="upload" #pickImage class="pick-image">
+          <p *ngIf="!imagePicked">Pick Image</p>
+          <img [src]="imagePicked" alt="Project Image" *ngIf="imagePicked" />
+          <input
+            type="file"
+            id="upload"
+            formControlName="image"
+            accept="image/png, image/gif, image/jpeg"
+            style="display: none"
+            (change)="handleFileInput($event)"
+          />
+        </label>
+      </div>
+    </div>
+    <div class="btns">
+      <button type="submit" class="btn">Update</button>
+      <button type="button" class="btn">Cancel</button>
+    </div>
+  </form>
+</div>

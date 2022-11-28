@@ -7,3 +7,5 @@ export const Login = createAction(
 );
 
 export const Logout = createAction('Logout');
+
+export const Update = createAction('Update', props<{ user: User }>());

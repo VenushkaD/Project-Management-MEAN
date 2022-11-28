@@ -1,0 +1,120 @@
+.container{
+    height: calc(100vh - 7rem);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    max-width: 600px;
+    width: 90%;
+    margin: 40px auto 0 auto;
+}
+
+form{
+    background-color: #D9D9D9;
+    width: 80%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.25);
+    margin: auto;
+    display: grid;
+}
+
+form > h3 {
+    padding: 20px 10px;
+    text-align: center;
+    color: #3F484E;
+    font-size: 25px;
+} 
+
+.inputs {
+    display: grid;
+    gap: 40px;
+    background-color: transparent;
+    border: none;
+    width: 80%;
+    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.input{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+input{
+    width: 100%;
+    padding: 10px 15px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+}
+
+.error-msg{
+    display: none;
+    color: rgb(212, 97, 97);
+    font-size: 15px;
+    margin: 30px 30px 0 30px;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: rgb(243, 201, 201);
+}
+
+.error-msg-show{
+    display: block;
+}
+
+.pick-image{
+    height: 300px;
+    background-color: white;
+    display: grid;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 100%;
+}
+
+.pick-image:hover{
+    opacity: 0.8;
+}
+
+.pick-image > p{
+    color: #7b7f82;
+    margin: auto;
+    align-items: center;
+    font-size: 15px;
+}
+
+.pick-image >img{
+    height: 290px;
+    width: 90%;
+    margin: auto;
+    object-fit:scale-down;
+}
+
+.btns{
+    justify-self: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.btn{
+    color: white;
+    padding: 8px 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    background-color: #3F484E;
+    width: 100px;
+    
+}
+
+.btn:nth-child(2){
+    background-color: #676767;
+}
