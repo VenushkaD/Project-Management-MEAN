@@ -10,35 +10,47 @@ const createProject = async (req, res) => {
   if (!title || !description || !dueDate) {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
-  let tasksParsed = [];
-  let membersParsed = [];
-  if (tasks) {
-    tasksParsed = JSON.parse(tasks);
-  }
-  if (members) {
-    membersParsed = JSON.parse(members);
-  }
-  let imageUrl = '';
-  if (req.file) {
-    console.log(req.file);
-    imageUrl = await resize(req.file, 'projects');
-    // await sharp(req.file.path)
-    //   .resize(400)
-    //   .jpeg({ quality: 100 })
-    //   .toFile(
-    //     path.resolve(
-    //       req.file.destination,
-    //       req.file.filename + req.file.originalname
-    //     )
-    //   );
-    // fs.unlinkSync(req.file.path);
-    // imageUrl =
-    //   `http://localhost:${process.env.PORT}/` +
-    //   'uploads/' +
-    //   req.file.filename +
-    //   req.file.originalname;
-  }
+
+  // await sharp(req.file.path)
+  //   .resize(400)
+  //   .jpeg({ quality: 100 })
+  //   .toFile(
+  //     path.resolve(
+  //       req.file.destination,
+  //       req.file.filename + req.file.originalname
+  //     )
+  //   );
+  // fs.unlinkSync(req.file.path);
+  // imageUrl =
+  //   `http://localhost:${process.env.PORT}/` +
+  //   'uploads/' +
+  //   req.file.filename +
+  //   req.file.originalname;
   try {
+    let tasksError = false;
+
+    let tasksParsed = [];
+    let membersParsed = [];
+    if (tasks) {
+      tasksParsed = await JSON.parse(tasks);
+      tasksParsed.forEach((task) => {
+        if (task.name === '') {
+          console.log('empty task');
+          tasksError = true;
+        }
+      });
+      if (tasksError) {
+        return res.status(400).json({ error: 'Please fill all the fields' });
+      }
+    }
+    if (members) {
+      membersParsed = JSON.parse(members);
+    }
+    let imageUrl = '';
+    if (req.file) {
+      console.log(req.file);
+      imageUrl = await resize(req.file, 'projects');
+    }
     const project = await Project.create({
       ...req.body,
       tasks: tasksParsed,
@@ -143,6 +155,16 @@ const updateProject = async (req, res) => {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
   try {
+    let tasksError = false;
+    tasks.forEach((task) => {
+      if (task.name === '') {
+        console.log('empty task');
+        tasksError = true;
+      }
+    });
+    if (tasksError) {
+      return res.status(400).json({ error: 'Please fill all the fields' });
+    }
     let result = await Project.findById(id);
     if (!result) {
       return res.status(404).json({ error: 'Project not found' });
@@ -170,6 +192,15 @@ const updateProject = async (req, res) => {
       // query.imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
       if (tasks) {
         const tasksParsed = JSON.parse(tasks);
+        tasksParsed.map((task) => {
+          console.log(task);
+          if (task.name === '') {
+            console.log('empty task');
+            return res
+              .status(400)
+              .json({ error: 'Please fill all the fields' });
+          }
+        });
         query.tasks = tasksParsed;
       }
       if (members) {

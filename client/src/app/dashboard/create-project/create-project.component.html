@@ -2,8 +2,9 @@
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form *ngIf="!isLoading" [formGroup]="createForm" (submit)="onSubmit()">
     <h3>{{ editMode ? "Edit project" : "Create Project" }}</h3>
-
-    <div class="error-msg"></div>
+    <div class="error-msg" [ngClass]="[formError ? 'error-msg-show' : '']">
+      {{ formErrorMessage }}
+    </div>
 
     <div class="inputs">
       <div class="btns">

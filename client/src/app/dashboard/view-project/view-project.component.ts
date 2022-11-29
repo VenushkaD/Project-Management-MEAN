@@ -63,7 +63,8 @@ export class ViewProjectComponent implements OnInit {
       this.members = data.project.members;
       this.completed = data.project.completed;
       this.dueDate = moment(data.project.dueDate).format('LL');
-      this.imageUrl = data.project.imageUrl;
+      this.imageUrl =
+        data.project.imageUrl || 'assets/images/project-placeholder.webp';
       this.isLoading = false;
       this.createdBy = data.project.createdBy;
     });

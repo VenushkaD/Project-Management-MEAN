@@ -6,6 +6,7 @@ import { DialogAssignMembersComponent } from './dialog-assign-members/dialog-ass
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Project } from '../Project';
 import { DashboardService } from '../dashboard.service';
+import { catchError, throwError } from 'rxjs';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -14,6 +15,8 @@ import { DashboardService } from '../dashboard.service';
 export class CreateProjectComponent implements OnInit {
   createForm!: FormGroup;
   faXmark = faXmark;
+  formError = false;
+  formErrorMessage = 'Please fill all the fields';
 
   imagePicked = '';
   imageFile: File | null = null;
@@ -96,10 +99,10 @@ export class CreateProjectComponent implements OnInit {
     this.createForm = new FormGroup({
       title: new FormControl(title, [Validators.required]),
       description: new FormControl(description, [Validators.required]),
-      image: new FormControl<File>(image, [Validators.required]),
-      assignMembers: new FormControl(assignMembers, [Validators.required]),
+      image: new FormControl<File>(image),
+      assignMembers: new FormControl(assignMembers),
       dueDate: new FormControl(dueDate, [Validators.required]),
-      completed: new FormControl(completed, [Validators.required]),
+      completed: new FormControl(completed),
       subTasks: subTasks,
     });
   }
@@ -109,6 +112,14 @@ export class CreateProjectComponent implements OnInit {
   }
 
   onSubmit() {
+    // if (this.createForm.invalid) {
+    //   this.formError = true;
+    //   setTimeout(() => {
+    //     this.formError = false;
+    //     this.formErrorMessage = 'Please fill all the fields';
+    //   }, 3000);
+    //   return;
+    // }
     this.isLoading = true;
     this.createForm.patchValue({
       assignMembers: [...this.members],
@@ -121,15 +132,40 @@ export class CreateProjectComponent implements OnInit {
           { ...this.createForm.value },
           this.imageFile || this.imagePicked
         )
+        .pipe(
+          catchError((err) => {
+            this.isLoading = false;
+            this.formError = true;
+            this.formErrorMessage = err.error.error;
+            setTimeout(() => {
+              this.formError = false;
+              this.formErrorMessage = 'Please fill all the fields';
+            }, 3000);
+            return throwError(() => err.error.error);
+          })
+        )
         .subscribe((res) => {
           console.log(res);
-          this.router.navigate([`/view/${this.editData.id}`]);
           this.isLoading = false;
+          this.router.navigate([`/view/${this.editData.id}`]);
         });
       return;
     }
     this.dashboardService
       .createProject(this.createForm.value, this.imageFile)
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          this.isLoading = false;
+          this.formError = true;
+          this.formErrorMessage = err.error.error;
+          setTimeout(() => {
+            this.formError = false;
+            this.formErrorMessage = 'Please fill all the fields';
+          }, 3000);
+          return throwError(() => err.error.error);
+        })
+      )
       .subscribe((res) => {
         console.log(res);
         this.router.navigate(['/']);
