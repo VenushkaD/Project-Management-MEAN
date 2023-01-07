@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
     }
     if (this.isLogin) {
       const user: User = {
-        id: null,
+        _id: null,
         name: null,
         email: this.loginForm.value.email!,
         password: this.loginForm.value.password!,
@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
       this.auth.login(user);
     } else {
       const user: User = {
-        id: null,
+        _id: null,
         name: this.loginForm.value.name!,
         email: this.loginForm.value.email!,
         password: this.loginForm.value.password!,

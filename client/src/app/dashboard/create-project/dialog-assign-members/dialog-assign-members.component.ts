@@ -22,16 +22,21 @@ export class DialogAssignMembersComponent {
   faXmark = faXmark;
   members: any = [];
   result: any = [];
+  createdBy = '';
   constructor(
     public dialogRef: MatDialogRef<DialogAssignMembersComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { members: [{ id: string; email: string }] },
+    public data: {
+      members: [{ id: string; email: string }];
+      createdBy: string;
+    },
     private http: HttpClient,
     private dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
     this.members = this.data.members;
+    this.createdBy = this.data.createdBy;
   }
 
   checkIsMember(id: string): boolean {
@@ -50,6 +55,14 @@ export class DialogAssignMembersComponent {
     let searchValue = event.target.value;
     this.dashboardService.searchUsers(searchValue).subscribe((res) => {
       this.result = res.users;
+      this.result = this.result.filter((member) => {
+        if (member._id !== this.createdBy) {
+          console.log(this.createdBy);
+
+          return member;
+        }
+        return;
+      });
     });
     // this.result = this.result.filter((member) => {
     //   if (member.email.search(searchValue) !== -1) {

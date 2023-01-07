@@ -25,6 +25,7 @@ export class CreateProjectComponent implements OnInit {
   editMode = false;
   editData: any;
   isLoading = false;
+  createdBy = '';
 
   constructor(
     private router: Router,
@@ -43,6 +44,7 @@ export class CreateProjectComponent implements OnInit {
         console.log('edit mode');
         this.dashboardService.getProject(id).subscribe((res) => {
           this.editMode = true;
+          this.createdBy = res.project.createdBy._id;
           this.editData = {
             id: id,
             title: res.project.title,
@@ -178,6 +180,7 @@ export class CreateProjectComponent implements OnInit {
       panelClass: 'my-dialog',
       data: {
         members: [...this.members],
+        createdBy: this.createdBy,
       },
     });
 

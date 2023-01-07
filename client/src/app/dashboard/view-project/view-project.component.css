@@ -76,6 +76,11 @@ ng-scrollbar{
     margin-bottom: 20px;
 }
 
+ng-scrollbar ul{
+    display: grid;
+    gap:10px
+}
+
 .col-2 .content{
     padding: 40px;
     display: grid;
