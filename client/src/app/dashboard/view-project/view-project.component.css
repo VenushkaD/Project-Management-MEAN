@@ -13,7 +13,7 @@
   margin: auto;
   display:  grid;
   grid-template-columns: auto 1fr;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -116,7 +116,7 @@ ng-scrollbar{
     position: absolute;
     bottom: 20px;
     right: 20px;
-    font-size: 40px;
+    font-size: 30px;
     cursor: pointer;
 }
 

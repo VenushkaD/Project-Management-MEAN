@@ -26,11 +26,11 @@ const updateUser = async (req, res) => {
   const { id: userId } = req.user;
   let imageUrl = '';
   if (req.file) {
-    let result = await User.findById(req.user.id);
-    let imagePath = result.imageUrl.split('/').pop();
-    imagePath = 'uploads\\\\users\\\\' + imagePath;
-    fs.unlinkSync(imagePath);
-    console.log(req.file);
+    // let result = await User.findById(req.user.id);
+    // let imagePath = result.imageUrl.split('/').pop();
+    // imagePath = 'uploads\\\\users\\\\' + imagePath;
+    // fs.unlinkSync(imagePath);
+    // console.log(req.file);
     imageUrl = await resize(req.file, 'users');
     query.imageUrl = imageUrl;
   }

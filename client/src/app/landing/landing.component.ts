@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -12,9 +14,13 @@ export class LandingComponent implements OnInit {
     age: new FormControl('', Validators.required),
   });
 
-  constructor() {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authService.getAuthenticationStatus()) {
+      this.router.navigate(['/']);
+    }
+  }
 
   onSubmit() {
     console.log(this.form.value);

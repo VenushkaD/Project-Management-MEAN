@@ -7,6 +7,17 @@
     </div>
     <div class="inputs">
       <input
+        *ngIf="!isLogin"
+        type="text"
+        placeholder="Name"
+        formControlName="name"
+        [ngClass]="[
+          loginForm.get('name').invalid && loginForm.get('name').touched
+            ? 'invalid-input'
+            : ''
+        ]"
+      />
+      <input
         type="text"
         placeholder="Email"
         formControlName="email"
@@ -27,8 +38,15 @@
         ]"
       />
       <div class="register">
-        <button type="submit" class="btn">Login</button>
-        <p>Not a member? <a routerLink="/auth/register">register</a></p>
+        <button type="submit" class="btn">
+          {{ isLogin ? "Login" : "Register" }}
+        </button>
+        <p *ngIf="isLogin">
+          Not a member? <a routerLink="/auth/register">register</a>
+        </p>
+        <p *ngIf="!isLogin">
+          Already a member? <a routerLink="/auth/login">login</a>
+        </p>
       </div>
     </div>
   </form>

@@ -71,13 +71,12 @@ const createProject = async (req, res) => {
 };
 
 const getProjects = async (req, res) => {
-  console.log(req.user);
   const { id: user_id } = req.user;
   try {
     let query = { $or: [{ createdBy: user_id }, { members: user_id }] };
     if (req.query.search) {
       query.title = { $regex: req.query.search, $options: 'i' };
-      query.createdBy = user_id;
+      // query.createdBy = user_id;
     }
 
     let result = Project.find(query)
