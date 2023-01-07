@@ -3,6 +3,7 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 import { resize } from '../image-upload/resize.js';
+import app from '../server.js';
 
 const createProject = async (req, res) => {
   const { title, description, members, dueDate, tasks } = req.body;
@@ -10,22 +11,6 @@ const createProject = async (req, res) => {
   if (!title || !description || !dueDate) {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
-
-  // await sharp(req.file.path)
-  //   .resize(400)
-  //   .jpeg({ quality: 100 })
-  //   .toFile(
-  //     path.resolve(
-  //       req.file.destination,
-  //       req.file.filename + req.file.originalname
-  //     )
-  //   );
-  // fs.unlinkSync(req.file.path);
-  // imageUrl =
-  //   `http://localhost:${process.env.PORT}/` +
-  //   'uploads/' +
-  //   req.file.filename +
-  //   req.file.originalname;
   try {
     let tasksError = false;
 
@@ -51,15 +36,19 @@ const createProject = async (req, res) => {
       console.log(req.file);
       imageUrl = await resize(req.file, 'projects');
     }
-    const project = await Project.create({
+    let project = await Project.create({
       ...req.body,
       tasks: tasksParsed,
       members: membersParsed,
       imageUrl,
       createdBy: user_id,
     });
+    project = await project.populate('members', 'id name email imageUrl');
+    const io = app.get('io');
+    io.emit('project-added', project);
     res.status(201).json({ msg: 'success', project: project });
   } catch (error) {
+    console.log(error);
     let errorMsg = 'Some error';
     if (error.name === 'ValidationError') {
       errorMsg = Object.values(error.errors)
@@ -89,7 +78,7 @@ const getProjects = async (req, res) => {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 6;
     const skip = (page - 1) * limit;
-    result = result.skip(skip).limit(limit);
+    result = result.skip(skip).limit(limit).sort({ createdAt: -1 });
     const projects = await result;
     const totalProjects = await Project.countDocuments(query);
     // .where('members')
@@ -208,11 +197,14 @@ const updateProject = async (req, res) => {
       }
     }
 
-    const project = await Project.findByIdAndUpdate(
+    let project = await Project.findByIdAndUpdate(
       id,
       { ...query },
       { new: true }
     );
+    project = await project.populate('members', 'id name email imageUrl');
+    const io = app.get('io');
+    io.emit('project-updated', project);
     res.status(200).json({ msg: 'success', project: project });
   } catch (error) {
     console.log(error);

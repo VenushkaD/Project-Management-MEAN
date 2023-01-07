@@ -3,7 +3,7 @@ import { Task } from './task.model';
 
 export class Project {
   constructor(
-    public id: number,
+    public _id: number,
     public title: string,
     public description: string,
     public imageUrl: string,

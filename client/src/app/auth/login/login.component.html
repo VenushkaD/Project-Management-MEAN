@@ -12,7 +12,7 @@
         placeholder="Name"
         formControlName="name"
         [ngClass]="[
-          loginForm.get('name').invalid && loginForm.get('name').touched
+          loginForm.get('name')?.invalid && loginForm.get('name')?.touched
             ? 'invalid-input'
             : ''
         ]"
@@ -22,7 +22,7 @@
         placeholder="Email"
         formControlName="email"
         [ngClass]="[
-          loginForm.get('email').invalid && loginForm.get('email').touched
+          loginForm.get('email')?.invalid && loginForm.get('email')?.touched
             ? 'invalid-input'
             : ''
         ]"

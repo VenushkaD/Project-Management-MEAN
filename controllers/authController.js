@@ -9,7 +9,7 @@ const createUser = async (req, res) => {
   try {
     const user = await User.create({ name, email, password });
     const resUser = {
-      id: user._id,
+      _id: user._id,
       name: user.name,
       email: user.email,
       boards: user.boards,
@@ -47,7 +47,7 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ msg: 'Invalid credentials' });
     }
     const resUser = {
-      id: user._id,
+      _id: user._id,
       name: user.name,
       email: user.email,
       boards: user.boards,
