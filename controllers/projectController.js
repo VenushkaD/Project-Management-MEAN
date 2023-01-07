@@ -143,16 +143,19 @@ const updateProject = async (req, res) => {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
   try {
-    let tasksError = false;
-    tasks.forEach((task) => {
-      if (task.name === '') {
-        console.log('empty task');
-        tasksError = true;
-      }
-    });
-    if (tasksError) {
-      return res.status(400).json({ error: 'Please fill all the fields' });
-    }
+    // let tasksError = false;
+    // if (tasks) {
+    //   tasks.forEach((task) => {
+    //     if (task.name === '') {
+    //       console.log('empty task');
+    //       tasksError = true;
+    //     }
+    //   });
+    // }
+
+    // if (tasksError) {
+    //   return res.status(400).json({ error: 'Please fill all the fields' });
+    // }
     let result = await Project.findById(id);
     if (!result) {
       return res.status(404).json({ error: 'Project not found' });
@@ -168,9 +171,11 @@ const updateProject = async (req, res) => {
     };
 
     if (req.file) {
-      let imagePath = result.imageUrl.split('/').pop();
-      imagePath = 'uploads\\\\projects\\\\' + imagePath;
-      fs.unlinkSync(imagePath);
+      if (result.imageUrl) {
+        let imagePath = result.imageUrl.split('/').pop();
+        imagePath = 'uploads\\\\projects\\\\' + imagePath;
+        fs.unlinkSync(imagePath);
+      }
       query.imageUrl = await resize(req.file, 'projects');
       // await sharp(req.file.path)
       //   .resize(200, 200)
