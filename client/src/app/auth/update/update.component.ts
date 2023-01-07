@@ -38,6 +38,7 @@ export class UpdateComponent implements OnInit {
         email: authState.user.email,
         image: null,
       });
+      this.updateForm.get('email')?.disable();
       this.updateForm.get('image')?.updateValueAndValidity();
       this.imagePicked = authState.user.imageUrl;
     });

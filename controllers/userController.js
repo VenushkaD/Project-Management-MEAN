@@ -15,12 +15,11 @@ const getUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { name, email } = req.body;
-  if (!name || !email) {
+  if (!name) {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
   const query = {
     name,
-    email,
   };
 
   const { id: userId } = req.user;
