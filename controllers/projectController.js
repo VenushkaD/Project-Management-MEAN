@@ -207,7 +207,9 @@ const updateProject = async (req, res) => {
       { ...query },
       { new: true }
     );
-    project = await project.populate('members', 'id name email imageUrl');
+    project = await (
+      await project.populate('members', 'id name email imageUrl')
+    ).populate('createdBy', 'id name email imageUrl');
     const io = app.get('io');
     io.emit('project-updated', project);
     res.status(200).json({ msg: 'success', project: project });
