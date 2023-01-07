@@ -7,6 +7,7 @@ import { AppState } from '../store/app.reducer';
 import { User } from './user.model';
 import { Login, Logout } from './store/auth.actions';
 import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -137,6 +138,11 @@ export class AuthService {
   addToLocalStorage(user: User, token: string) {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', JSON.stringify(token));
+    const expiresAt = moment().add('1', 'day');
+    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+    setTimeout(() => {
+      this.logout();
+    }, 86400000);
   }
 
   updateLocalStorage(user: User) {
@@ -144,6 +150,15 @@ export class AuthService {
   }
 
   autoLogin() {
+    const expiresAt = this.getExpirationTime();
+    if (!moment().isBefore(expiresAt)) {
+      this.logout();
+      return;
+    }
+    const timer = expiresAt!.valueOf() - moment().valueOf();
+    setTimeout(() => {
+      this.logout();
+    }, timer);
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
     if (!user && !token) {
@@ -161,5 +176,14 @@ export class AuthService {
     localStorage.removeItem('token');
     this.isAuthenticated = false;
     this.route.navigate(['/auth/login']);
+  }
+
+  getExpirationTime() {
+    const expiration = localStorage.getItem('expires_at');
+    if (!expiration) {
+      return null;
+    }
+    const expiresAt = JSON.parse(expiration);
+    return moment(expiresAt);
   }
 }
