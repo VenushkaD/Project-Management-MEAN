@@ -4,7 +4,7 @@
     <img
       *ngIf="project.imageUrl"
       class="demo-bg"
-      [src]="project.imageUrl"
+      [src]="getImageURL(project.imageUrl)"
       alt=""
     />
     <div>

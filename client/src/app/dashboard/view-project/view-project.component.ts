@@ -14,6 +14,7 @@ import {
 import * as moment from 'moment';
 import { catchError, take, tap } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
+import { getImageURL } from 'src/app/utils/getImageUrl';
 import { DashboardService } from '../dashboard.service';
 import { SocketService } from '../socket.service';
 
@@ -23,6 +24,7 @@ import { SocketService } from '../socket.service';
   styleUrls: ['./view-project.component.css'],
 })
 export class ViewProjectComponent implements OnInit {
+  getImageURL = getImageURL;
   faPeopleGroup = faPeopleGroup;
   faClock = faClock;
   faFileLines = faFileLines;

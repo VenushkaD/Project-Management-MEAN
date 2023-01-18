@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/auth/user.model';
 import { AppState } from 'src/app/store/app.reducer';
+import { getImageURL } from 'src/app/utils/getImageUrl';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -37,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       console.log(authState.user);
 
       if (this.user.imageUrl) {
-        this.profileImage = this.user.imageUrl;
+        this.profileImage = getImageURL(this.user.imageUrl);
       }
     });
     this.router.url === '/create-project'

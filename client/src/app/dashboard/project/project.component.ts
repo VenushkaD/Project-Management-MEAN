@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { getImageURL } from 'src/app/utils/getImageUrl';
 import { Project } from './project.model';
 @Component({
   selector: 'app-project',
@@ -10,6 +11,7 @@ export class ProjectComponent implements OnInit {
   faPlus = faPlus;
   @Input() project: Project;
   slicedDate = '';
+  getImageURL = getImageURL;
   constructor() {}
 
   tasksArray() {
