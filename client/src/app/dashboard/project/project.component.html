@@ -21,7 +21,11 @@
         <div class="due">{{ "Due: " + slicedDate }}</div>
         <div class="members">
           <div *ngFor="let member of membersArray()">
-            <img *ngIf="member.imageUrl" [src]="member.imageUrl" alt="" />
+            <img
+              *ngIf="member.imageUrl"
+              [src]="getImageURL(member.imageUrl)"
+              alt=""
+            />
             <div *ngIf="!member.imageUrl">
               {{ member.name[0].toUpperCase() }}
             </div>
