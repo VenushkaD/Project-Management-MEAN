@@ -3,15 +3,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.reducer';
+import { getImageURL } from 'src/app/utils/getImageUrl';
 import { AuthService } from '../auth.service';
 import { Update } from '../store/auth.actions';
-
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
   styleUrls: ['./update.component.css'],
 })
 export class UpdateComponent implements OnInit {
+  getImageURL = getImageURL;
   imagePicked = '';
   imageFile: File | null = null;
   updateForm = new FormGroup({
@@ -40,7 +41,7 @@ export class UpdateComponent implements OnInit {
       });
       this.updateForm.get('email')?.disable();
       this.updateForm.get('image')?.updateValueAndValidity();
-      this.imagePicked = authState.user.imageUrl;
+      this.imagePicked = getImageURL(authState.user.imageUrl);
     });
   }
 
