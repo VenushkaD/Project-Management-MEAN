@@ -21,7 +21,7 @@ app.use(
 
 app.use('/uploads', express.static(path.resolve(__dirname, './uploads')));
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV?.trim() !== 'production') {
   app.use(morgan('dev'));
 }
 
@@ -82,7 +82,7 @@ const port = process.env.PORT || 3000;
 
 const init = async () => {
   try {
-    await connect(process.env.MONGO_URL);
+    await connect();
     server.listen(port, () => {
       console.log('Server started on port ' + port);
     });
