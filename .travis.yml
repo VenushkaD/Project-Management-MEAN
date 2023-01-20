@@ -6,9 +6,11 @@ install:
   - npm install
 branches:
   only:
-    - master
+    - travis
 cache:
   directories:
     - node_modules
+before_script:
+  - npm run build
 script:
   - npm run test

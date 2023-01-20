@@ -8,6 +8,7 @@
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build-client",
     "test": "SET NODE_ENV=test && mocha --ui tdd",
+    "travis-test": "mocha --ui tdd",
     "client": "cd client && ng serve",
     "server": "nodemon server.js",
     "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
