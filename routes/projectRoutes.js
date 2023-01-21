@@ -1,6 +1,12 @@
 import express from 'express';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  createProject,
+  getProject,
+  getProjects,
+  updateProject,
+} from '../controllers/projectController.js';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -27,13 +33,9 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-import {
-  createProject,
-  getProject,
-  getProjects,
-  updateProject,
-} from '../controllers/projectController.js';
-import authMiddleware from '../middleware.js/auth.js';
+const uploadFiles = multer({
+  storage: storage,
+});
 
 const router = express.Router();
 
@@ -45,6 +47,10 @@ router
 router
   .route('/:id')
   .get(getProject)
-  .patch(upload.single('projectImage'), updateProject);
+  .patch(
+    upload.single('projectImage'),
+    uploadFiles.array('taskFiles'),
+    updateProject
+  );
 
 export default router;

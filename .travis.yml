@@ -10,5 +10,8 @@ branches:
 cache:
   directories:
     - node_modules
+env:
+  global:
+    - NODE_ENV=test
 script:
   - npm run test

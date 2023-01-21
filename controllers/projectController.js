@@ -133,6 +133,8 @@ const getProject = async (req, res) => {
 };
 
 const updateProject = async (req, res) => {
+  console.log(req.file);
+  return res.status(200).json({ msg: 'success' });
   const id = req.params.id.toString();
   if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
     return res.status(400).json({ error: 'Please provide valid project id' });

@@ -131,6 +131,19 @@ export class DashboardService {
     console.log('id', id);
     console.log('files', files);
 
+    const formData = new FormData();
+    formData.append('name', task.name);
+    formData.append('description', task.description);
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+    }
+    if (task.assignedMembers?.length > 0) {
+      formData.append('assignedMembers', JSON.stringify(task.assignedMembers));
+    }
+    console.log('formData', formData);
+
     // return this.http.patch<{ msg: string; project: Project }>(
     //   `${API_URL}/project/${id}`,
     //   task
