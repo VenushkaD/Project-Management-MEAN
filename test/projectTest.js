@@ -3,6 +3,7 @@ import chaihttp from 'chai-http';
 import server from '../server.js';
 import Project from '../model/User.js';
 import User from '../model/User.js';
+import mongoose from 'mongoose';
 
 chai.use(chaihttp);
 
@@ -10,7 +11,8 @@ suite('Test Server Project Routes', () => {
   const app = server;
   setup(async () => {
     // Create any objects that we might
-    await Project.deleteMany({});
+    mongoose.connect(process.env.MONGO_URL_TEST);
+    // await Project.deleteMany({});
     await User.deleteMany({});
   });
 

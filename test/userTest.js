@@ -2,12 +2,14 @@ import chai from 'chai';
 import chaihttp from 'chai-http';
 import server from '../server.js';
 import User from '../model/User.js';
+import mongoose from 'mongoose';
 
 chai.use(chaihttp);
 
 suite('Test Server User Routes', () => {
   const app = server;
   setup(async () => {
+    mongoose.connect(process.env.MONGO_URL_TEST);
     // Create any objects that we might need
     await User.deleteMany({});
   });
