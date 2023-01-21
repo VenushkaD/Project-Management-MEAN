@@ -8,17 +8,17 @@
           [icon]="faClose"
           (click)="toggleMenu()"
         ></fa-icon>
-        <img [src]="getImageURL(imageUrl)" alt="" />
-        <h2>{{ title }}</h2>
+        <img [src]="getImageURL(project.imageUrl)" alt="" />
+        <h2>{{ project.title }}</h2>
         <hr />
         <h4><fa-icon [icon]="faUserShield"></fa-icon> Admin</h4>
-        <p>{{ createdBy.name }}</p>
-        <p>{{ createdBy.email }}</p>
+        <p>{{ project.createdBy.name }}</p>
+        <p>{{ project.createdBy.email }}</p>
         <h4><fa-icon [icon]="faPeopleGroup"></fa-icon> Members</h4>
-        <p *ngIf="members.length < 1">No members added...</p>
+        <p *ngIf="project.members.length < 1">No members added...</p>
         <ng-scrollbar>
           <ul>
-            <li *ngFor="let member of members">
+            <li *ngFor="let member of project.members">
               <p>{{ member.name }}</p>
               <p>{{ member.email }}</p>
             </li>
@@ -34,26 +34,37 @@
             [icon]="faBars"
             (click)="toggleMenu()"
           ></fa-icon>
-          <h2>{{ title }}</h2>
+          <h2>{{ project.title }}</h2>
         </div>
         <div class="row">
           <fa-icon [icon]="faClock"></fa-icon>
-          <p>{{ dueDate }}</p>
+          <p>{{ project.dueDate }}</p>
         </div>
         <div class="row">
           <div>
             <fa-icon [icon]="faFileLines"></fa-icon>
           </div>
           <p>
-            {{ description }}
+            {{ project.description }}
           </p>
         </div>
         <div class="list">
           <fa-icon [icon]="faListCheck"></fa-icon>
-          <p *ngIf="tasks.length < 1">No tasks added...</p>
+          <p *ngIf="project.tasks.length < 1">No tasks added...</p>
           <ul class="tasks">
-            <li class="task" *ngFor="let task of tasks">
-              <p>{{ task.name }}</p>
+            <li class="task" *ngFor="let task of project.tasks">
+              <p
+                style="
+                  background-color: white;
+                  border: 1px solid rgb(0, 0, 0, 0.4);
+                  border-radius: 10px;
+                  cursor: pointer;
+                  padding: 10px;
+                "
+                (click)="openDialog(task)"
+              >
+                {{ task.name }}
+              </p>
               <mat-progress-bar
                 color="accent"
                 mode="determinate"
@@ -67,10 +78,14 @@
       <div class="edit-icon" (click)="onEditClick()">
         <fa-icon [icon]="faPenSquare"></fa-icon>
       </div>
-      <div class="completed" *ngIf="completed">
+      <div class="completed" *ngIf="project.completed">
         <fa-icon [icon]="faCircleCheck"></fa-icon>
         Completed
       </div>
     </div>
   </div>
 </div>
+
+<!-- <app-view-task></app-view-task> -->
+
+<!-- <button (click)="openDialog()">Open Dialog</button> -->

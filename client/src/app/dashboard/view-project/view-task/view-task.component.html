@@ -1,0 +1,196 @@
+<div style="background-color: white; overflow-y: auto">
+  <form
+    md-dialog-content
+    style="display: grid; padding: 20px; max-height: 600px"
+    #form="ngForm"
+    (submit)="onSubmit(form)"
+  >
+    <div style="display: grid; gap: 30px">
+      <div style="display: flex; gap: 8px; align-items: center">
+        <fa-icon [icon]="faFile"></fa-icon>
+        <textarea
+          rows="1"
+          style="font-size: 20px; font-weight: bold; margin: 0; width: 100%"
+          (keydown)="textAreaEnter($event)"
+          name="name"
+          [ngModel]="data.task.name"
+        ></textarea>
+      </div>
+
+      <!-- <button>Edit</button> -->
+      <div style="display: grid; gap: 10px">
+        <div style="display: flex; gap: 14px; align-items: center">
+          <fa-icon [icon]="faBarsStaggered"></fa-icon>
+          <h3>Description</h3>
+          <!-- <button
+            class="btn"
+            type="button"
+            style="font-size: 12px"
+            (click)="descEditClicked = true"
+          >
+            Edit
+          </button> -->
+        </div>
+
+        <textarea
+          rows="3"
+          (keydown)="textAreaEnter($event)"
+          placeholder="Add Description"
+          name="description"
+          [ngModel]="data.task.description"
+        ></textarea>
+      </div>
+
+      <div style="display: grid; gap: 10px">
+        <h3>Progress</h3>
+        <div style="display: flex; gap: 5px">
+          <textarea
+            rows="1"
+            style="width: 40px"
+            [ngModel]="data.task.progress"
+            name="progress"
+          ></textarea
+          >%
+        </div>
+      </div>
+
+      <div style="display: grid; gap: 10px">
+        <div style="display: flex; gap: 14px; align-items: center">
+          <fa-icon [icon]="faPaperclip"></fa-icon>
+          <h3>Attachments</h3>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px">
+          <div
+            *ngFor="let attachment of attachments"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+              align-items: center;
+            "
+          >
+            <h4
+              style="
+                background-color: rgb(224, 224, 224);
+                padding: 20px;
+                border-radius: 5px;
+                color: grey;
+              "
+            >
+              {{
+                attachment.name.split(".")[1] || attachment.name.split(".")[0]
+              }}
+            </h4>
+            <div>
+              <h5>{{ attachment.name }}</h5>
+              <p
+                style="text-decoration: underline; font-size: 12px; color: grey"
+              >
+                Delete
+              </p>
+            </div>
+          </div>
+          <div
+            *ngFor="let attachment of data.task.documentUrls"
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              gap: 10px;
+              align-items: center;
+            "
+          >
+            <h4
+              style="
+                background-color: rgb(224, 224, 224);
+                padding: 20px;
+                border-radius: 5px;
+                color: grey;
+              "
+            >
+              {{ attachment.split(".")[1] || attachment.split(".")[0] }}
+            </h4>
+            <div>
+              <h5>{{ attachment.split(".")[0] }}</h5>
+              <p
+                style="text-decoration: underline; font-size: 12px; color: grey"
+              >
+                Delete
+              </p>
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn"
+          style="width: fit-content"
+          (click)="addAttachment(file)"
+        >
+          Add Attachment
+        </button>
+        <input hidden type="file" #file (change)="handleFileInput($event)" />
+      </div>
+      <div style="display: grid; gap: 20px">
+        <div
+          style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center"
+        >
+          <fa-icon [icon]="faUserGroup"></fa-icon>
+          <h3>Members</h3>
+        </div>
+        <div
+          style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center"
+        >
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              justify-content: center;
+            "
+            *ngFor="let member of data.task.assignedMembers"
+          >
+            <img
+              [src]="member.imageUrl || 'assets/images/avatar-300x300.jpg'"
+              alt=""
+              style="
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 50%;
+                justify-self: center;
+                margin: 0 auto;
+              "
+            />
+            <button
+              class="btn"
+              style="font-size: 12px"
+              type="button"
+              (click)="deleteMember(member)"
+            >
+              Delete
+            </button>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <h1
+              *ngIf="data.task.assignedMembers.length === 0"
+              style="cursor: pointer; width: fit-content; font-size: 15px"
+              class="btn"
+              (click)="openDialog()"
+            >
+              Add Members
+            </h1>
+            <h1
+              *ngIf="data.task.assignedMembers.length > 0"
+              style="cursor: pointer"
+              (click)="openDialog()"
+            >
+              +
+            </h1>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-save" type="submit" style="width: 100%">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

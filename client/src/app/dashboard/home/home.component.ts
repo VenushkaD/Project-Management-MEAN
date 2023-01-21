@@ -7,9 +7,9 @@ import {
 import { Store } from '@ngrx/store';
 import { map, take } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
+import { Project } from 'src/app/models/project.model';
 import { AppState } from 'src/app/store/app.reducer';
 import { DashboardService } from '../dashboard.service';
-import { Project } from '../project/project.model';
 import { SocketService } from '../socket.service';
 @Component({
   selector: 'app-home',

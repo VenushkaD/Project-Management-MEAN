@@ -32,6 +32,12 @@ const ProjectSchema = new mongoose.Schema(
           name: {
             type: String,
           },
+          assignedMembers: {
+            type: [mongoose.Schema.Types.ObjectId],
+          },
+          documentUrls: {
+            type: [String],
+          },
           progress: {
             type: Number,
           },

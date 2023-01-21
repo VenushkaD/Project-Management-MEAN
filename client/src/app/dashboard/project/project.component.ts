@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Project } from 'src/app/models/project.model';
 import { getImageURL } from 'src/app/utils/getImageUrl';
-import { Project } from './project.model';
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',

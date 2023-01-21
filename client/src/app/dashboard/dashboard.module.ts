@@ -6,7 +6,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { HeaderComponent } from './header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchComponent } from './search/search.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectComponent } from './project/project.component';
 import { CreateProjectComponent } from './create-project/create-project.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -24,6 +24,9 @@ import { ViewProjectComponent } from './view-project/view-project.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AuthClientModule } from './auth-client.module';
+import { ViewTaskComponent } from './view-project/view-task/view-task.component';
+import { DialogAssignTaskMembersComponent } from './view-project/dialog-assign-task-members/dialog-assign-task-members.component';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -34,6 +37,8 @@ import { AuthClientModule } from './auth-client.module';
     DialogAssignMembersComponent,
     ViewProjectComponent,
     HeaderComponent,
+    ViewTaskComponent,
+    DialogAssignTaskMembersComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +55,7 @@ import { AuthClientModule } from './auth-client.module';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSlideToggleModule,
+    FormsModule,
   ],
 })
 export class DashboardModule {}

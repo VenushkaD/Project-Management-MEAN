@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="header">
+    <form class="search" action="">
+      <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+      <input type="search" placeholder="Search" (keypress)="onSearch($event)" />
+    </form>
+    <fa-icon [icon]="faXmark" (click)="closeDialog()"></fa-icon>
+  </div>
+  <p class="type-to-search">Type to search</p>
+  <ng-scrollbar>
+    <ul class="content">
+      <li
+        class="normal"
+        *ngFor="let member of result; let i = index"
+        [ngClass]="checkIsMember(member._id) ? 'bold' : ''"
+        (click)="toggleMember(member)"
+      >
+        {{ member.email }} <span *ngIf="checkIsMember(member._id)">✓</span>
+      </li>
+    </ul>
+  </ng-scrollbar>
+  <button type="button" (click)="submitDialog()">Submit</button>
+</div>

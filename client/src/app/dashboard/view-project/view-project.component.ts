@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   faPeopleGroup,
@@ -14,9 +15,12 @@ import {
 import * as moment from 'moment';
 import { catchError, take, tap } from 'rxjs';
 import { User } from 'src/app/auth/user.model';
+import { Project } from 'src/app/models/project.model';
+import { Task } from 'src/app/models/task.model';
 import { getImageURL } from 'src/app/utils/getImageUrl';
 import { DashboardService } from '../dashboard.service';
 import { SocketService } from '../socket.service';
+import { ViewTaskComponent } from './view-task/view-task.component';
 
 @Component({
   selector: 'app-view-project',
@@ -35,23 +39,15 @@ export class ViewProjectComponent implements OnInit {
   faCircleCheck = faCircleCheck;
   faUserShield = faUserShield;
   showMenu = false;
-
-  id: string;
-  title = '';
-  description = '';
-  tasks = [];
-  members = [];
-  completed = false;
-  dueDate: string;
-  imageUrl: string;
   isLoading = false;
-  createdBy: User;
+  project: Project;
 
   constructor(
     private route: ActivatedRoute,
     private dashboardService: DashboardService,
     private router: Router,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -60,30 +56,20 @@ export class ViewProjectComponent implements OnInit {
     const { id } = this.route.snapshot.params;
     this.socketService.listenToServer('project-updated').subscribe((data) => {
       console.log(data);
-      if (data._id !== this.id) return;
-      this.title = data.title;
-      this.description = data.description;
-      this.tasks = data.tasks;
-      this.members = data.members;
-      this.completed = data.completed;
-      this.dueDate = moment(data.dueDate).format('LL');
-      this.imageUrl = data.imageUrl || 'assets/images/project-placeholder.webp';
+      if (data._id !== this.project._id) return;
+      this.project = data;
+      this.project.dueDate = moment(data.dueDate).format('LL');
+      this.project.imageUrl =
+        data.imageUrl || 'assets/images/project-placeholder.webp';
       this.isLoading = false;
-      this.createdBy = data.createdBy;
     });
     this.dashboardService.getProject(id).subscribe((data) => {
       console.log(data);
-      this.id = id;
-      this.title = data.project.title;
-      this.description = data.project.description;
-      this.tasks = data.project.tasks;
-      this.members = data.project.members;
-      this.completed = data.project.completed;
-      this.dueDate = moment(data.project.dueDate).format('LL');
-      this.imageUrl =
+      this.project = data.project;
+      this.project.dueDate = moment(data.project.dueDate).format('LL');
+      this.project.imageUrl =
         data.project.imageUrl || 'assets/images/project-placeholder.webp';
       this.isLoading = false;
-      this.createdBy = data.project.createdBy;
     });
   }
 
@@ -92,10 +78,22 @@ export class ViewProjectComponent implements OnInit {
   }
 
   toggleCompleted() {
-    this.completed = !this.completed;
+    this.project.completed = !this.project.completed;
   }
 
   onEditClick() {
-    this.router.navigate([`/edit/${this.id}`]);
+    this.router.navigate([`/edit/${this.project._id}`]);
+  }
+
+  openDialog(task: Task) {
+    this.dialog.open(ViewTaskComponent, {
+      width: '700px',
+      autoFocus: false,
+      data: {
+        projectId: this.project._id,
+        task,
+        members: this.project.members,
+      },
+    });
   }
 }

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { Project } from './project/project.model';
 import { API_URL } from '../const';
+import { Project } from '../models/project.model';
+import { Task } from '../models/task.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -123,5 +124,16 @@ export class DashboardService {
       `${API_URL}/project/${id}`,
       formData
     );
+  }
+
+  updateProjectTask(id: string, task: Task, files: File[]) {
+    console.log('task', task);
+    console.log('id', id);
+    console.log('files', files);
+
+    // return this.http.patch<{ msg: string; project: Project }>(
+    //   `${API_URL}/project/${id}`,
+    //   task
+    // );
   }
 }

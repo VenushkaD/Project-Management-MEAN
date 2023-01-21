@@ -10,6 +10,7 @@ import {
   faThumbsDown,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import { User } from 'src/app/auth/user.model';
 import { DashboardService } from '../../dashboard.service';
 
 @Component({
@@ -21,13 +22,13 @@ export class DialogAssignMembersComponent {
   faMagnifyingGlass = faMagnifyingGlass;
   faXmark = faXmark;
   members: any = [];
-  result: any = [];
+  result: User[] | any = [];
   createdBy = '';
   constructor(
     public dialogRef: MatDialogRef<DialogAssignMembersComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      members: [{ id: string; email: string }];
+      members: User[];
       createdBy: string;
     },
     private http: HttpClient,
@@ -64,12 +65,12 @@ export class DialogAssignMembersComponent {
         return;
       });
     });
-    // this.result = this.result.filter((member) => {
-    //   if (member.email.search(searchValue) !== -1) {
-    //     return member;
-    //   }
-    //   return;
-    // });
+    this.result = this.result.filter((member) => {
+      if (member.email.search(searchValue) !== -1) {
+        return member;
+      }
+      return;
+    });
     console.log(searchValue);
   }
 

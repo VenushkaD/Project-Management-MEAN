@@ -109,11 +109,11 @@ const getProject = async (req, res) => {
     let result = await Project.findById(id)
       .populate({
         path: 'members',
-        select: 'id name email',
+        select: 'id name email imageUrl',
       })
       .populate({
         path: 'createdBy',
-        select: 'id name email',
+        select: 'id name email imageUrl',
       })
       .select('-createdAt -updatedAt -__v');
     if (!result) {

@@ -65,3 +65,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .my-dialog{
     padding: 0;
 }
+
+.mat-dialog-container{
+    background-color: white!important;
+    color: black!important;
+}
