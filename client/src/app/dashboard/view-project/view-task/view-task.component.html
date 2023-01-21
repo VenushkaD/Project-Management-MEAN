@@ -178,7 +178,10 @@
             *ngFor="let member of data.task.assignedMembers"
           >
             <img
-              [src]="member.imageUrl || 'assets/images/avatar-300x300.jpg'"
+              [src]="
+                getImageURL(member.imageUrl) ||
+                'assets/images/avatar-300x300.jpg'
+              "
               alt=""
               style="
                 width: 50px;

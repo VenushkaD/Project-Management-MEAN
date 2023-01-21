@@ -16,6 +16,7 @@ import { Task } from 'src/app/models/task.model';
 import { DialogAssignMembersComponent } from '../../create-project/dialog-assign-members/dialog-assign-members.component';
 import { DashboardService } from '../../dashboard.service';
 import { DialogAssignTaskMembersComponent } from '../dialog-assign-task-members/dialog-assign-task-members.component';
+import { getImageURL } from 'src/app/utils/getImageUrl';
 @Component({
   selector: 'app-view-task',
   templateUrl: './view-task.component.html',
@@ -29,6 +30,7 @@ export class ViewTaskComponent implements OnInit {
   dialogRef: MatDialogRef<DialogAssignTaskMembersComponent>;
   attachments: File[] = [];
   isLoading: boolean = false;
+  getImageURL = getImageURL;
   constructor(
     private dialog: MatDialog,
     private dialogRefViewTask: MatDialogRef<ViewTaskComponent>,
@@ -132,7 +134,7 @@ export class ViewTaskComponent implements OnInit {
   downloadFile(fileUrl: string) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
-    link.setAttribute('href', fileUrl);
+    link.setAttribute('href', getImageURL(fileUrl));
     link.setAttribute('download', 'file');
     document.body.appendChild(link);
     link.click();
