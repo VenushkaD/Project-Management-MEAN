@@ -132,21 +132,25 @@ export class DashboardService {
     console.log('files', files);
 
     const formData = new FormData();
+    formData.append('id', task._id);
     formData.append('name', task.name);
     formData.append('description', task.description);
+    formData.append('progress', task.progress.toString());
+    if (task.documentUrls?.length > 0) {
+      formData.append('documentUrls', JSON.stringify(task.documentUrls));
+    }
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
+        formData.append('taskFiles', files[i]);
       }
     }
     if (task.assignedMembers?.length > 0) {
       formData.append('assignedMembers', JSON.stringify(task.assignedMembers));
     }
-    console.log('formData', formData);
 
-    // return this.http.patch<{ msg: string; project: Project }>(
-    //   `${API_URL}/project/${id}`,
-    //   task
-    // );
+    return this.http.patch<{ msg: string; project: Project }>(
+      `${API_URL}/project/task/${id}`,
+      formData
+    );
   }
 }

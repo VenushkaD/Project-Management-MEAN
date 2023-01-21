@@ -44,6 +44,11 @@ const createProject = async (req, res) => {
       createdBy: user_id,
     });
     project = await project.populate('members', 'id name email imageUrl');
+
+    project = await project.populate({
+      path: 'tasks.assignedMembers',
+      select: 'id name email imageUrl',
+    });
     const io = app.get('io');
     io.emit('project-added', project);
     res.status(201).json({ msg: 'success', project: project });
@@ -115,6 +120,10 @@ const getProject = async (req, res) => {
         path: 'createdBy',
         select: 'id name email imageUrl',
       })
+      .populate({
+        path: 'tasks.assignedMembers',
+        select: 'id name email imageUrl',
+      })
       .select('-createdAt -updatedAt -__v');
     if (!result) {
       return res.status(404).json({ error: 'Project not found' });
@@ -133,14 +142,11 @@ const getProject = async (req, res) => {
 };
 
 const updateProject = async (req, res) => {
-  console.log(req.file);
-  return res.status(200).json({ msg: 'success' });
   const id = req.params.id.toString();
   if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
     return res.status(400).json({ error: 'Please provide valid project id' });
   }
   const { title, description, members, dueDate, tasks, completed } = req.body;
-  console.log(req.body);
   if (!title || !description || !dueDate) {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
@@ -169,8 +175,11 @@ const updateProject = async (req, res) => {
       dueDate,
       completed,
       members,
-      tasks,
     };
+
+    let tasksArray = [];
+
+    tasksArray = tasks;
 
     if (req.file) {
       if (result.imageUrl) {
@@ -186,17 +195,15 @@ const updateProject = async (req, res) => {
       // fs.unlinkSync(req.file.path);
       // query.imageUrl = `http://localhost:${process.env.PORT}/` + req.file.path;
       if (tasks) {
-        const tasksParsed = JSON.parse(tasks);
+        const tasksParsed = await JSON.parse(tasks);
         tasksParsed.map((task) => {
-          console.log(task);
           if (task.name === '') {
-            console.log('empty task');
             return res
               .status(400)
               .json({ error: 'Please fill all the fields' });
           }
         });
-        query.tasks = tasksParsed;
+        tasksArray = tasksParsed;
       }
       if (members) {
         const membersParsed = JSON.parse(members);
@@ -204,14 +211,42 @@ const updateProject = async (req, res) => {
       }
     }
 
+    const results = await Project.findById(id);
+    if (tasksArray) {
+      if (result.tasks.length > 0) {
+        tasksArray = tasksArray.map((task) => {
+          const newTask = results.tasks.find(
+            (t) => t.name?.toLowerCase() === task.name?.toLowerCase()
+          );
+          if (newTask) {
+            console.log('task1', newTask);
+            return {
+              description: newTask.description,
+              assignedMembers: newTask.assignedMembers,
+              documentUrls: newTask.documentUrls,
+              _id: newTask._id,
+              name: task.name,
+              progress: task.progress,
+            };
+          } else {
+            return task;
+          }
+        });
+      }
+    }
     let project = await Project.findByIdAndUpdate(
       id,
-      { ...query },
+      { ...query, tasks: tasksArray },
       { new: true }
     );
     project = await (
       await project.populate('members', 'id name email imageUrl')
     ).populate('createdBy', 'id name email imageUrl');
+
+    project = await project.populate({
+      path: 'tasks.assignedMembers',
+      select: 'id name email imageUrl',
+    });
     const io = app.get('io');
     io.emit('project-updated', project);
     res.status(200).json({ msg: 'success', project: project });
@@ -227,4 +262,88 @@ const updateProject = async (req, res) => {
   }
 };
 
-export { createProject, getProjects, getProject, updateProject };
+const updateProjectTasks = async (req, res) => {
+  const id = req.params.id.toString();
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
+    return res.status(400).json({ error: 'Please provide valid project id' });
+  }
+  const {
+    id: taskId,
+    name,
+    description,
+    progress,
+    assignedMembers,
+    documentUrls: documentUrlsString,
+  } = req.body;
+  console.log(progress);
+  if (!name) {
+    return res.status(400).json({ error: 'Please fill the name field' });
+  }
+  try {
+    let assignedMembersArray = [];
+    if (assignedMembers) {
+      assignedMembersArray = JSON.parse(assignedMembers);
+      assignedMembersArray = assignedMembersArray.map((member) => {
+        return member._id;
+      });
+    }
+    let documentUrlsStringArray = [];
+    if (documentUrlsString) {
+      documentUrlsStringArray = JSON.parse(documentUrlsString);
+    }
+    const files = req.files;
+    const documentUrls = [];
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const documentUrl =
+          `http://localhost:${process.env.PORT}/` + files[i].path;
+        documentUrls.push(documentUrl);
+      }
+    }
+    const task = await Project.findById(id);
+    // if (!task) {
+    //   return res.status(404).json({ error: 'Project not found' });
+    // }
+    const newTask = {
+      _id: taskId,
+      name,
+      description,
+      progress,
+      assignedMembers: assignedMembersArray,
+      documentUrls: [...documentUrlsStringArray, ...documentUrls],
+    };
+
+    const newTaskArray = task.tasks.map((task) => {
+      if (task._id.toString() === taskId) {
+        return newTask;
+      }
+      return task;
+    });
+
+    const result = await Project.findByIdAndUpdate(
+      id,
+      { tasks: newTaskArray },
+      { new: true }
+    ).populate({
+      path: 'tasks.assignedMembers',
+      select: 'id name email imageUrl',
+    });
+    return res.status(200).json({ msg: 'success' });
+  } catch (error) {
+    console.log(error);
+    if (error.name === 'ValidationError') {
+      errorMsg = Object.values(error.errors)
+        .map((e) => e.message)
+        .join(', ');
+    }
+    res.status(500).json({ error: error });
+  }
+};
+
+export {
+  createProject,
+  getProjects,
+  getProject,
+  updateProject,
+  updateProjectTasks,
+};

@@ -34,12 +34,17 @@ const ProjectSchema = new mongoose.Schema(
           },
           assignedMembers: {
             type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User',
           },
           documentUrls: {
             type: [String],
           },
           progress: {
             type: Number,
+          },
+          description: {
+            type: String,
+            default: '',
           },
         },
       ],

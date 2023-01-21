@@ -28,8 +28,10 @@ export class ViewTaskComponent implements OnInit {
   faUserGroup = faUserGroup;
   dialogRef: MatDialogRef<DialogAssignTaskMembersComponent>;
   attachments: File[] = [];
+  isLoading: boolean = false;
   constructor(
     private dialog: MatDialog,
+    private dialogRefViewTask: MatDialogRef<ViewTaskComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       projectId: string;
@@ -92,7 +94,9 @@ export class ViewTaskComponent implements OnInit {
     // ) {
     //   return;
     // }
-
+    if (!event.target.files[0]) {
+      return;
+    }
     if (event.target.files && event.target.files.length) {
       var fr = new FileReader();
       // fr.onload = () => {
@@ -111,11 +115,37 @@ export class ViewTaskComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
-    this.dashBoardService.updateProjectTask(
-      this.data.projectId,
-      { ...form.value, ...this.data.task },
-      this.attachments
+    this.isLoading = true;
+    this.dashBoardService
+      .updateProjectTask(
+        this.data.projectId,
+        { ...this.data.task, ...form.value },
+        this.attachments
+      )
+      .subscribe((res) => {
+        console.log(res);
+        this.isLoading = false;
+        this.dialogRefViewTask.close();
+      });
+  }
+
+  downloadFile(fileUrl: string) {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', fileUrl);
+    link.setAttribute('download', 'file');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  onFileDeleteURL(fileUrl: string) {
+    this.data.task.documentUrls = this.data.task.documentUrls.filter(
+      (file) => file !== fileUrl
     );
+  }
+
+  onFileDelete(file: File) {
+    this.attachments = this.attachments.filter((f) => f !== file);
   }
 }

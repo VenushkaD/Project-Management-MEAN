@@ -6,6 +6,7 @@ import {
   getProject,
   getProjects,
   updateProject,
+  updateProjectTasks,
 } from '../controllers/projectController.js';
 
 const storage = multer.diskStorage({
@@ -33,8 +34,18 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
+const storageMultiple = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/projects/files');
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1];
+    cb(null, uuidv4() + Date.now() + '---' + file.originalname);
+  },
+});
+
 const uploadFiles = multer({
-  storage: storage,
+  storage: storageMultiple,
 });
 
 const router = express.Router();
@@ -47,10 +58,10 @@ router
 router
   .route('/:id')
   .get(getProject)
-  .patch(
-    upload.single('projectImage'),
-    uploadFiles.array('taskFiles'),
-    updateProject
-  );
+  .patch(uploadFiles.single('projectImage'), updateProject);
+
+router
+  .route('/task/:id')
+  .patch(uploadFiles.array('taskFiles'), updateProjectTasks);
 
 export default router;

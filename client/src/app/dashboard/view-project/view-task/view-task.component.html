@@ -1,7 +1,8 @@
 <div style="background-color: white; overflow-y: auto">
+  <mat-spinner *ngIf="isLoading" style="margin: auto"></mat-spinner>
   <form
-    md-dialog-content
-    style="display: grid; padding: 20px; max-height: 600px"
+    *ngIf="!isLoading"
+    style="display: grid; padding: 10px; max-height: 700px"
     #form="ngForm"
     (submit)="onSubmit(form)"
   >
@@ -33,7 +34,7 @@
         </div>
 
         <textarea
-          rows="3"
+          rows="2"
           (keydown)="textAreaEnter($event)"
           placeholder="Add Description"
           name="description"
@@ -82,9 +83,15 @@
               }}
             </h4>
             <div>
-              <h5>{{ attachment.name }}</h5>
+              <h5>{{ attachment.name.split(".")[0] }}</h5>
               <p
-                style="text-decoration: underline; font-size: 12px; color: grey"
+                style="
+                  text-decoration: underline;
+                  font-size: 12px;
+                  color: grey;
+                  cursor: pointer;
+                "
+                (click)="onFileDelete(attachment)"
               >
                 Delete
               </p>
@@ -107,15 +114,37 @@
                 color: grey;
               "
             >
-              {{ attachment.split(".")[1] || attachment.split(".")[0] }}
+              {{
+                attachment.split("---")[1].split(".")[1] ||
+                  attachment.split(".")[0]
+              }}
             </h4>
             <div>
-              <h5>{{ attachment.split(".")[0] }}</h5>
-              <p
-                style="text-decoration: underline; font-size: 12px; color: grey"
-              >
-                Delete
-              </p>
+              <h5>{{ attachment.split("---")[1].split(".")[0] }}</h5>
+              <div style="display: flex; gap: 5px">
+                <p
+                  style="
+                    text-decoration: underline;
+                    font-size: 12px;
+                    color: grey;
+                    cursor: pointer;
+                  "
+                  (click)="downloadFile(attachment)"
+                >
+                  Download
+                </p>
+                <p
+                  style="
+                    text-decoration: underline;
+                    font-size: 12px;
+                    color: grey;
+                    cursor: pointer;
+                  "
+                  (click)="onFileDeleteURL(attachment)"
+                >
+                  Delete
+                </p>
+              </div>
             </div>
           </div>
         </div>
