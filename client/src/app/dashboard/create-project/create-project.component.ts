@@ -7,6 +7,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Project } from '../Project';
 import { DashboardService } from '../dashboard.service';
 import { catchError, throwError } from 'rxjs';
+import { getImageURL } from 'src/app/utils/getImageUrl';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -17,6 +18,8 @@ export class CreateProjectComponent implements OnInit {
   faXmark = faXmark;
   formError = false;
   formErrorMessage = 'Please fill all the fields';
+  pickedImageFromFiles = false;
+  getImageURL = getImageURL;
 
   imagePicked = '';
   imageFile: File | null = null;
@@ -201,6 +204,10 @@ export class CreateProjectComponent implements OnInit {
   }
 
   handleFileInput(event: any) {
+    if (!event.target.files[0]) {
+      return;
+    }
+    this.pickedImageFromFiles = true;
     if (
       event.target.files[0].type !== 'image/png' &&
       event.target.files[0].type !== 'image/jpeg'

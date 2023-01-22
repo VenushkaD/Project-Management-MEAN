@@ -27,7 +27,16 @@
       ></textarea>
       <label for="upload" #pickImage class="pick-image">
         <p *ngIf="!imagePicked">Pick Image</p>
-        <img [src]="imagePicked" alt="Project Image" *ngIf="imagePicked" />
+        <img
+          [src]="getImageURL(imagePicked)"
+          alt="Project Image"
+          *ngIf="imagePicked && !pickedImageFromFiles"
+        />
+        <img
+          [src]="imagePicked"
+          alt="Project Image"
+          *ngIf="imagePicked && pickedImageFromFiles"
+        />
         <input
           type="file"
           id="upload"
