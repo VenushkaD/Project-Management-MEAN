@@ -79,11 +79,11 @@ const getProjects = async (req, res) => {
         select: 'id name email imageUrl',
       })
       .select('-description -createdAt -updatedAt -__v');
-    result = result.sort('createdAt');
+    // result = result.sort('createdAt');
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 6;
     const skip = (page - 1) * limit;
-    result = result.skip(skip).limit(limit).sort({ createdAt: -1 });
+    result = result.skip(skip).limit(limit).sort({ updatedAt: -1 });
     const projects = await result;
     const totalProjects = await Project.countDocuments(query);
     // .where('members')

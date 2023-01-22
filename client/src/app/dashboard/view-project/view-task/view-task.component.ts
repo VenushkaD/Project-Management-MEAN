@@ -30,6 +30,7 @@ export class ViewTaskComponent implements OnInit {
   dialogRef: MatDialogRef<DialogAssignTaskMembersComponent>;
   attachments: File[] = [];
   isLoading: boolean = false;
+  documentUrls: string[] = [];
   getImageURL = getImageURL;
   constructor(
     private dialog: MatDialog,
@@ -45,6 +46,7 @@ export class ViewTaskComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+    this.documentUrls = [...this.data.task.documentUrls];
   }
 
   textAreaEnter(event: any) {
@@ -142,6 +144,7 @@ export class ViewTaskComponent implements OnInit {
     this.data.task.documentUrls = this.data.task.documentUrls.filter(
       (file) => file !== fileUrl
     );
+    this.documentUrls = this.documentUrls.filter((file) => file !== fileUrl);
   }
 
   onFileDelete(file: File) {
