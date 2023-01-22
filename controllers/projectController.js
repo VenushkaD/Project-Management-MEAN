@@ -358,7 +358,6 @@ const updateProjectTasks = async (req, res) => {
     io.emit('project-updated', result);
     return res.status(200).json({ msg: 'success' });
   } catch (error) {
-    console.log(error);
     if (error.name === 'ValidationError') {
       errorMsg = Object.values(error.errors)
         .map((e) => e.message)
