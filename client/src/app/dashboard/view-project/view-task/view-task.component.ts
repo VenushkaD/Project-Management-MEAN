@@ -71,10 +71,7 @@ export class ViewTaskComponent implements OnInit {
       return;
     }
     this.dialogRef = this.dialog.open(DialogAssignTaskMembersComponent, {
-      position: { bottom: '5%' },
-      role: 'dialog',
-      disableClose: false,
-      hasBackdrop: false,
+      panelClass: 'dialog-task-assign-members',
       data: {
         members: this.data.members,
         assignedMembers: this.data.task.assignedMembers,

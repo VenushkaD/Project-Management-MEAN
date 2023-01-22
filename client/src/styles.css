@@ -70,3 +70,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: white!important;
     color: black!important;
 }
+
+.mat-progress-bar-buffer{
+    background-color: rgb(202, 200, 200)!important;
+}

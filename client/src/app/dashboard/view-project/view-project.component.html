@@ -60,13 +60,14 @@
                   border-radius: 10px;
                   cursor: pointer;
                   padding: 10px;
+                  font-size: 16px;
                 "
                 (click)="openDialog(task)"
               >
                 {{ task.name }}
               </p>
               <mat-progress-bar
-                color="accent"
+                color="primary"
                 mode="determinate"
                 [value]="task.progress"
               ></mat-progress-bar>

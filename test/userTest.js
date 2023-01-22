@@ -11,9 +11,9 @@ suite('Test Server User Routes', () => {
   setup(async () => {
     mongoose.connect(process.env.MONGO_URL_TEST);
     // Create any objects that we might need
-    await User.deleteMany({});
   });
-  test('Test Post /api/auth (Register)', () => {
+  test('Test Post /api/auth (Register)', async () => {
+    await User.deleteMany({});
     chai
       .request(app)
       .post('/api/auth/register')

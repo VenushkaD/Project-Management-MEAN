@@ -219,7 +219,6 @@ const updateProject = async (req, res) => {
             (t) => t.name?.toLowerCase() === task.name?.toLowerCase()
           );
           if (newTask) {
-            console.log('task1', newTask);
             return {
               description: newTask.description,
               assignedMembers: newTask.assignedMembers,
@@ -234,6 +233,18 @@ const updateProject = async (req, res) => {
         });
       }
     }
+
+    tasksArray.forEach((task) => {
+      task.assignedMembers = task.assignedMembers?.filter((member) => {
+        const memberFound = query.members.find(
+          (m) => m.toString() === member.toString()
+        );
+        if (memberFound) {
+          return member;
+        }
+      });
+    });
+
     let project = await Project.findByIdAndUpdate(
       id,
       { ...query, tasks: tasksArray },
@@ -304,6 +315,16 @@ const updateProjectTasks = async (req, res) => {
     // if (!task) {
     //   return res.status(404).json({ error: 'Project not found' });
     // }
+
+    task.tasks.forEach((task) => {
+      task.documentUrls.forEach((url) => {
+        if (!documentUrlsStringArray.includes(url)) {
+          let filePath = url.split('/').pop();
+          fs.unlinkSync(filePath);
+        }
+      });
+    });
+
     const newTask = {
       _id: taskId,
       name,
@@ -320,7 +341,7 @@ const updateProjectTasks = async (req, res) => {
       return task;
     });
 
-    const result = await Project.findByIdAndUpdate(
+    let result = await Project.findByIdAndUpdate(
       id,
       { tasks: newTaskArray },
       { new: true }
@@ -328,6 +349,13 @@ const updateProjectTasks = async (req, res) => {
       path: 'tasks.assignedMembers',
       select: 'id name email imageUrl',
     });
+
+    result = await (
+      await result.populate('members', 'id name email imageUrl')
+    ).populate('createdBy', 'id name email imageUrl');
+
+    const io = app.get('io');
+    io.emit('project-updated', result);
     return res.status(200).json({ msg: 'success' });
   } catch (error) {
     console.log(error);
