@@ -13,10 +13,10 @@ suite('Test Server Project Routes', () => {
     // Create any objects that we might
     mongoose.connect(process.env.MONGO_URL_TEST);
     // await Project.deleteMany({});
-    await User.deleteMany({});
   });
 
-  test('Test Post /api/project (Add Project)', () => {
+  test('Test Post /api/project (Add Project)', async () => {
+    await User.deleteMany({});
     chai
       .request(app)
       .post('/api/auth/register')
