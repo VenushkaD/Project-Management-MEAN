@@ -286,7 +286,6 @@ const updateProjectTasks = async (req, res) => {
     assignedMembers,
     documentUrls: documentUrlsString,
   } = req.body;
-  console.log(progress);
   if (!name) {
     return res.status(400).json({ error: 'Please fill the name field' });
   }
@@ -315,12 +314,12 @@ const updateProjectTasks = async (req, res) => {
     // if (!task) {
     //   return res.status(404).json({ error: 'Project not found' });
     // }
-
     task.tasks.forEach((task) => {
       task.documentUrls.forEach((url) => {
         if (!documentUrlsStringArray.includes(url)) {
-          let filePath = url.split('/').pop();
-          fs.unlinkSync(filePath);
+          const filePath = url.split('/').splice(3).join('/');
+          console.log(filePath);
+          fs.unlink(filePath, (err) => console.log(err));
         }
       });
     });
