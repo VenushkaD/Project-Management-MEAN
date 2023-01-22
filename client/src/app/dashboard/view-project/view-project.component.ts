@@ -88,6 +88,9 @@ export class ViewProjectComponent implements OnInit {
   openDialog(task: Task) {
     this.dialog.open(ViewTaskComponent, {
       width: '700px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      panelClass: 'custom-dialog-container',
       autoFocus: false,
       data: {
         projectId: this.project._id,

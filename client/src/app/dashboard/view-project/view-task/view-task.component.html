@@ -1,8 +1,11 @@
-<div style="background-color: white; overflow-y: auto">
+<div
+  mat-dialog-content
+  style="background-color: white; overflow-y: auto; max-height: 100% !important"
+>
   <mat-spinner *ngIf="isLoading" style="margin: auto"></mat-spinner>
   <form
     *ngIf="!isLoading"
-    style="display: grid; padding: 10px; max-height: 700px"
+    style="display: grid"
     #form="ngForm"
     (submit)="onSubmit(form)"
   >
