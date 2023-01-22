@@ -47,6 +47,7 @@ input{
     padding: 10px 15px;
     background-color: #D9D9D9;
     border-radius: 10px;
+    font-size: 17px;
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
 }
 
@@ -98,7 +99,7 @@ a{
     }
 
     form{
-        /* width: 80%; */
+        width: 95%;
         margin: auto;
     }
     .container > img {
@@ -106,7 +107,7 @@ a{
     }
 
     input{
-        font-size: 12px;
+        font-size: 15px;
     }
 
     
@@ -130,7 +131,7 @@ a{
     }
 
     .btn,p,a,input{
-        font-size: 11px;
+        font-size: 13px;
     }
 }
     

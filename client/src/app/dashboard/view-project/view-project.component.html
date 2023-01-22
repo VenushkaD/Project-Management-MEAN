@@ -34,7 +34,7 @@
             [icon]="faBars"
             (click)="toggleMenu()"
           ></fa-icon>
-          <h2>{{ project.title }}</h2>
+          <h2 class="project-title">{{ project.title }}</h2>
         </div>
         <div class="row">
           <fa-icon [icon]="faClock"></fa-icon>
@@ -76,7 +76,7 @@
           </ul>
         </div>
       </div>
-      <div class="edit-icon" (click)="onEditClick()">
+      <div class="edit-icon" (click)="onEditClick()" style="font-size: 40px">
         <fa-icon [icon]="faPenSquare"></fa-icon>
       </div>
       <div class="completed" *ngIf="project.completed">

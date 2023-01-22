@@ -312,8 +312,6 @@ const updateProjectTasks = async (req, res) => {
     }
     const task = await Project.findById(id);
     // if (!task) {
-    //   return res.status(404).json({ error: 'Project not found' });
-    // }
     task.tasks.forEach((task) => {
       task.documentUrls.forEach((url) => {
         if (!documentUrlsStringArray.includes(url)) {
@@ -323,6 +321,8 @@ const updateProjectTasks = async (req, res) => {
         }
       });
     });
+    //   return res.status(404).json({ error: 'Project not found' });
+    // }
 
     const newTask = {
       _id: taskId,
