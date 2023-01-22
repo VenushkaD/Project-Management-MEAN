@@ -38,6 +38,7 @@ export class DialogAssignTaskMembersComponent {
   ngOnInit(): void {
     console.log(this.data.members);
     this.assignedMembers = this.data.assignedMembers;
+    this.result = this.data.members;
   }
 
   checkIsMember(id: string): boolean {

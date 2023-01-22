@@ -7,6 +7,7 @@
     <fa-icon [icon]="faXmark" (click)="closeDialog()"></fa-icon>
   </div>
   <p class="type-to-search">Type to search</p>
+
   <ng-scrollbar>
     <ul class="content">
       <li
@@ -19,5 +20,8 @@
       </li>
     </ul>
   </ng-scrollbar>
+  <p style="font-size: 10px; margin-bottom: 8px; font-weight: 100">
+    *note: to assign a member to a task please add them to the project first
+  </p>
   <button type="button" (click)="submitDialog()">Submit</button>
 </div>
