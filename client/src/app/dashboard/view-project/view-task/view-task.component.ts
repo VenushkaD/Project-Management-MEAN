@@ -132,7 +132,7 @@ export class ViewTaskComponent implements OnInit {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
     link.setAttribute('href', getImageURL(fileUrl));
-    link.setAttribute('download', 'file');
+    link.setAttribute('download', fileUrl.split('---')[1].split('.')[0]);
     document.body.appendChild(link);
     link.click();
     link.remove();
