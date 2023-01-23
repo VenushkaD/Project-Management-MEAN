@@ -26,6 +26,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AuthClientModule } from './auth-client.module';
 import { ViewTaskComponent } from './view-project/view-task/view-task.component';
 import { DialogAssignTaskMembersComponent } from './view-project/dialog-assign-task-members/dialog-assign-task-members.component';
+import { MemberComponent } from './view-project/view-task/member/member.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DialogAssignTaskMembersComponent } from './view-project/dialog-assign-t
     HeaderComponent,
     ViewTaskComponent,
     DialogAssignTaskMembersComponent,
+    MemberComponent,
   ],
   imports: [
     CommonModule,

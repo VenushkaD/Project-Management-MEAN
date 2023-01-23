@@ -94,7 +94,7 @@ export class ViewProjectComponent implements OnInit {
       autoFocus: false,
       data: {
         projectId: this.project._id,
-        task,
+        task: { ...task },
         members: this.project.members,
       },
     });

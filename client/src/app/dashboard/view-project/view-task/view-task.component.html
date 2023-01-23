@@ -10,15 +10,22 @@
     (submit)="onSubmit(form)"
   >
     <div style="display: grid; gap: 30px">
-      <div style="display: flex; gap: 8px; align-items: center">
-        <fa-icon [icon]="faFile"></fa-icon>
-        <textarea
-          rows="1"
-          style="font-size: 20px; font-weight: bold; margin: 0; width: 100%"
-          (keydown)="textAreaEnter($event)"
-          name="name"
-          [ngModel]="data.task.name"
-        ></textarea>
+      <div style="display: flex; justify-content: space-between">
+        <div style="display: flex; gap: 8px; align-items: center">
+          <fa-icon [icon]="faFile"></fa-icon>
+          <textarea
+            rows="1"
+            style="font-size: 20px; font-weight: bold; margin: 0; width: 100%"
+            (keydown)="textAreaEnter($event)"
+            name="name"
+            [ngModel]="data.task.name"
+          ></textarea>
+        </div>
+        <fa-icon
+          [icon]="faClose"
+          style="font-size: 20px; cursor: pointer"
+          (click)="dialogRefViewTask.close()"
+        ></fa-icon>
       </div>
 
       <!-- <button>Edit</button> -->
@@ -171,39 +178,11 @@
         <div
           style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center"
         >
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              gap: 10px;
-              justify-content: center;
-            "
+          <app-member
+            [member]="member"
+            (deleteMember$)="deleteMember($event)"
             *ngFor="let member of data.task.assignedMembers"
-          >
-            <img
-              [src]="
-                getImageURL(member.imageUrl) ||
-                'assets/images/avatar-300x300.jpg'
-              "
-              alt=""
-              style="
-                width: 50px;
-                height: 50px;
-                object-fit: cover;
-                border-radius: 50%;
-                justify-self: center;
-                margin: 0 auto;
-              "
-            />
-            <button
-              class="btn"
-              style="font-size: 12px"
-              type="button"
-              (click)="deleteMember(member)"
-            >
-              Delete
-            </button>
-          </div>
+          ></app-member>
           <div style="display: flex; flex-direction: column; gap: 10px">
             <h1
               *ngIf="data.task.assignedMembers.length === 0"

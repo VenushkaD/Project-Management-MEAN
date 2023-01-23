@@ -10,6 +10,7 @@ import {
   faBarsStaggered,
   faPaperclip,
   faUserGroup,
+  faClose,
 } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/auth/user.model';
 import { Task } from 'src/app/models/task.model';
@@ -27,19 +28,21 @@ export class ViewTaskComponent implements OnInit {
   faBarsStaggered = faBarsStaggered;
   faPaperclip = faPaperclip;
   faUserGroup = faUserGroup;
+  faClose = faClose;
   dialogRef: MatDialogRef<DialogAssignTaskMembersComponent>;
   attachments: File[] = [];
   isLoading: boolean = false;
   documentUrls: string[] = [];
+  showPopup: boolean = false;
   getImageURL = getImageURL;
   constructor(
     private dialog: MatDialog,
-    private dialogRefViewTask: MatDialogRef<ViewTaskComponent>,
+    public dialogRefViewTask: MatDialogRef<ViewTaskComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       projectId: string;
       task: Task;
-      members: User;
+      members: User[];
     },
     private dashBoardService: DashboardService
   ) {}
@@ -75,8 +78,8 @@ export class ViewTaskComponent implements OnInit {
     this.dialogRef = this.dialog.open(DialogAssignTaskMembersComponent, {
       panelClass: 'dialog-task-assign-members',
       data: {
-        members: this.data.members,
-        assignedMembers: this.data.task.assignedMembers,
+        members: [...this.data.members],
+        assignedMembers: [...this.data.task.assignedMembers],
       },
     });
     this.dialogRef.afterClosed().subscribe((result: User[]) => {

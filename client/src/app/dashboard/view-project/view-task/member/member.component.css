@@ -1,0 +1,24 @@
+.btn{
+    color: white;
+    background-color: #D9D9D9;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    background-color: #6E7B84;
+}
+
+.popup-member{
+    position: absolute;
+    top: -60px;
+    background-color: rgb(223, 223, 223);
+    /* box-shadow: 0 0 2px 2px rgb(0, 0, 0,0.1); */
+    padding: 10px;
+    border-radius: 5px;
+
+}
+
+.popup-member h5{
+    font-weight: normal;
+}
