@@ -1,6 +1,6 @@
 <div class="container">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form *ngIf="!isLoading" [formGroup]="createForm" (submit)="onSubmit()">
+  <form *ngIf="!isLoading" #form="ngForm" (submit)="onSubmit()">
     <h3>{{ editMode ? "Edit project" : "Create Project" }}</h3>
     <div class="error-msg" [ngClass]="[formError ? 'error-msg-show' : '']">
       {{ formErrorMessage }}
@@ -13,17 +13,12 @@
           {{ editMode ? "Update" : "Create" }}
         </button>
       </div>
-      <input
-        type="text"
-        placeholder="Title"
-        [ngClass]="[]"
-        formControlName="title"
-      />
+      <input type="text" placeholder="Title" name="title" ngModel />
       <textarea
         type="text"
         placeholder="Description"
-        [ngClass]="[]"
-        formControlName="description"
+        name="description"
+        ngModel
       ></textarea>
       <label for="upload" #pickImage class="pick-image">
         <p *ngIf="!imagePicked">Pick Image</p>
@@ -40,7 +35,8 @@
         <input
           type="file"
           id="upload"
-          formControlName="image"
+          name="image"
+          ngModel
           accept="image/png, image/gif, image/jpeg"
           style="display: none"
           (change)="handleFileInput($event)"
@@ -55,38 +51,38 @@
       >
         Assign Members
       </button>
-      <input type="text" hidden formControlName="assignMembers" hidden />
+      <input type="text" hidden />
 
       <input
         class="date-picker"
         readonly
         (click)="picker.open()"
         [min]="date"
+        name="dueDate"
+        ngModel
         [matDatepicker]="picker"
         placeholder="Due Date"
-        formControlName="dueDate"
       />
       <mat-datepicker hidden #picker></mat-datepicker>
-      <div class="subtasks" formArrayName="subTasks">
+      <div class="subtasks">
         <div
           class="subtask"
           *ngFor="let subTask of subTaskControls; let i = index"
-          [formGroupName]="i"
         >
           <input
             type="text"
             class="form-control"
             id="imageUrl"
-            name="imageUrl"
-            formControlName="name"
+            name="name"
+            ngModel
             placeholder="{{ 'Task ' + (i + 1) + ' Name' }}"
           />
           <input
             type="text"
             class="form-control"
             id="imageUrl"
-            name="imageUrl"
-            formControlName="progress"
+            name="progress"
+            ngModel
             placeholder="Progress %"
           />
           <button type="button" class="btn" (click)="removeTasks(i)">
@@ -97,7 +93,8 @@
       </div>
       <mat-slide-toggle
         color="primary"
-        formControlName="completed"
+        name="completed"
+        ngModel
         [checked]="createForm.value.completed"
         >Completed</mat-slide-toggle
       >
