@@ -9,7 +9,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import connect from './db/connect.js';
 import morgan from 'morgan';
 import userRoutes from './routes/userRoutes.js';
-import authMiddleware from './middleware.js/auth.js';
+import authMiddleware from './middleware/auth.js';
 import { Server } from 'socket.io';
 import http from 'http';
 

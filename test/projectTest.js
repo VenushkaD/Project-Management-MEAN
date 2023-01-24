@@ -4,49 +4,73 @@ import server from '../server.js';
 import Project from '../model/User.js';
 import User from '../model/User.js';
 import mongoose from 'mongoose';
+import { getToken } from './common.test.js';
+import Mocha from 'mocha';
 
 chai.use(chaihttp);
 
-suite('Test Server Project Routes', () => {
-  const app = server;
-  setup(async () => {
-    // Create any objects that we might
-    mongoose.connect(process.env.MONGO_URL_TEST);
-    // await Project.deleteMany({});
-  });
+let token = null;
+const response = await getToken();
+token = response.body.token;
 
-  test('Test Post /api/project (Add Project)', async () => {
-    await User.deleteMany({});
+suite('Test Server Project Routes (Add Project)', () => {
+  const app = server;
+
+  test('All details present', async () => {
     chai
       .request(app)
-      .post('/api/auth/register')
+      .post('/api/project')
+      .set('Authorization', 'Bearer ' + token)
       .send({
-        name: 'test',
-        email: 'test@gmail.com',
-        password: 'secret',
+        title: 'New Project',
+        description: 'Lorem asdfgsgasgszxvxzvzxvzxvzxvxzvzvzxvzxvzxvzvzx',
+        dueDate: '2023-10-02',
       })
-      .end(async (err, res) => {
+      .end((err, res) => {
         const body = res.body;
-        token = body.token;
         chai.assert.equal(res.status, 201, 'Incorrect status code');
-        chai.assert.equal(body.msg, 'success', 'Incorrect message');
-        chai.assert.isNotNull(token, 'Token is null');
+      });
+  });
 
-        chai
-          .request(app)
-          .post('/api/project')
-          .set('Authorization', 'Bearer ' + token)
-          .send({
-            title: 'New Project',
-            description: 'Lorem asdfgsgasgszxvxzvzxvzxvzxvxzvzvzxvzxvzxvzvzx',
-            dueDate: '2023-10-02',
-          })
-          .end((err, res) => {
-            const body = res.body;
-            console.log(body);
-            chai.assert.equal(res.status, 201, 'Incorrect status code');
-            process.exit();
-          });
+  test('Title not present ', async () => {
+    chai
+      .request(app)
+      .post('/api/project')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        description: 'Lorem asdfgsgasgszxvxzvzxvzxvzxvxzvzvzxvzxvzxvzvzx',
+        dueDate: '2023-10-02',
+      })
+      .end((err, res) => {
+        chai.assert.equal(res.status, 400, 'Incorrect status code');
+      });
+  });
+
+  test('description not present ', async () => {
+    chai
+      .request(app)
+      .post('/api/project')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: 'New Project',
+        dueDate: '2023-10-02',
+      })
+      .end((err, res) => {
+        chai.assert.equal(res.status, 400, 'Incorrect status code');
+      });
+  });
+
+  test('dueDate not present ', async () => {
+    chai
+      .request(app)
+      .post('/api/project')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        title: 'New Project',
+        description: 'Lorem asdfgsgasgszxvxzvzxvzxvzxvxzvzvzxvzxvzxvzvzx',
+      })
+      .end((err, res) => {
+        chai.assert.equal(res.status, 400, 'Incorrect status code');
       });
   });
 });
