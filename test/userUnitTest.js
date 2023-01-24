@@ -37,6 +37,5 @@ suite('**********User functions test**********', async () => {
     });
     const output = await mockDoc.createToken();
     chai.expect(output).to.be.a('string');
-    process.exit();
   });
 });
