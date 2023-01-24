@@ -13,7 +13,7 @@ let token = null;
 const response = await getToken();
 token = response.body.token;
 
-suite('Test Server Project Routes (Add Project)', () => {
+suite('**********Test Project Routes (Add Project)*************', () => {
   const app = server;
 
   test('All details present', async () => {
