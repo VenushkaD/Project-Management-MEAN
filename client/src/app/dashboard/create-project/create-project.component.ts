@@ -8,6 +8,7 @@ import { Project } from '../Project';
 import { DashboardService } from '../dashboard.service';
 import { catchError, throwError } from 'rxjs';
 import { getImageURL } from 'src/app/utils/getImageUrl';
+import { Task } from 'src/app/models/task.model';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
@@ -46,6 +47,8 @@ export class CreateProjectComponent implements OnInit {
       if (id !== undefined) {
         console.log('edit mode');
         this.dashboardService.getProject(id).subscribe((res) => {
+          console.log(res.project);
+
           this.editMode = true;
           this.createdBy = res.project.createdBy._id;
           this.editData = {
@@ -88,13 +91,19 @@ export class CreateProjectComponent implements OnInit {
       completed = this.editData.completed;
       if (this.editData.subTasks.length > 0) {
         for (let subTask of this.editData.subTasks) {
+          console.log(subTask);
+
           subTasks.push(
             new FormGroup({
+              _id: new FormControl(subTask._id),
               name: new FormControl(subTask.name, Validators.required),
               progress: new FormControl(subTask.progress, [
                 Validators.min(0),
                 Validators.max(100),
               ]),
+              description: new FormControl(subTask.description),
+              documentUrls: new FormControl(subTask.documentUrls),
+              assignedMembers: new FormControl(subTask.assignedMembers),
             })
           );
         }
@@ -117,15 +126,16 @@ export class CreateProjectComponent implements OnInit {
   }
 
   onSubmit() {
-    // if (this.createForm.invalid) {
-    //   this.formError = true;
-    //   setTimeout(() => {
-    //     this.formError = false;
-    //     this.formErrorMessage = 'Please fill all the fields';
-    //   }, 3000);
-    //   return;
-    // }
+    if (this.createForm.invalid) {
+      this.formError = true;
+      setTimeout(() => {
+        this.formError = false;
+        this.formErrorMessage = 'Please fill all the fields';
+      }, 3000);
+      return;
+    }
     this.isLoading = true;
+    console.log(this.createForm.value);
     this.createForm.patchValue({
       assignMembers: [...this.members],
     });

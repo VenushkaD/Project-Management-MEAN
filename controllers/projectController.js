@@ -204,6 +204,7 @@ const updateProject = async (req, res) => {
           }
         });
         tasksArray = tasksParsed;
+        console.log(tasksArray);
       }
       if (members) {
         const membersParsed = JSON.parse(members);
@@ -212,27 +213,27 @@ const updateProject = async (req, res) => {
     }
 
     const results = await Project.findById(id);
-    if (tasksArray) {
-      if (result.tasks.length > 0) {
-        tasksArray = tasksArray.map((task) => {
-          const newTask = results.tasks.find(
-            (t) => t.name?.toLowerCase() === task.name?.toLowerCase()
-          );
-          if (newTask) {
-            return {
-              description: newTask.description,
-              assignedMembers: newTask.assignedMembers,
-              documentUrls: newTask.documentUrls,
-              _id: newTask._id,
-              name: task.name,
-              progress: task.progress,
-            };
-          } else {
-            return task;
-          }
-        });
-      }
-    }
+    // if (tasksArray) {
+    //   if (result.tasks.length > 0) {
+    //     tasksArray = tasksArray.map((task) => {
+    //       const newTask = results.tasks.find(
+    //         (t) => t.name?.toLowerCase() === task.name?.toLowerCase()
+    //       );
+    //       if (newTask) {
+    //         return {
+    //           description: task.description,
+    //           assignedMembers: task.assignedMembers,
+    //           documentUrls: newTask.documentUrls,
+    //           _id: newTask._id,
+    //           name: task.name,
+    //           progress: task.progress,
+    //         };
+    //       } else {
+    //         return task;
+    //       }
+    //     });
+    //   }
+    // }
 
     tasksArray.forEach((task) => {
       task.assignedMembers = task.assignedMembers?.filter((member) => {
