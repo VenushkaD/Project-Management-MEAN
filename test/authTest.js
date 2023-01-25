@@ -9,9 +9,9 @@ suite('***********Test Server Authentication Routes**************', () => {
   const app = server;
   setup(async () => {
     // Create any objects that we might need
-    await User.deleteMany({});
   });
   test('Test Post /api/auth (Register)', async () => {
+    await User.deleteMany({});
     chai
       .request(app)
       .post('/api/auth/register')
@@ -167,5 +167,21 @@ suite('***********Test Server Authentication Routes**************', () => {
         chai.assert.equal(res.status, 400, 'Incorrect status code');
         chai.assert.equal(body.msg, 'Invalid credentials', 'Incorrect message');
       });
+  });
+  test('Test Post /api/auth (Login) load test', () => {
+    for (let i = 0; i < 100; i++) {
+      chai
+        .request(app)
+        .post('/api/auth/login')
+        .send({
+          email: 'test@gmail.com',
+          password: 'secret',
+        })
+        .end(async (err, res) => {
+          const body = res.body;
+          chai.assert.equal(res.status, 200, 'Incorrect status code');
+          chai.assert.equal(body.msg, 'success', 'Incorrect message');
+        });
+    }
   });
 });
