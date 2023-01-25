@@ -4,10 +4,12 @@ import fs from 'fs';
 import path from 'path';
 import { resize } from '../image-upload/resize.js';
 import app from '../server.js';
+import { deleteFiles, deleteImage, uploadImage } from '../firebase.js';
 
 const createProject = async (req, res) => {
   const { title, description, members, dueDate, tasks } = req.body;
   const { id: user_id } = req.user;
+  console.log(req.file);
   if (!title || !description || !dueDate) {
     return res.status(400).json({ error: 'Please fill all the fields' });
   }
@@ -31,16 +33,18 @@ const createProject = async (req, res) => {
     if (members) {
       membersParsed = JSON.parse(members);
     }
-    let imageUrl = '';
-    if (req.file) {
-      console.log(req.file);
-      imageUrl = await resize(req.file, 'projects');
-    }
+    // let imageUrl = '';
+    // if (req.file) {
+    //   console.log(req.file);
+    //   // imageUrl = await resize(req.file, 'projects');
+    //   // const storage = firebase.storage();
+    //   // await uploadImage(req);
+    // }
     let project = await Project.create({
       ...req.body,
       tasks: tasksParsed,
       members: membersParsed,
-      imageUrl,
+      imageUrl: req.file ? req.file : '',
       createdBy: user_id,
     });
     project = await project.populate('members', 'id name email imageUrl');
@@ -105,7 +109,6 @@ const getProjects = async (req, res) => {
 };
 
 const getProject = async (req, res) => {
-  console.log(req.params.id);
   const id = req.params.id.toString();
   if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
     return res.status(400).json({ error: 'Please provide valid project id' });
@@ -183,11 +186,13 @@ const updateProject = async (req, res) => {
 
     if (req.file) {
       if (result.imageUrl) {
-        let imagePath = result.imageUrl.split('/').pop();
-        imagePath = 'uploads\\\\projects\\\\' + imagePath;
-        fs.unlinkSync(imagePath);
+        // let imagePath = result.imageUrl.split('/').pop();
+        // imagePath = 'uploads\\\\projects\\\\' + imagePath;
+        // fs.unlinkSync(imagePath);
+        deleteImage(result.imageUrl);
       }
-      query.imageUrl = await resize(req.file, 'projects');
+      query.imageUrl = req.file;
+      // query.imageUrl = await resize(req.file, 'projects');
       // await sharp(req.file.path)
       //   .resize(200, 200)
       //   .jpeg({ quality: 90 })
@@ -235,7 +240,7 @@ const updateProject = async (req, res) => {
     //   }
     // }
 
-    tasksArray.forEach((task) => {
+    tasksArray?.forEach((task) => {
       task.assignedMembers = task.assignedMembers?.filter((member) => {
         const memberFound = query.members.find(
           (m) => m.toString() === member.toString()
@@ -306,8 +311,7 @@ const updateProjectTasks = async (req, res) => {
     const documentUrls = [];
     if (files) {
       for (let i = 0; i < files.length; i++) {
-        const documentUrl =
-          `http://localhost:${process.env.PORT}/` + files[i].path;
+        const documentUrl = files[i];
         documentUrls.push(documentUrl);
       }
     }
@@ -316,11 +320,10 @@ const updateProjectTasks = async (req, res) => {
     //   return res.status(404).json({ error: 'Project not found' });
     // }
     task.tasks.forEach((task) => {
-      task.documentUrls.forEach((url) => {
+      task.documentUrls.forEach(async (url) => {
         if (!documentUrlsStringArray.includes(url)) {
-          const filePath = url.split('/').splice(3).join('/');
-          console.log(filePath);
-          fs.unlink(filePath, (err) => console.log(err));
+          await deleteFiles(url);
+          // fs.unlink(filePath, (err) => console.log(err));
         }
       });
     });

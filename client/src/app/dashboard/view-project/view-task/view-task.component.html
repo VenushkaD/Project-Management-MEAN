@@ -124,10 +124,7 @@
                 color: grey;
               "
             >
-              {{
-                attachment.split("---")[1].split(".")[1] ||
-                  attachment.split(".")[0]
-              }}
+              {{ attachment.split(".").pop() }}
             </h4>
             <div>
               <h5>{{ attachment.split("---")[1].split(".")[0] }}</h5>

@@ -8,6 +8,7 @@ import {
   updateProject,
   updateProjectTasks,
 } from '../controllers/projectController.js';
+import { uploadImage, uploadFiles } from '../firebase.js';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -29,9 +30,9 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage: storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 3000 * 3000 * 5 },
-  fileFilter: fileFilter,
+  // fileFilter: fileFilter,
 });
 
 const storageMultiple = multer.diskStorage({
@@ -44,8 +45,8 @@ const storageMultiple = multer.diskStorage({
   },
 });
 
-const uploadFiles = multer({
-  storage: storageMultiple,
+const uploadFilesMulter = multer({
+  storage: multer.memoryStorage(),
 });
 
 const router = express.Router();
@@ -53,15 +54,15 @@ const router = express.Router();
 router
   .route('/')
   .get(getProjects)
-  .post(upload.single('projectImage'), createProject);
+  .post(upload.single('projectImage'), uploadImage, createProject);
 
 router
   .route('/:id')
   .get(getProject)
-  .patch(uploadFiles.single('projectImage'), updateProject);
+  .patch(upload.single('projectImage'), uploadImage, updateProject);
 
 router
   .route('/task/:id')
-  .patch(uploadFiles.array('taskFiles'), updateProjectTasks);
+  .patch(uploadFilesMulter.array('taskFiles'), uploadFiles, updateProjectTasks);
 
 export default router;
