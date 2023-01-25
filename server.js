@@ -21,7 +21,7 @@ app.use(
 
 app.use('/uploads', express.static(path.resolve(__dirname, './uploads')));
 
-if (process.env.NODE_ENV?.trim() !== 'production') {
+if (process.env.NODE_ENV?.trim() === 'development') {
   app.use(morgan('dev'));
 }
 
