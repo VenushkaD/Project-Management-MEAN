@@ -5,9 +5,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { UpdateComponent } from './update/update.component';
 import { HeaderComponent } from '../dashboard/header/header.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [LoginComponent, UpdateComponent],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, AuthRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AuthRoutingModule,
+    MatProgressSpinnerModule,
+  ],
 })
 export class AuthModule {}

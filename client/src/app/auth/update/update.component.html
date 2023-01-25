@@ -1,6 +1,10 @@
 <div class="container">
   <form [formGroup]="updateForm" (submit)="onSubmit()">
     <h3>My Profile</h3>
+    <mat-spinner
+      *ngIf="isLoading"
+      style="display: flex; margin: auto"
+    ></mat-spinner>
     <div class="inputs">
       <div class="input">
         <label for="">Name</label>

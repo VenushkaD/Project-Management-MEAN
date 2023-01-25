@@ -37,10 +37,8 @@ export class HomeComponent implements OnInit {
       .select('auth')
       .pipe(take(1))
       .subscribe((data) => {
-        console.log(data);
         userId = data.user._id;
       });
-    console.log(userId);
 
     this.socketService
       .listenToServer('project-added')

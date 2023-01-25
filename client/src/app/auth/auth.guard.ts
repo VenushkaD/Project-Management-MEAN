@@ -23,9 +23,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('inside auth guard');
-    console.log(this.auth.getAuthenticationStatus());
-
     if (
       !this.auth.getAuthenticationStatus() &&
       !(

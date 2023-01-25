@@ -1,8 +1,10 @@
 import Message from '../model/Message.js';
 import User from '../model/User.js';
+import app from '../server.js';
 
 const createMessage = async (req, res) => {
   const { text } = req.body;
+  if (!text) return res.status(400).json({ message: 'Message is required' });
   const user = req.user.id;
   const project = req.params.projectId;
   try {
@@ -16,6 +18,7 @@ const createMessage = async (req, res) => {
       },
       text: text.trim(),
       createdAt: new Date(),
+      projectId: project,
     };
     // const message = await Message.findOne({
     //   project: project,
@@ -37,9 +40,9 @@ const createMessage = async (req, res) => {
       },
       { safe: false, upsert: true }
     );
-
-    console.log(messageObject);
-    res.status(200).json(newMessage);
+    const io = app.get('io');
+    io.emit('message-added', messageObject);
+    res.status(200).json(messageObject);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);

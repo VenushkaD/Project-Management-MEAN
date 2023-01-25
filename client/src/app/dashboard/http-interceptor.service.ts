@@ -31,7 +31,6 @@ export class HTTPInterceptor implements HttpInterceptor {
             'Bearer ' + user.token
           ),
         });
-        console.log('modifiedReq', modifiedReq);
 
         return next.handle(modifiedReq);
       })

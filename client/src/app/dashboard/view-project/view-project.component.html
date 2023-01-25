@@ -61,7 +61,11 @@
           (click)="showChat = false"
         ></fa-icon>
       </div>
-      <app-chat class="col-2" style="background-color: #d9d9d9"></app-chat>
+      <app-chat
+        [projectId]="project._id"
+        class="col-2"
+        style="background-color: #d9d9d9"
+      ></app-chat>
     </div>
     <div
       *ngIf="!showChat"

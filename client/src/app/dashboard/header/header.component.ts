@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.select('auth').subscribe((authState) => {
       this.user = authState.user;
-      console.log(authState.user);
 
       if (this.user.imageUrl) {
         this.profileImage = getImageURL(this.user.imageUrl);

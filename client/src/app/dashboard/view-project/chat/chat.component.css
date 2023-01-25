@@ -4,12 +4,14 @@
     max-height: 80vh;
     overflow-y: auto;
     padding: 20px;
+    align-content: flex-start;
 }
 
 .chat{
     max-width: 400px;
     padding: 10px;
     border-radius: 5px;
+    height: fit-content;
 }
 
 .chat-receiver{
@@ -31,6 +33,7 @@
     justify-content: space-between;
     color: #707070;
     font-size: 11px;
+    gap: 20px;
 }
 
 .chat-member-name{
@@ -45,6 +48,7 @@
 }
 
 .chat-input{
+    display: flex!important;
     width: 100%;
     align-self: flex-end;
     display: flex;

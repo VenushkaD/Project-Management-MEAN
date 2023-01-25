@@ -13,6 +13,7 @@ import { Update } from '../store/auth.actions';
 })
 export class UpdateComponent implements OnInit {
   getImageURL = getImageURL;
+  isLoading = false;
   imagePicked = '';
   imageFile: File | null = null;
   updateForm = new FormGroup({
@@ -71,6 +72,7 @@ export class UpdateComponent implements OnInit {
     ) {
       return;
     }
+    this.isLoading = true;
     const name = this.updateForm.get('name').value;
     const email = this.updateForm.get('email').value;
 
@@ -82,6 +84,7 @@ export class UpdateComponent implements OnInit {
           console.log(res);
           this.store.dispatch(Update({ user: res.user }));
           this.authService.updateLocalStorage(res.user);
+          this.isLoading = false;
           this.router.navigate(['/']);
         });
       return;
@@ -94,6 +97,7 @@ export class UpdateComponent implements OnInit {
           console.log(res);
           this.store.dispatch(Update({ user: res.user }));
           this.authService.updateLocalStorage(res.user);
+          this.isLoading = false;
           this.router.navigate(['/']);
         });
       return;

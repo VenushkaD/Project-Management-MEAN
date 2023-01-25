@@ -36,8 +36,5 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     this.authService.autoLogin();
-    this.store.select('auth').subscribe((authState) => {
-      console.log('authState', authState);
-    });
   }
 }

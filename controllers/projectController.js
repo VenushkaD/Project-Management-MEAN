@@ -6,6 +6,7 @@ import { resize } from '../image-upload/resize.js';
 import app from '../server.js';
 import { deleteFiles, deleteImage, uploadImage } from '../firebase.js';
 import Message from '../model/Message.js';
+import User from '../model/User.js';
 
 const createProject = async (req, res) => {
   const { title, description, members, dueDate, tasks } = req.body;

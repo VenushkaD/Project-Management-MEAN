@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { API_URL } from '../const';
+import { Message } from '../models/message.model';
+import { Messages } from '../models/messages.model';
 import { Project } from '../models/project.model';
 import { Task } from '../models/task.model';
 @Injectable({
@@ -152,5 +154,15 @@ export class DashboardService {
       `${API_URL}/project/task/${id}`,
       formData
     );
+  }
+
+  getMessages(projectId: string) {
+    return this.http.get<Messages>(`${API_URL}/message/${projectId}`);
+  }
+
+  sendMessage(text: string, projectId: string) {
+    return this.http.post<Message>(`${API_URL}/message/${projectId}`, {
+      text,
+    });
   }
 }
