@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkProject_Management=self.webpackChunkProject_Management||[]).push([[592],{5696:(c,u,s)=>{s.d(u,{Q:()=>_});var r=s(2340);function _(n){if(r.N.production){let e="";for(let t=3;t<n.split("/").length;t++)e+=n.split("/")[t]+"/";return e="/"+e,e=e.slice(0,-1),e}return n}}}]);
