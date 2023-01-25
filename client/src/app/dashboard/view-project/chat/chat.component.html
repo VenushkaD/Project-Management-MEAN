@@ -20,7 +20,9 @@
         <div class="chat-member-details">
           <div class="chat-member-name" *ngIf="message.user._id !== userId">
             <img
-              [src]="message.user.imageUrl"
+              [src]="
+                message.user.imageUrl || '/assets/images/avatar-300x300.jpg'
+              "
               alt=""
               style="
                 width: 25px;
@@ -38,7 +40,7 @@
             <p>You</p>
           </div>
           <div class="chat-member-time">
-            <p>{{ moment(message.createdAt).format("HH:ss") }}</p>
+            <p>{{ moment(message.createdAt).format("HH:mm") }}</p>
           </div>
         </div>
         <div class="chat-text">
