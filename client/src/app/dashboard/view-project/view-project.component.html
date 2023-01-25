@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main" style="position: relative">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <div class="container" *ngIf="!isLoading">
     <div class="col-1" [ngClass]="showMenu ? 'col-1-show' : ''">
@@ -26,15 +26,68 @@
         </ng-scrollbar>
       </div>
     </div>
-    <div class="col-2" [ngClass]="showMenu ? 'col-2-hide' : ''">
+    <div *ngIf="showChat">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px;
+        "
+      >
+        <div
+          style="display: flex; gap: 10px; align-items: center"
+          class="project-title-mobile"
+        >
+          <fa-icon
+            class="menu-icon"
+            style="position: unset"
+            [icon]="faBars"
+            (click)="toggleMenu()"
+          ></fa-icon>
+          <h2 class="project-title" style="font-size: 18px">
+            {{ project.title }}
+          </h2>
+        </div>
+        <fa-icon
+          class="menu-icon"
+          style="
+            position: unset;
+            display: block;
+            justify-self: end;
+            margin-left: auto;
+          "
+          [icon]="faCommentSlash"
+          (click)="showChat = false"
+        ></fa-icon>
+      </div>
+      <app-chat class="col-2" style="background-color: #d9d9d9"></app-chat>
+    </div>
+    <div
+      *ngIf="!showChat"
+      class="col-2"
+      style="position: relative; padding-bottom: 50px"
+      [ngClass]="showMenu ? 'col-2-hide' : ''"
+    >
       <div class="content">
-        <div class="row">
+        <div class="row" style="align-items: center">
           <fa-icon
             class="menu-icon"
             [icon]="faBars"
             (click)="toggleMenu()"
           ></fa-icon>
           <h2 class="project-title">{{ project.title }}</h2>
+          <fa-icon
+            class="menu-icon"
+            style="
+              position: unset;
+              display: block;
+              justify-self: end;
+              margin-left: auto;
+            "
+            [icon]="faComment"
+            (click)="openChat()"
+          ></fa-icon>
         </div>
         <div class="row">
           <fa-icon [icon]="faClock"></fa-icon>
@@ -53,7 +106,7 @@
           <p *ngIf="project.tasks.length < 1">No tasks added...</p>
           <ul class="tasks">
             <li class="task" *ngFor="let task of project.tasks">
-              <p
+              <div
                 style="
                   background-color: white;
                   border: 1px solid rgb(0, 0, 0, 0.4);
@@ -61,23 +114,63 @@
                   cursor: pointer;
                   padding: 10px;
                   font-size: 16px;
+                  width: 170px;
                 "
                 (click)="openDialog(task)"
               >
-                {{ task.name }}
-              </p>
-              <mat-progress-bar
-                color="primary"
-                mode="determinate"
-                [value]="task.progress"
-              ></mat-progress-bar>
-              <p>{{ task.progress }}%</p>
+                <p>
+                  {{ task.name }}
+                </p>
+                <div
+                  *ngIf="task.documentUrls.length"
+                  style="
+                    display: flex;
+                    gap: 5px;
+                    font-size: 12px;
+                    margin-top: 7px;
+                  "
+                >
+                  <fa-icon [icon]="faPaperclip"></fa-icon>
+                  <p>{{ task.documentUrls.length }}</p>
+                </div>
+                <div
+                  *ngIf="task.assignedMembers.length"
+                  style="display: flex; gap: 5px; font-size: 12px"
+                >
+                  <fa-icon [icon]="faUserGroup"></fa-icon>
+                  <p>{{ task.assignedMembers.length }}</p>
+                </div>
+                <div
+                  style="
+                    font-size: 12px;
+                    background-color: rgb(200, 180, 139);
+                    color: white;
+                    padding: 5px;
+                    margin-top: 10px;
+                  "
+                >
+                  45 Days Left
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px">
+                <mat-progress-bar
+                  color="primary"
+                  mode="determinate"
+                  [value]="task.progress"
+                ></mat-progress-bar>
+                <p>{{ task.progress }}%</p>
+              </div>
             </li>
           </ul>
         </div>
       </div>
-      <div class="edit-icon" (click)="onEditClick()" style="font-size: 40px">
-        <fa-icon [icon]="faPenSquare"></fa-icon>
+      <div
+        class="edit-icon"
+        (click)="onEditClick()"
+        style="font-size: 30px; gap: 10px; display: flex; align-items: center"
+      >
+        <fa-icon [icon]="faTrash"></fa-icon>
+        <fa-icon [icon]="faPenToSquare"></fa-icon>
       </div>
       <div class="completed" *ngIf="project.completed">
         <fa-icon [icon]="faCircleCheck"></fa-icon>
@@ -86,7 +179,3 @@
     </div>
   </div>
 </div>
-
-<!-- <app-view-task></app-view-task> -->
-
-<!-- <button (click)="openDialog()">Open Dialog</button> -->

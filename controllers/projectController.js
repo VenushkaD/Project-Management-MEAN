@@ -5,6 +5,7 @@ import path from 'path';
 import { resize } from '../image-upload/resize.js';
 import app from '../server.js';
 import { deleteFiles, deleteImage, uploadImage } from '../firebase.js';
+import Message from '../model/Message.js';
 
 const createProject = async (req, res) => {
   const { title, description, members, dueDate, tasks } = req.body;
@@ -55,6 +56,7 @@ const createProject = async (req, res) => {
     });
     const io = app.get('io');
     io.emit('project-added', project);
+    await Message.create({ messages: [], project: project._id });
     res.status(201).json({ msg: 'success', project: project });
   } catch (error) {
     console.log(error);

@@ -9,6 +9,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import connect from './db/connect.js';
 import morgan from 'morgan';
 import userRoutes from './routes/userRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
 import authMiddleware from './middleware/auth.js';
 import { Server } from 'socket.io';
 import http from 'http';
@@ -68,9 +69,9 @@ app.get('/api', (req, res) => {
 });
 
 app.use('/api/user', authMiddleware, userRoutes);
-
 app.use('/api/auth', authRoutes);
 app.use('/api/project', authMiddleware, projectRoutes);
+app.use('/api/message', authMiddleware, messageRoutes);
 
 app.get('*', function (request, response) {
   response.sendFile(

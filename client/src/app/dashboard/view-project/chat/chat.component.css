@@ -1,0 +1,110 @@
+.chats{
+    display: grid;
+    gap: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.chat{
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.chat-receiver{
+    background-color: #373D46;
+}
+
+.chat-sender{
+    background-color: #A9B4C5;
+    justify-self: right;
+}
+
+.chat-sender .chat-text{
+    color: black;
+}
+
+
+.chat-member-details{
+    display: flex;
+    justify-content: space-between;
+    color: #707070;
+    font-size: 11px;
+}
+
+.chat-member-name{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.chat-text{
+    margin-top: 15px;
+    color: white;
+}
+
+.chat-input{
+    width: 100%;
+    align-self: flex-end;
+    display: flex;
+    border: 1px solid rgb(135, 135, 135,0.3);
+    border-radius: 5px;
+    margin: 12px 0 0  0;
+    position: sticky;
+}
+
+input{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 15px;
+}
+
+.btn-send{
+    background-color: #383838;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(122, 122, 122,0.5); 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(120, 120, 120); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(120, 120, 120); 
+  }
+
+@media screen and (max-width: 576px) {
+    .chat-member-details{
+        font-size: 10px;
+    }
+    .chat-text{
+       font-size: 14px;
+    }
+    .chat{
+        max-width: 240px;
+    }
+    img{
+        width: 18px!important;
+        height: 18px!important;
+    }
+}

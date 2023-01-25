@@ -16,6 +16,7 @@
   grid-template-columns: auto 1fr;
   border-radius: 10px;
   overflow: hidden;
+  position: relative;
 }
 
 .col-1{
@@ -83,7 +84,7 @@ ng-scrollbar ul{
 }
 
 .col-2 .content{
-    padding: 40px;
+    padding: 20px;
     display: grid;
     gap: 40px;
     font-size: 15px;
@@ -100,7 +101,7 @@ ng-scrollbar ul{
 
 .tasks{
     display: grid;
-    gap: 10px;
+    gap: 20px;
 }
 
 .task{
@@ -124,6 +125,7 @@ ng-scrollbar ul{
     right: 20px;
     font-size: 30px;
     cursor: pointer;
+    z-index: 1;
 }
 
 .completed{
@@ -141,15 +143,30 @@ ng-scrollbar ul{
 
 .menu-icon{
     display: none;
-    position: absolute;
+    /* position: absolute;
     left: 20px;
-    top: 20px;
+    top: 20px; */
     font-size: 25px;
     cursor: pointer;
 }
 
 .mat-progress-bar-buffer{
     background-color: #000!important;
+}
+
+.chat{
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    justify-content: center;
+    margin: 0 auto;
+    width: 90%!important;
+    height: 80vh; */
+}
+
+.project-title-mobile{
+    display: none!important;
 }
 
 
@@ -213,14 +230,22 @@ ng-scrollbar ul{
     }
     .col-2 h2{
         font-size: 18px;
-        margin-top: 20px;
+        /* margin-top: 20px; */
     }
 
     .menu-icon{
         display: block;
     }
     .project-title{
-        margin-top: 30px!important;
+        /* margin-top: 30px!important; */
+    }
+    .task{
+        grid-template-columns: auto;
+        
+    }
+    .project-title-mobile{
+        display: flex!important;
+        font-size: 18px!important;
     }
 }
 

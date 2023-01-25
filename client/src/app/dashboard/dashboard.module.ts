@@ -27,6 +27,7 @@ import { AuthClientModule } from './auth-client.module';
 import { ViewTaskComponent } from './view-project/view-task/view-task.component';
 import { DialogAssignTaskMembersComponent } from './view-project/dialog-assign-task-members/dialog-assign-task-members.component';
 import { MemberComponent } from './view-project/view-task/member/member.component';
+import { ChatComponent } from './view-project/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MemberComponent } from './view-project/view-task/member/member.componen
     ViewTaskComponent,
     DialogAssignTaskMembersComponent,
     MemberComponent,
+    ChatComponent,
   ],
   imports: [
     CommonModule,

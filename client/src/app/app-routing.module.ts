@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
+import { ChatComponent } from './dashboard/view-project/chat/chat.component';
 import { LandingComponent } from './landing/landing.component';
 
 const appRoutes: Routes = [
@@ -17,6 +18,10 @@ const appRoutes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'chat',
+    component: ChatComponent,
   },
 ];
 

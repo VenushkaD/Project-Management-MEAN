@@ -11,6 +11,12 @@ import {
   faClose,
   faCircleCheck,
   faUserShield,
+  faTrash,
+  faPaperclip,
+  faUserGroup,
+  faPenToSquare,
+  faCommentSlash,
+  faComment,
 } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
 import { catchError, take, tap } from 'rxjs';
@@ -20,6 +26,7 @@ import { Task } from 'src/app/models/task.model';
 import { getImageURL } from 'src/app/utils/getImageUrl';
 import { DashboardService } from '../dashboard.service';
 import { SocketService } from '../socket.service';
+import { ChatComponent } from './chat/chat.component';
 import { ViewTaskComponent } from './view-task/view-task.component';
 
 @Component({
@@ -30,17 +37,24 @@ import { ViewTaskComponent } from './view-task/view-task.component';
 export class ViewProjectComponent implements OnInit {
   getImageURL = getImageURL;
   faPeopleGroup = faPeopleGroup;
+  faUserGroup = faUserGroup;
   faClock = faClock;
+  faTrash = faTrash;
+  faPenToSquare = faPenToSquare;
   faFileLines = faFileLines;
   faListCheck = faListCheck;
   faPenSquare = faPenSquare;
   faBars = faBars;
   faClose = faClose;
+  faPaperclip = faPaperclip;
   faCircleCheck = faCircleCheck;
   faUserShield = faUserShield;
+  faCommentSlash = faCommentSlash;
+  faComment = faComment;
   showMenu = false;
   isLoading = false;
   project: Project;
+  showChat = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -98,5 +112,12 @@ export class ViewProjectComponent implements OnInit {
         members: this.project.members,
       },
     });
+  }
+
+  openChat() {
+    this.showChat = true;
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 1);
   }
 }

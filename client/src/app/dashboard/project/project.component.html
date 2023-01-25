@@ -18,7 +18,23 @@
         <li *ngIf="project.tasks.length > 3">....More</li>
       </ul>
       <div class="project-details">
-        <div class="due">{{ "Due: " + slicedDate }}</div>
+        <div
+          *ngIf="project.completed"
+          class="due"
+          style="background-color: rgb(77, 162, 109); color: white"
+        >
+          Completed
+        </div>
+        <div
+          *ngIf="daysLeft < 7 && !project.completed"
+          class="due"
+          style="background-color: rgb(196, 79, 79); color: white"
+        >
+          {{ daysLeft }} days left
+        </div>
+        <div *ngIf="daysLeft > 7 && !project.completed" class="due">
+          {{ "Due: " + slicedDate }}
+        </div>
         <div class="members">
           <div *ngFor="let member of membersArray()">
             <img
