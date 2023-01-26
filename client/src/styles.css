@@ -84,3 +84,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .chat-dialog{
     padding: 0px!important;
 }
+
+.mat-progress-bar-fill::after{
+    background-color: #a8a8a8!important;
+}

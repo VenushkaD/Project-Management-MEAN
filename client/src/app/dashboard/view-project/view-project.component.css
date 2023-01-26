@@ -102,7 +102,7 @@ ng-scrollbar ul{
 
 .tasks{
     display: grid;
-    gap: 20px;
+    gap: 30px;
 }
 
 .task{
@@ -185,6 +185,12 @@ fa-icon{
 .btn fa-icon{
     color: white!important;
 }
+
+mat-progress-bar{
+    height: 15px!important;
+}
+
+
 
 @media screen and (max-width: 700px){
     .container{

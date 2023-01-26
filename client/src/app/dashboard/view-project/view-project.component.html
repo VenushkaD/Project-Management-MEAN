@@ -150,11 +150,14 @@
                 <div
                   style="
                     font-size: 12px;
-
-                    color: white;
+                    background-color: white;
+                    color: black;
                     padding: 5px;
                     margin-top: 10px;
                   "
+                  [ngStyle]="{
+                    color: task.cover ? 'black' : 'black'
+                  }"
                 >
                   {{ daysLeft(task.dueDate) + " Days left" }}
                 </div>
