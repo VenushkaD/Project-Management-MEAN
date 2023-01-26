@@ -42,6 +42,7 @@ textarea{
     padding: 10px 15px;
     height: 80px;
     background-color: white;
+    font-size: 15px;
 }
 
 input,textbox-n{
@@ -49,6 +50,7 @@ input,textbox-n{
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    font-size: 15px;
 }
 
 textbox-n{
@@ -140,6 +142,7 @@ a{
     text-align: left;
     padding: 0 15px;
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    font-size: 15px;
 }
 
 .pick-image >img{
@@ -194,7 +197,7 @@ a{
     }
 
     input{
-        font-size: 12px;
+        font-size: 15px;
     }
 
     
@@ -214,7 +217,7 @@ a{
     }
 
     .btn,p,a,input{
-        font-size: 13px;
+        font-size: 15px;
     }
     .btns{
         justify-content: center;
@@ -233,7 +236,7 @@ a{
     }
 
     .btn,p,a,input{
-        font-size: 11px;
+        font-size: 15px;
     }
     
 }

@@ -169,7 +169,9 @@ export class ViewTaskComponent implements OnInit {
     console.log(form.value);
     console.log(this.formArray.value);
     console.log(this.attachments);
-
+    if (form.invalid) {
+      return;
+    }
     this.isLoading = true;
     this.dashBoardService
       .updateProjectTask(

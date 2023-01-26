@@ -166,9 +166,12 @@ export class DashboardService {
       formData.append('checkList', JSON.stringify(checkList));
     }
 
-    formData.append('cover', task.cover);
-
-    formData.append('dueDate', task.dueDate.toString());
+    if (task.cover) {
+      formData.append('cover', task.cover);
+    }
+    if (task.dueDate) {
+      formData.append('dueDate', task.dueDate.toString());
+    }
 
     return this.http.patch<{ msg: string; project: Project }>(
       `${API_URL}/project/task/${id}`,

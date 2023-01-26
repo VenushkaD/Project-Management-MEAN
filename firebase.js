@@ -91,15 +91,19 @@ const uploadFiles = async (req, res, next) => {
 };
 
 const deleteImage = async (imageUrl) => {
-  const name = imageUrl.split('/').pop();
-  const file = bucket.file(name);
-  await file.delete();
+  try {
+    const name = imageUrl.split('/').pop();
+    const file = bucket.file(name);
+    await file.delete();
+  } catch (error) {}
 };
 
 const deleteFiles = async (fileUrl) => {
-  const name = fileUrl.split('/').pop();
-  const bucketFile = bucket.file(name);
-  await bucketFile.delete();
+  try {
+    const name = fileUrl.split('/').pop();
+    const bucketFile = bucket.file(name);
+    await bucketFile.delete();
+  } catch (error) {}
 };
 
 export { uploadImage, deleteImage, uploadFiles, deleteFiles };

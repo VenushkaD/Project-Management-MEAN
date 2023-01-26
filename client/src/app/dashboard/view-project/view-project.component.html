@@ -120,6 +120,9 @@
                   font-size: 16px;
                   width: 170px;
                 "
+                [ngStyle]="{
+                  'background-color': task.cover || 'white'
+                }"
                 (click)="openDialog(task)"
               >
                 <p>
@@ -147,13 +150,13 @@
                 <div
                   style="
                     font-size: 12px;
-                    background-color: rgb(200, 180, 139);
+
                     color: white;
                     padding: 5px;
                     margin-top: 10px;
                   "
                 >
-                  45 Days Left
+                  {{ daysLeft(task.dueDate) + " Days left" }}
                 </div>
               </div>
               <div style="display: flex; align-items: center; gap: 10px">
@@ -170,11 +173,17 @@
       </div>
       <div
         class="edit-icon"
-        (click)="onEditClick()"
         style="font-size: 30px; gap: 10px; display: flex; align-items: center"
       >
-        <fa-icon [icon]="faTrash"></fa-icon>
-        <fa-icon [icon]="faPenToSquare"></fa-icon>
+        <button
+          class="btn"
+          style="background-color: rgb(208, 109, 109) !important"
+        >
+          <fa-icon [icon]="faTrash"></fa-icon> Delete
+        </button>
+        <button class="btn" (click)="onEditClick()">
+          <fa-icon [icon]="faPenToSquare"></fa-icon> Edit
+        </button>
       </div>
       <div class="completed" *ngIf="project.completed">
         <fa-icon [icon]="faCircleCheck"></fa-icon>

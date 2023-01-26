@@ -120,4 +120,12 @@ export class ViewProjectComponent implements OnInit {
       window.scrollTo(0, document.body.scrollHeight);
     }, 1);
   }
+
+  daysLeft(date: string) {
+    const d = new Date(date);
+    const today = new Date();
+    const diffTime = Math.abs(d.getTime() - today.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }
 }

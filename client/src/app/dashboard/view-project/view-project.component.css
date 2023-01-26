@@ -138,9 +138,6 @@ ng-scrollbar ul{
     font-weight: 700;
 }
 
-.edit-icon:hover{
-    opacity: 0.8;
-}
 
 .menu-icon{
     display: none;
@@ -170,7 +167,24 @@ ng-scrollbar ul{
     display: none!important;
 }
 
+fa-icon{
+    color: rgb(88, 88, 88);
+}
 
+.btn{
+    color: white!important;
+    background-color: rgb(88, 88, 88)!important;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    background-color: #b2b5b7;
+}
+
+.btn fa-icon{
+    color: white!important;
+}
 
 @media screen and (max-width: 700px){
     .container{
@@ -214,7 +228,6 @@ ng-scrollbar ul{
         bottom: 20px;
         right: 20px;
         font-size: 30px;
-        cursor: pointer;
     }
 
     .col-2{

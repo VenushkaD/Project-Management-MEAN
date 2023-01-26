@@ -125,7 +125,7 @@ export class CreateProjectComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/']);
+    window.history.back();
   }
 
   onSubmit() {
