@@ -49,6 +49,23 @@ const ProjectSchema = new mongoose.Schema(
             type: String,
             default: '',
           },
+          checkList: {
+            type: [
+              {
+                name: String,
+                checked: Boolean,
+              },
+            ],
+            default: [],
+          },
+          dueDate: {
+            type: Date,
+            default: null,
+          },
+          cover: {
+            type: String,
+            default: '',
+          },
         },
       ],
       required: false,

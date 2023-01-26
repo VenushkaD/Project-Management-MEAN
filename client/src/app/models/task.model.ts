@@ -7,4 +7,12 @@ export interface Task {
   assignedMembers: User[];
   documentUrls: string[];
   progress: number;
+  dueDate: string;
+  checkList: [
+    {
+      name: string;
+      checked: boolean;
+    }
+  ];
+  cover: string;
 }

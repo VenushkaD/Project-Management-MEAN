@@ -11,30 +11,8 @@
   >
     <div style="display: grid; gap: 30px">
       <div
-        style="
-          background-color: greenyellow;
-          /* margin: -10px -40px -90px !important; */
-          height: 100px;
-          display: flex;
-        "
+        style="display: flex; justify-content: space-between; margin-top: 5px"
       >
-        <p
-          style="
-            align-self: flex-end;
-            padding: 5px;
-            font-size: 13px;
-            color: black;
-            background-color: grey;
-            opacity: 0.5;
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 10px;
-          "
-        >
-          Remove Cover
-        </p>
-      </div>
-      <div style="display: flex; justify-content: space-between">
         <div style="display: flex; gap: 8px; align-items: center">
           <fa-icon [icon]="faFile"></fa-icon>
           <textarea
@@ -51,7 +29,78 @@
           (click)="dialogRefViewTask.close()"
         ></fa-icon>
       </div>
-
+      <div
+        *ngIf="showCover && data.task.cover === ''"
+        style="
+          background-color: rgb(242, 242, 242);
+          /* margin: -10px -40px -90px !important; */
+          height: 100px;
+          display: flex;
+          justify-content: center;
+        "
+        [ngStyle]="{ 'background-color': coverColor }"
+      >
+        <select
+          style="
+            align-self: center;
+            padding: 5px;
+            font-size: 13px;
+            color: black;
+            background-color: rgb(187, 187, 187);
+            opacity: 0.5;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            text-align: center !important;
+            width: fit-content;
+          "
+          ngModel
+          name="cover"
+          (change)="onCoverChange($event)"
+        >
+          Add Cover
+          <option value="" selected disabled>Select Colour</option>
+          <option value="#adff2f">Green</option>
+          <option value="#ffee2f">Yellow</option>
+          <option value="#ff2f2f">Red</option>
+          <option value="#2f2fff">Blue</option>
+          <option value="#2fff2f">Light Green</option>
+          <option value="#ff2fff">Pink</option>
+          <option value="#2fffff">Light Blue</option>
+          <option value="#ff2f8f">Purple</option>
+          <option value="#ff8f2f">Orange</option>
+          <option value="#8f2fff">Dark Blue</option>
+          <option value="#8fff2f">Light Green</option>
+          <option value="#ff8fff">Light Pink</option>
+          <option value="#CBC3E3">Light Purple</option>
+        </select>
+      </div>
+      <div
+        *ngIf="data.task.cover"
+        style="
+          /* margin: -10px -40px -90px !important; */
+          height: 100px;
+          display: flex;
+        "
+        [ngStyle]="{ 'background-color': data.task.cover }"
+      >
+        <p
+          style="
+            align-self: flex-end;
+            padding: 5px;
+            font-size: 13px;
+            color: black;
+            background-color: grey;
+            opacity: 0.5;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+          "
+          (click)="removeCover()"
+        >
+          Remove Cover
+        </p>
+      </div>
       <!-- <button>Edit</button> -->
       <div style="display: grid; gap: 10px">
         <div style="display: flex; gap: 14px; align-items: center">
@@ -69,6 +118,7 @@
 
         <textarea
           rows="2"
+          cdkTextareaAutosize
           (keydown)="textAreaEnter($event)"
           placeholder="Add Description"
           name="description"
@@ -77,19 +127,26 @@
       </div>
 
       <div style="display: grid; gap: 10px">
-        <h3>Progress</h3>
+        <div style="display: flex; gap: 10px; align-items: center">
+          <fa-icon [icon]="faBarsProgress"></fa-icon>
+          <h3>Progress</h3>
+        </div>
         <div style="display: flex; gap: 5px">
           <textarea
             rows="1"
             style="width: 40px"
             [ngModel]="data.task.progress"
             name="progress"
+            type="number"
           ></textarea
           >%
         </div>
       </div>
 
-      <div style="display: grid; gap: 10px">
+      <div
+        style="display: grid; gap: 10px"
+        *ngIf="data.task.documentUrls.length > 0 || showAttachments"
+      >
         <div style="display: flex; gap: 14px; align-items: center">
           <fa-icon [icon]="faPaperclip"></fa-icon>
           <h3>Attachments</h3>
@@ -189,7 +246,10 @@
         </button>
         <input hidden type="file" #file (change)="handleFileInput($event)" />
       </div>
-      <div style="display: grid; gap: 20px">
+      <div
+        style="display: grid; gap: 20px"
+        *ngIf="data.task.assignedMembers.length > 0 || showMembers"
+      >
         <div
           style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center"
         >
@@ -206,7 +266,7 @@
           ></app-member>
           <div style="display: flex; flex-direction: column; gap: 10px">
             <h1
-              *ngIf="data.task.assignedMembers.length === 0"
+              *ngIf="data.task.assignedMembers.length === 0 || !showMembers"
               style="cursor: pointer; width: fit-content; font-size: 15px"
               class="btn"
               (click)="openDialog()"
@@ -223,15 +283,131 @@
           </div>
         </div>
       </div>
+      <div style="display: grid; gap: 10px" *ngIf="showDueDate">
+        <div style="display: flex; gap: 10px; align-items: center">
+          <fa-icon [icon]="faCalendar"></fa-icon>
+          <h3>Due Date</h3>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center">
+          <input
+            type="date"
+            name="dueDate"
+            style="width: 200px"
+            [ngModel]="
+              data.task.dueDate
+                ? moment(data.task.dueDate).format('yyyy-MM-DD')
+                : ''
+            "
+          />
+        </div>
+      </div>
       <div>
-        <select class="btn" style="width: fit-content">
-          <option value="">Select Cover</option>
-          <option value="red">Red</option>
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="orange">Orange</option>
-          <option value="yellow">Yellow</option>
-        </select>
+        <div
+          style="display: grid; gap: 10px"
+          *ngIf="showChecklist || this.data.task.checkList.length > 0"
+        >
+          <div style="display: flex; gap: 10px; align-items: center">
+            <fa-icon [icon]="faListCheck"></fa-icon>
+            <h3>Checklist</h3>
+          </div>
+          <div style="display: grid; gap: 5px">
+            <div *ngFor="let item of formArray.controls; let i = index">
+              <div style="display: flex; align-items: center; gap: 10px">
+                <input
+                  type="checkbox"
+                  class="largerCheckbox"
+                  id="vehicle1"
+                  #check
+                  (change)="changeCheckListValue(i, ref.value, check.checked)"
+                  value="Bike"
+                  [checked]="item.value.checked"
+                  name="checklist"
+                />
+                <input
+                  type="text"
+                  name="checklist"
+                  class="checkboxName"
+                  placeholder="Type here"
+                  [value]="item.value.name"
+                  (change)="changeCheckListValue(i, ref.value, check.checked)"
+                  #ref
+                />
+                <fa-icon
+                  [icon]="faClose"
+                  style="cursor: pointer"
+                  (click)="deleteChecklist(i)"
+                ></fa-icon>
+                <br />
+              </div>
+            </div>
+            <div *ngIf="showAddChecklist">
+              <input type="text" placeholder="type here" #checkName />
+              <button
+                type="button"
+                class="btn"
+                style="width: fit-content"
+                (click)="increaseChecklist(checkName.value)"
+              >
+                Add
+              </button>
+            </div>
+            <h2
+              *ngIf="!showAddChecklist"
+              style="cursor: pointer; width: fit-content"
+              (click)="showAddChecklist = true"
+            >
+              +
+            </h2>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <button
+          type="button"
+          *ngIf="data.task.assignedMembers.length === 0 && !showMembers"
+          style="cursor: pointer; width: fit-content; font-size: 15px"
+          class="btn-more"
+          (click)="showMembers = true"
+        >
+          Members
+        </button>
+        <button
+          type="button"
+          *ngIf="data.task.assignedMembers.length === 0 && !showAttachments"
+          style="cursor: pointer; width: fit-content; font-size: 15px"
+          class="btn-more"
+          (click)="showAttachments = true"
+        >
+          Attachments
+        </button>
+        <button
+          type="button"
+          *ngIf="!showCover"
+          style="cursor: pointer; width: fit-content; font-size: 15px"
+          class="btn-more"
+          (click)="showCover = true"
+        >
+          Cover
+        </button>
+        <button
+          type="button"
+          *ngIf="!showChecklist"
+          style="cursor: pointer; width: fit-content; font-size: 15px"
+          class="btn-more"
+          (click)="showChecklist = true"
+        >
+          Checklist
+        </button>
+        <button
+          type="button"
+          *ngIf="!showDueDate"
+          style="cursor: pointer; width: fit-content; font-size: 15px"
+          class="btn-more"
+          (click)="showDueDate = true"
+        >
+          Due Date
+        </button>
       </div>
       <button class="btn btn-save" type="submit" style="width: 100%">
         Save

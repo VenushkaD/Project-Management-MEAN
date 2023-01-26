@@ -13,6 +13,17 @@ mat-content{
     background-color: #6E7B84;
 }
 
+.btn-more{
+    color: white;
+    background-color: #D9D9D9;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.1);
+    background-color: #b2b5b7;
+}
+
 .btn:nth-child(1){
     background-color: #6E7B84;
     width: 100px;
@@ -21,6 +32,14 @@ mat-content{
 .btn-save{
     background-color: #3F484E;
     width: 100px;
+}
+
+.cdk-textarea-autosize{
+    resize: none;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    outline: 0;
 }
 
 textarea {
@@ -48,6 +67,16 @@ textarea:focus{
     
     border-radius: 3px;
     outline: 2px solid gray;
+}
+
+input.largerCheckbox {
+    height: 20px;
+    width: 20px;
+}
+
+input.checkboxName{
+    font-size: 15px;
+
 }
 
 

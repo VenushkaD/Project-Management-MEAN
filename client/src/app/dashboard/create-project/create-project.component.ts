@@ -104,6 +104,9 @@ export class CreateProjectComponent implements OnInit {
               description: new FormControl(subTask.description),
               documentUrls: new FormControl(subTask.documentUrls),
               assignedMembers: new FormControl(subTask.assignedMembers),
+              dueDate: new FormControl(subTask.dueDate),
+              checkList: new FormControl(subTask.checkList),
+              cover: new FormControl(subTask.cover),
             })
           );
         }

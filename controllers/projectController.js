@@ -253,7 +253,7 @@ const updateProject = async (req, res) => {
         }
       });
     });
-
+    console.log(tasksArray);
     let project = await Project.findByIdAndUpdate(
       id,
       { ...query, tasks: tasksArray },
@@ -293,6 +293,9 @@ const updateProjectTasks = async (req, res) => {
     description,
     progress,
     assignedMembers,
+    checkList,
+    dueDate,
+    cover,
     documentUrls: documentUrlsString,
   } = req.body;
   if (!name) {
@@ -305,6 +308,11 @@ const updateProjectTasks = async (req, res) => {
       assignedMembersArray = assignedMembersArray.map((member) => {
         return member._id;
       });
+    }
+    let checkListArray = [];
+    if (checkList) {
+      checkListArray = JSON.parse(checkList);
+      console.log(checkListArray);
     }
     let documentUrlsStringArray = [];
     if (documentUrlsString) {
@@ -336,6 +344,9 @@ const updateProjectTasks = async (req, res) => {
       name,
       description,
       progress,
+      dueDate,
+      cover,
+      checkList: checkListArray,
       assignedMembers: assignedMembersArray,
       documentUrls: [...documentUrlsStringArray, ...documentUrls],
     };

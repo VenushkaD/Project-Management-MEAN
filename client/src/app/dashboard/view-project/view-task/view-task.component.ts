@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NgForm } from '@angular/forms';
+import * as moment from 'moment';
 import {
   MatDialog,
   MatDialogRef,
@@ -11,6 +12,9 @@ import {
   faPaperclip,
   faUserGroup,
   faClose,
+  faCalendar,
+  faListCheck,
+  faBarsProgress,
 } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/auth/user.model';
 import { Task } from 'src/app/models/task.model';
@@ -29,12 +33,30 @@ export class ViewTaskComponent implements OnInit {
   faPaperclip = faPaperclip;
   faUserGroup = faUserGroup;
   faClose = faClose;
+  faCalendar = faCalendar;
   dialogRef: MatDialogRef<DialogAssignTaskMembersComponent>;
   attachments: File[] = [];
   isLoading: boolean = false;
   documentUrls: string[] = [];
   showPopup: boolean = false;
+  coverColor: string = '#f2f2f2';
+  showMembers: boolean = false;
+  showAttachments: boolean = false;
+  showCover: boolean = false;
+  showChecklist: boolean = false;
+  showDueDate: boolean = false;
+  faListCheck = faListCheck;
+  faBarsProgress = faBarsProgress;
+  showAddChecklist: boolean = true;
+  moment = moment;
+  checkList: {
+    name: string;
+    checked: boolean;
+  }[] = [{ name: 'Checklist 1', checked: false }];
   getImageURL = getImageURL;
+
+  formArray = new FormArray([]);
+
   constructor(
     private dialog: MatDialog,
     public dialogRefViewTask: MatDialogRef<ViewTaskComponent>,
@@ -50,6 +72,31 @@ export class ViewTaskComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     this.documentUrls = [...this.data.task.documentUrls];
+    for (let i = 0; i < this.data.task.checkList.length; i++) {
+      this.formArray.push(
+        new FormGroup({
+          name: new FormControl(this.data.task.checkList[i].name),
+          checked: new FormControl(this.data.task.checkList[i].checked),
+        })
+      );
+    }
+    if (this.data.task.cover) {
+      this.showCover = true;
+      this.coverColor = this.data.task.cover;
+    }
+    if (this.data.task.checkList.length) {
+      this.showAddChecklist = false;
+      this.showChecklist = true;
+    }
+    if (this.data.task.dueDate) {
+      this.showDueDate = true;
+    }
+    if (this.data.task.assignedMembers.length) {
+      this.showMembers = true;
+    }
+    if (this.data.task.documentUrls.length) {
+      this.showAttachments = true;
+    }
   }
 
   textAreaEnter(event: any) {
@@ -119,12 +166,17 @@ export class ViewTaskComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    console.log(form.value);
+    console.log(this.formArray.value);
+    console.log(this.attachments);
+
     this.isLoading = true;
     this.dashBoardService
       .updateProjectTask(
         this.data.projectId,
         { ...this.data.task, ...form.value },
-        this.attachments
+        this.attachments,
+        this.formArray.value
       )
       .subscribe((res) => {
         console.log(res);
@@ -152,5 +204,39 @@ export class ViewTaskComponent implements OnInit {
 
   onFileDelete(file: File) {
     this.attachments = this.attachments.filter((f) => f !== file);
+  }
+
+  onCoverChange(event: any) {
+    this.coverColor = event.target.value;
+  }
+
+  increaseChecklist(name: string) {
+    if (!name) {
+      return;
+    }
+    console.log(name);
+
+    this.formArray.push(new FormControl({ name: name, checked: false }));
+    console.log(this.formArray.value);
+    this.showAddChecklist = false;
+
+    // this.checkList.push({ name: '', checked: false });
+  }
+
+  changeCheckListValue(index: number, value: string, checked: boolean) {
+    this.formArray.controls[index].patchValue({
+      name: value,
+      checked: checked,
+    });
+  }
+
+  deleteChecklist(index: number) {
+    this.formArray.removeAt(index);
+  }
+
+  removeCover() {
+    this.coverColor = '#f2f2f2';
+    this.data.task.cover = '';
+    this.showCover = false;
   }
 }

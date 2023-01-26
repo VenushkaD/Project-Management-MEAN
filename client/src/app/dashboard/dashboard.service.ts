@@ -103,6 +103,8 @@ export class DashboardService {
       projectImage: project.imageUrl,
     };
 
+    console.log('projectUpdate', projectUpdate);
+
     if (typeof image === 'string') {
       return this.http.patch<{ msg: string; project: Project }>(
         `${API_URL}/project/${id}`,
@@ -128,7 +130,17 @@ export class DashboardService {
     );
   }
 
-  updateProjectTask(id: string, task: Task, files: File[]) {
+  updateProjectTask(
+    id: string,
+    task: Task,
+    files: File[],
+    checkList: [
+      {
+        name: string;
+        checked: boolean;
+      }
+    ]
+  ) {
     console.log('task', task);
     console.log('id', id);
     console.log('files', files);
@@ -146,9 +158,17 @@ export class DashboardService {
         formData.append('taskFiles', files[i]);
       }
     }
+
     if (task.assignedMembers?.length > 0) {
       formData.append('assignedMembers', JSON.stringify(task.assignedMembers));
     }
+    if (checkList?.length > 0) {
+      formData.append('checkList', JSON.stringify(checkList));
+    }
+
+    formData.append('cover', task.cover);
+
+    formData.append('dueDate', task.dueDate.toString());
 
     return this.http.patch<{ msg: string; project: Project }>(
       `${API_URL}/project/task/${id}`,
