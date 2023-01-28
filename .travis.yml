@@ -6,7 +6,7 @@ install:
   - npm install
 branches:
   only:
-    - travis
+    - master
 cache:
   directories:
     - node_modules
