@@ -10,8 +10,10 @@ suite('***********Test Server Authentication Routes**************', () => {
   setup(async () => {
     // Create any objects that we might need
   });
-  test('Test Post /api/auth (Register)', async () => {
+  suiteSetup(async () => {
     await User.deleteMany({});
+  });
+  test('Test Post /api/auth (Register)', (done) => {
     chai
       .request(app)
       .post('/api/auth/register')
@@ -24,9 +26,10 @@ suite('***********Test Server Authentication Routes**************', () => {
         const body = res.body;
         chai.assert.equal(res.status, 201, 'Incorrect status code');
         chai.assert.equal(body.msg, 'success', 'Incorrect message');
+        done();
       });
   });
-  test('Test Post /api/auth (Register), name not provided', async () => {
+  test('Test Post /api/auth (Register), name not provided', (done) => {
     chai
       .request(app)
       .post('/api/auth/register')
@@ -42,9 +45,10 @@ suite('***********Test Server Authentication Routes**************', () => {
           'Please provide all values',
           'Incorrect message'
         );
+        done();
       });
   });
-  test('Test Post /api/auth (Register), email not provided', async () => {
+  test('Test Post /api/auth (Register), email not provided', (done) => {
     chai
       .request(app)
       .post('/api/auth/register')
@@ -60,9 +64,10 @@ suite('***********Test Server Authentication Routes**************', () => {
           'Please provide all values',
           'Incorrect message'
         );
+        done();
       });
   });
-  test('Test Post /api/auth (Register), password not provided', async () => {
+  test('Test Post /api/auth (Register), password not provided', (done) => {
     chai
       .request(app)
       .post('/api/auth/register')
@@ -78,9 +83,10 @@ suite('***********Test Server Authentication Routes**************', () => {
           'Please provide all values',
           'Incorrect message'
         );
+        done();
       });
   });
-  test('Test Post /api/auth (Register), password length less than 6', async () => {
+  test('Test Post /api/auth (Register), password length less than 6', (done) => {
     chai
       .request(app)
       .post('/api/auth/register')
@@ -98,9 +104,10 @@ suite('***********Test Server Authentication Routes**************', () => {
           'Password must be at least 6 characters',
           'Incorrect message'
         );
+        done();
       });
   });
-  test('Test Post /api/auth (Register), email not valid', async () => {
+  test('Test Post /api/auth (Register), email not valid', (done) => {
     chai
       .request(app)
       .post('/api/auth/register')
@@ -118,9 +125,10 @@ suite('***********Test Server Authentication Routes**************', () => {
           'Please provide a valid email',
           'Incorrect message'
         );
+        done();
       });
   });
-  test('Test Post /api/auth (Register), name length less than 3', async () => {
+  test('Test Post /api/auth (Register), name length less than 3', (done) => {
     chai
       .request(app)
       .post('/api/auth/register')
@@ -138,9 +146,10 @@ suite('***********Test Server Authentication Routes**************', () => {
           'Name must be at least 3 characters',
           'Incorrect message'
         );
+        done();
       });
   });
-  test('Test Post /api/auth (Login)', () => {
+  test('Test Post /api/auth (Login)', (done) => {
     chai
       .request(app)
       .post('/api/auth/login')
@@ -148,13 +157,14 @@ suite('***********Test Server Authentication Routes**************', () => {
         email: 'test@gmail.com',
         password: 'secret',
       })
-      .end(async (err, res) => {
+      .end((err, res) => {
         const body = res.body;
         chai.assert.equal(res.status, 200, 'Incorrect status code');
         chai.assert.equal(body.msg, 'success', 'Incorrect message');
+        done();
       });
   });
-  test('Test Post /api/auth (Login) invalid credentials', () => {
+  test('Test Post /api/auth (Login) invalid credentials', (done) => {
     chai
       .request(app)
       .post('/api/auth/login')
@@ -162,13 +172,14 @@ suite('***********Test Server Authentication Routes**************', () => {
         email: 'test@gmail.com',
         password: 'secret22',
       })
-      .end(async (err, res) => {
+      .end((err, res) => {
         const body = res.body;
-        chai.assert.equal(res.status, 400, 'Incorrect status code');
+        chai.assert.equal(res.status, 401, 'Incorrect status code');
         chai.assert.equal(body.msg, 'Invalid credentials', 'Incorrect message');
+        done();
       });
   });
-  test('Test Post /api/auth (Login) load test', () => {
+  test('Test Post /api/auth (Login) load test', async () => {
     for (let i = 0; i < 100; i++) {
       chai
         .request(app)

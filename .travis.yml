@@ -15,3 +15,7 @@ env:
     - NODE_ENV=test
 script:
   - npm run test
+deploy:
+  provider: heroku
+  api_key: 1375d4a6-59bc-42b4-9d80-1410120a23ce
+  app: project-management-mean

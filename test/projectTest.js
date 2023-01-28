@@ -16,7 +16,7 @@ token = response.body.token;
 suite('**********Test Project Routes (Add Project)*************', () => {
   const app = server;
 
-  test('All details present', async () => {
+  test('All details present', (done) => {
     chai
       .request(app)
       .post('/api/project')
@@ -29,10 +29,11 @@ suite('**********Test Project Routes (Add Project)*************', () => {
       .end((err, res) => {
         const body = res.body;
         chai.assert.equal(res.status, 201, 'Incorrect status code');
+        done();
       });
   });
 
-  test('Title not present ', async () => {
+  test('Title not present ', (done) => {
     chai
       .request(app)
       .post('/api/project')
@@ -43,10 +44,11 @@ suite('**********Test Project Routes (Add Project)*************', () => {
       })
       .end((err, res) => {
         chai.assert.equal(res.status, 400, 'Incorrect status code');
+        done();
       });
   });
 
-  test('description not present ', async () => {
+  test('description not present ', (done) => {
     chai
       .request(app)
       .post('/api/project')
@@ -57,10 +59,11 @@ suite('**********Test Project Routes (Add Project)*************', () => {
       })
       .end((err, res) => {
         chai.assert.equal(res.status, 400, 'Incorrect status code');
+        done();
       });
   });
 
-  test('dueDate not present ', async () => {
+  test('dueDate not present ', (done) => {
     chai
       .request(app)
       .post('/api/project')
@@ -71,6 +74,7 @@ suite('**********Test Project Routes (Add Project)*************', () => {
       })
       .end((err, res) => {
         chai.assert.equal(res.status, 400, 'Incorrect status code');
+        done();
       });
   });
 });

@@ -7,7 +7,6 @@ const response = await getToken();
 token = response.body.token;
 
 suite('***********Test Auth Middleware Unit test**************', () => {
-  setup(async () => {});
   test('Correct token provided', () => {
     const req = {
       headers: {

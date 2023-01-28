@@ -148,6 +148,7 @@
                   <p>{{ task.assignedMembers.length }}</p>
                 </div>
                 <div
+                  *ngIf="task.dueDate"
                   style="
                     font-size: 12px;
                     background-color: white;
