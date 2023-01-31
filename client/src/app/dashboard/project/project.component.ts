@@ -25,6 +25,8 @@ export class ProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('due date', this.project);
+
     const date = new Date(this.project.dueDate);
     this.slicedDate = date.toDateString().split(' ').slice(1).join(' ');
     const today = new Date();
