@@ -130,6 +130,10 @@ export class DashboardService {
     );
   }
 
+  deleteProject(id: string) {
+    return this.http.delete<{ msg: string }>(`${API_URL}/project/${id}`);
+  }
+
   updateProjectTask(
     id: string,
     task: Task,

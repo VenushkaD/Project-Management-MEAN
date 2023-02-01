@@ -128,4 +128,13 @@ export class ViewProjectComponent implements OnInit {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   }
+
+  onDeleteClicked() {
+    console.log(this.project._id);
+
+    this.dashboardService.deleteProject(this.project._id).subscribe((data) => {
+      console.log(data);
+      this.router.navigate(['/']);
+    });
+  }
 }

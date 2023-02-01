@@ -384,10 +384,24 @@ const updateProjectTasks = async (req, res) => {
   }
 };
 
+const deleteProject = async (req, res) => {
+  const id = req.params.id.toString();
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
+    return res.status(400).json({ error: 'Please provide valid project id' });
+  }
+  try {
+    const project = await Project.findByIdAndDelete(id);
+    res.status(200).json({ msg: 'success' });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
 export {
   createProject,
   getProjects,
   getProject,
   updateProject,
   updateProjectTasks,
+  deleteProject,
 };

@@ -7,6 +7,7 @@ import {
   getProjects,
   updateProject,
   updateProjectTasks,
+  deleteProject,
 } from '../controllers/projectController.js';
 import { uploadImage, uploadFiles } from '../firebase.js';
 
@@ -59,7 +60,8 @@ router
 router
   .route('/:id')
   .get(getProject)
-  .patch(upload.single('projectImage'), uploadImage, updateProject);
+  .patch(upload.single('projectImage'), uploadImage, updateProject)
+  .delete(deleteProject);
 
 router
   .route('/task/:id')

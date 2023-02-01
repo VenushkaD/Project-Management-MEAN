@@ -182,8 +182,10 @@
         <button
           class="btn"
           style="background-color: rgb(208, 109, 109) !important"
+          (click)="onDeleteClicked()"
         >
-          <fa-icon [icon]="faTrash"></fa-icon> Delete
+          <fa-icon [icon]="faTrash"></fa-icon>
+          Delete
         </button>
         <button class="btn" (click)="onEditClick()">
           <fa-icon [icon]="faPenToSquare"></fa-icon> Edit
