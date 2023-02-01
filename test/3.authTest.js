@@ -7,12 +7,6 @@ chai.use(chaihttp);
 
 suite('***********Test Server Authentication Routes**************', () => {
   const app = server;
-  setup(async () => {
-    // Create any objects that we might need
-  });
-  suiteSetup(async () => {
-    await User.deleteMany({});
-  });
   test('Test Post /api/auth (Register)', (done) => {
     chai
       .request(app)
@@ -194,5 +188,8 @@ suite('***********Test Server Authentication Routes**************', () => {
           chai.assert.equal(body.msg, 'success', 'Incorrect message');
         });
     }
+  });
+  suiteTeardown(async () => {
+    await User.deleteMany({});
   });
 });

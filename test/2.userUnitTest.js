@@ -3,7 +3,7 @@ import User from '../model/User.js';
 import bcrypt from 'bcryptjs';
 import sinon from 'sinon';
 
-suite('**********User functions test**********', async () => {
+suite('**********User functions test**********', () => {
   test('Hash password', async () => {
     await User.deleteMany({});
     const user = await User.create({
@@ -37,5 +37,9 @@ suite('**********User functions test**********', async () => {
     });
     const output = await mockDoc.createToken();
     chai.expect(output).to.be.a('string');
+  });
+
+  suiteTeardown(async () => {
+    await User.deleteMany({});
   });
 });

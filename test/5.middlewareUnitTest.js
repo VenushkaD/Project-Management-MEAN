@@ -2,6 +2,8 @@ import authMiddleware from '../middleware/auth.js';
 import chai from 'chai';
 import { getToken } from './common.test.js';
 import mockResponse from 'mock-express-response';
+import User from '../model/User.js';
+import Message from '../model/Message.js';
 let token = null;
 const response = await getToken();
 token = response.body.token;
@@ -37,5 +39,9 @@ suite('***********Test Auth Middleware Unit test**************', () => {
       'Invalid token',
       'Incorrect message'
     );
+  });
+
+  suiteTeardown(async () => {
+    await User.deleteMany({});
   });
 });
